@@ -105,11 +105,9 @@ var app = builder.Build();
 
 try
 {
-    if (app.Environment.IsDevelopment())
-    {
-        app.UseSwagger();
-        app.UseSwaggerUI();
-    }
+    app.UseSwagger();
+    app.UseSwaggerUI();
+
 
     app.UseRouting();
     app.UseCors("AllowAngular");
