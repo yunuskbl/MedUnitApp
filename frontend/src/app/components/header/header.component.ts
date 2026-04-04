@@ -37,7 +37,7 @@ activeDropdown: string | null = null;
   rol = '';
 
   isBrowser = false;
-  private apiUrl = 'http://localhost:5227/api';
+  private apiUrl = 'https://medunitapp.onrender.com/api';
 
   constructor(
     private http: HttpClient,
@@ -168,3 +168,4 @@ ngOnInit(): void {
     this.hata = '';
   }
 }
+

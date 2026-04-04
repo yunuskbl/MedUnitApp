@@ -21,3 +21,4 @@ describe('BildirimComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+

@@ -41,3 +41,4 @@ export declare const windowProvider: FactoryProvider;
  * Create an array of providers.
  */
 export declare const WINDOW_PROVIDERS: (ClassProvider | FactoryProvider)[];
+

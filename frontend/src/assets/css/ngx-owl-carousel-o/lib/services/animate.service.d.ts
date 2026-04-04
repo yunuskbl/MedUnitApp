@@ -39,3 +39,4 @@ export declare class AnimateService implements OnDestroy {
     static ɵfac: i0.ɵɵFactoryDeclaration<AnimateService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<AnimateService>;
 }
+

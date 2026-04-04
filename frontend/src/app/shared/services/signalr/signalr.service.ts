@@ -13,7 +13,7 @@ export interface Bildirim {
 @Injectable({ providedIn: 'root' })
 export class SignalrService {
   private hub!: signalR.HubConnection;
-  private apiUrl = 'http://localhost:5227';
+  private apiUrl = 'https://medunitapp.onrender.com';
 
   bildirim$ = new Subject<Bildirim>();
   baglandi$ = new Subject<void>();

@@ -83,3 +83,4 @@ export declare class SlideModel {
      */
     hashFragment?: string;
 }
+

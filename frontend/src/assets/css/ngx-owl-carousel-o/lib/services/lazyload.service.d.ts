@@ -23,3 +23,4 @@ export declare class LazyLoadService implements OnDestroy {
     static ɵfac: i0.ɵɵFactoryDeclaration<LazyLoadService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<LazyLoadService>;
 }
+

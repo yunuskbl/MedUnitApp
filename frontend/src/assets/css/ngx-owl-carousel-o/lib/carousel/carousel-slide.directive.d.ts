@@ -36,3 +36,4 @@ export declare class CarouselSlideDirective {
     static ɵfac: i0.ɵɵFactoryDeclaration<CarouselSlideDirective, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<CarouselSlideDirective, "ng-template[carouselSlide]", never, { "id": { "alias": "id"; "required": false; }; "dataMerge": { "alias": "dataMerge"; "required": false; }; "width": { "alias": "width"; "required": false; }; "dotContent": { "alias": "dotContent"; "required": false; }; "dataHash": { "alias": "dataHash"; "required": false; }; }, {}, never, never, false, never>;
 }
+

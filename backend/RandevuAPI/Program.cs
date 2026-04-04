@@ -116,6 +116,7 @@ try
     app.MapGet("/health", () => Results.Ok());
     app.MapControllers();
     app.MapHub<GorusmeHub>("/hubs/gorusme");
+    app.MapGet("/health", () => "OK");
 
     app.Run();
 }

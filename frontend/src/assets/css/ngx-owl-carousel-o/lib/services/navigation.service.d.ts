@@ -96,3 +96,4 @@ export declare class NavigationService implements OnDestroy {
     static ɵfac: i0.ɵɵFactoryDeclaration<NavigationService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<NavigationService>;
 }
+

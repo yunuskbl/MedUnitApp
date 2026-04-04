@@ -47,3 +47,4 @@ export class DropdownDirective {
     if (toggle) this.renderer.setAttribute(toggle, 'aria-expanded', 'false');
   }
 }
+

@@ -73,7 +73,7 @@ export class AppointmentSectionComponent implements OnInit, OnDestroy{
     console.log('Randevu durum:', r?.durum);
     console.log('Rol:', this.rol);
   }
-  private apiUrl = 'http://localhost:5227/api';
+  private apiUrl = 'https://medunitapp.onrender.com/api';
   private bildirimSub!: Subscription;
   constructor(
     private http: HttpClient,
@@ -329,3 +329,4 @@ export class AppointmentSectionComponent implements OnInit, OnDestroy{
     this.notlar = '';
   }
 }
+

@@ -9,7 +9,7 @@ private hubBaglantisi!: signalR.HubConnection;
 
 baglantiyiBaslat(token: string): Promise<void> {
     this.hubBaglantisi = new signalR.HubConnectionBuilder()
-      .withUrl('http://localhost:5000/hubs/gorusme', {
+      .withUrl('https://medunitapp.onrender.com/hubs/gorusme', {
         accessTokenFactory: () => token   // JWT otomatik gönderilir
       })
       .withAutomaticReconnect()           // bağlantı kopunca otomatik yeniden bağlan
@@ -48,3 +48,4 @@ baglantiyiBaslat(token: string): Promise<void> {
   }
 
 }
+

@@ -62,3 +62,4 @@ export declare class DotsData {
      */
     dots: OwlSingeDot[];
 }
+

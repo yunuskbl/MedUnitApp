@@ -12,7 +12,7 @@ export interface ContactPayload {
 
 @Injectable({ providedIn: 'root' })
 export class ContactService {
-  private apiUrl = 'http://localhost:5227/api/contact'; // kendi portunu yaz
+  private apiUrl = 'https://medunitapp.onrender.com/api/contact'; // kendi portunu yaz
 
   constructor(private http: HttpClient) {}
 

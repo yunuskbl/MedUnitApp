@@ -23,3 +23,4 @@ export declare class StageData {
    */
     paddingR: number | string;
 }
+

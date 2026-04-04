@@ -6,3 +6,4 @@ export declare class SlidesOutputData {
     startPosition?: number;
     slides?: SlideModel[];
 }
+

@@ -37,7 +37,7 @@ export class ZoomModalComponent implements OnInit{
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
     this.http.get<any>(
-      `http://localhost:5000/api/zoom/meeting-bilgisi/${this.randevuId}`,
+      `https://medunitapp.onrender.com/api/zoom/meeting-bilgisi/${this.randevuId}`,
       { headers }
     ).subscribe({
       next: (data) => {
@@ -56,3 +56,4 @@ export class ZoomModalComponent implements OnInit{
     window.open(this.zoomLink, '_blank');
   }
 }
+

@@ -297,3 +297,4 @@ export interface OwlOptions {
      */
     URLhashListener?: boolean;
 }
+

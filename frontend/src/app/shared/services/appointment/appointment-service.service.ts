@@ -15,3 +15,4 @@ constructor(private http: HttpClient) {}
     return this.http.post('/api/appointments', data);
   }
 }
+

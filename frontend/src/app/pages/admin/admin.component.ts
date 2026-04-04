@@ -48,7 +48,7 @@ export class AdminComponent implements OnInit {
   yukleniyor = false;
   mesaj = '';
 
-  private apiUrl = 'http://localhost:5227/api';
+  private apiUrl = 'https://medunitapp.onrender.com/api';
 
   constructor(
     private http: HttpClient,

@@ -9,3 +9,4 @@ export declare class OwlLogger {
     static ɵfac: i0.ɵɵFactoryDeclaration<OwlLogger, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<OwlLogger>;
 }
+

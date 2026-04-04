@@ -14,3 +14,4 @@ describe('AppointmentServiceService', () => {
     expect(service).toBeTruthy();
   });
 });
+

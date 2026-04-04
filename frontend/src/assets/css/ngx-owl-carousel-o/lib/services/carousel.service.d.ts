@@ -584,3 +584,4 @@ export declare class CarouselService {
     static ɵfac: i0.ɵɵFactoryDeclaration<CarouselService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<CarouselService>;
 }
+

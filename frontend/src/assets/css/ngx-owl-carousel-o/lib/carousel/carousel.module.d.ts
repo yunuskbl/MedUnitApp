@@ -13,3 +13,4 @@ export declare class CarouselModule {
     static ɵmod: i0.ɵɵNgModuleDeclaration<CarouselModule, [typeof i1.CarouselComponent, typeof i2.CarouselSlideDirective, typeof i3.StageComponent, typeof i4.OwlRouterLinkDirective, typeof i4.OwlRouterLinkWithHrefDirective], [typeof i5.CommonModule], [typeof i1.CarouselComponent, typeof i2.CarouselSlideDirective, typeof i4.OwlRouterLinkDirective, typeof i4.OwlRouterLinkWithHrefDirective]>;
     static ɵinj: i0.ɵɵInjectorDeclaration<CarouselModule>;
 }
+

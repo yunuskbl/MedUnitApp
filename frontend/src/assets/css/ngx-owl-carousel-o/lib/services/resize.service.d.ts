@@ -12,3 +12,4 @@ export declare class ResizeService {
     static ɵfac: i0.ɵɵFactoryDeclaration<ResizeService, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<ResizeService>;
 }
+

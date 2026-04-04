@@ -175,3 +175,4 @@ export declare class CarouselComponent implements OnInit, AfterContentInit, OnDe
     static ɵfac: i0.ɵɵFactoryDeclaration<CarouselComponent, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<CarouselComponent, "owl-carousel-o", never, { "options": { "alias": "options"; "required": false; }; }, { "translated": "translated"; "dragging": "dragging"; "change": "change"; "changed": "changed"; "initialized": "initialized"; }, ["slides"], never, false, never>;
 }
+

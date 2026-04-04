@@ -68,3 +68,4 @@ export declare class OwlRouterLinkWithHrefDirective implements OnChanges, OnDest
     static ɵfac: i0.ɵɵFactoryDeclaration<OwlRouterLinkWithHrefDirective, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<OwlRouterLinkWithHrefDirective, "a[owlRouterLink]", never, { "target": { "alias": "target"; "required": false; }; "queryParams": { "alias": "queryParams"; "required": false; }; "fragment": { "alias": "fragment"; "required": false; }; "queryParamsHandling": { "alias": "queryParamsHandling"; "required": false; }; "preserveFragment": { "alias": "preserveFragment"; "required": false; }; "skipLocationChange": { "alias": "skipLocationChange"; "required": false; }; "replaceUrl": { "alias": "replaceUrl"; "required": false; }; "stopLink": { "alias": "stopLink"; "required": false; }; "owlRouterLink": { "alias": "owlRouterLink"; "required": false; }; "preserveQueryParams": { "alias": "preserveQueryParams"; "required": false; }; }, {}, never, never, false, never>;
 }
+

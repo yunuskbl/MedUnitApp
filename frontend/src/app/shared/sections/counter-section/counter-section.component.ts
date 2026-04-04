@@ -24,7 +24,7 @@ export class CounterSectionComponent implements OnInit {
     basarilar: 2496
   };
 
-  private apiUrl = 'http://localhost:5227/api';
+  private apiUrl = 'https://medunitapp.onrender.com/api';
 
   constructor(
     private http: HttpClient,

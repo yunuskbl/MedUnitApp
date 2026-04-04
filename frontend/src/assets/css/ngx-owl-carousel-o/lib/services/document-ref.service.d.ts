@@ -41,3 +41,4 @@ export declare const documentProvider: FactoryProvider;
  * Create an array of providers.
  */
 export declare const DOCUMENT_PROVIDERS: (ClassProvider | FactoryProvider)[];
+

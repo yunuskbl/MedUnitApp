@@ -95,3 +95,4 @@ export declare class OwlOptionsMockedTypes {
     URLhashListener: string;
     constructor();
 }
+

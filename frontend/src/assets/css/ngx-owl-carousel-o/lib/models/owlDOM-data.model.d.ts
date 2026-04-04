@@ -35,3 +35,4 @@ export declare class OwlDOMData {
      */
     isGrab: boolean;
 }
+

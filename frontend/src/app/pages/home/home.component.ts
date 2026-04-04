@@ -69,3 +69,4 @@ export class HomeComponent implements OnInit {
   document.querySelectorAll(selector).forEach(el => observer.observe(el));
 }
 }
+
