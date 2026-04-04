@@ -37,7 +37,7 @@
   object-fit: cover;
   display: block;
 }
-.project-detail p {
+.project-detail p , .project-detail span {
   -webkit-line-clamp: 2;
   line-clamp: 2;        /* bunu ekle — uyarı gider */
   -webkit-box-orient: vertical;
