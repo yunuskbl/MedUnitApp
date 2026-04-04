@@ -1,0 +1,38 @@
+<section class="blogs-section w-100 float-left padding-top padding-bottom light-bg">
+    <div class="container">
+        <div class="generic-title text-center">
+            <span class="small-text d-block" >
+                Makaleler ve İpuçları
+            </span>
+            <h2 >
+                Son Haberler ve Blog
+            </h2>
+        </div>
+
+        <div class="blogs-inner-con" >
+            <owl-carousel-o [options]="carouselOptions">
+
+                <ng-template carouselSlide *ngFor="let blog of bloglar">
+                    <div class="item">
+                        <div class="blog-box">
+                            <img [src]="blog.imgUrl" [alt]="blog.baslik" class="blog-img-box">
+                            <div class="blog-details">
+                                <span class="d-block">
+                                    <i class="fas fa-calendar-alt"></i> {{ blog.tarih }}
+                                </span>
+                                <h4>
+                                    <a routerLink="/">{{ blog.baslik }}</a>
+                                </h4>
+                                <p>{{ blog.ozet }}</p>
+                                <a routerLink="/">
+                                    Devamını Oku <i class="fas fa-angle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+
+            </owl-carousel-o>
+        </div>
+    </div>
+</section>

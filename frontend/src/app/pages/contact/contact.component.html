@@ -1,0 +1,211 @@
+<section
+  id="contact"
+  class="contact-banner w-100 float-left d-flex align-items-center"
+>
+  <div class="container">
+    <div class="contact-banner-inner-con text-center">
+      <h1>İletişim</h1>
+      <p>Uzman ekibimizle iletişime geçin, sorularınızı yanıtlayalım.</p>
+      <nav aria-label="breadcrumb" class="custom-breadcrumb">
+        <ol class="breadcrumb d-inline-block mb-0">
+          <li class="breadcrumb-item d-inline-block">
+            <a routerLink="/">
+              <i class="fas fa-home"></i>
+              <span>Anasayfa</span>
+            </a>
+          </li>
+          <li class="breadcrumb-item active d-inline-block" aria-current="page">
+            <i class="fas fa-envelope"></i>
+            <span>İletişim</span>
+          </li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT SECTION -->
+<section
+  class="w-100 float-left contact-main-sec position-relative padding-top padding-bottom"
+>
+  <div class="container">
+    <div class="contact-main-box">
+      <!-- Sol — iletişim bilgileri -->
+      <div class="contact-left-sec">
+        <div class="contact-detail">
+          <figure class="mb-0">
+            <img src="assets/images/location-img.png" alt="location-img" />
+          </figure>
+          <div class="contact-txt">
+            <h4>Adres:</h4>
+            <p class="mb-0">Bağcılar, İstanbul, Türkiye</p>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <figure class="mb-0">
+            <img src="assets/images/phone-img.png" alt="phone-img" />
+          </figure>
+          <div class="contact-txt">
+            <h4>Telefon:</h4>
+            <a href="tel:+902121234567">+90 212 123 45 67</a>
+            <a href="tel:+908001234567">+90 800 123 45 67</a>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <figure class="mb-0">
+            <img src="assets/images/mail-img.png" alt="mail-img" />
+          </figure>
+          <div class="contact-txt">
+            <h4>Email:</h4>
+            <a href="mailto:info@medunit.com">info&#64;medunit.com</a>
+            <a href="mailto:destek@medunit.com">destek&#64;medunit.com</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sağ — form -->
+      <div class="contact-right-sec">
+        <div class="contact-form">
+          <span class="sub-txt d-block"> Bize Ulaşın </span>
+          <h2>Mesaj Gönderin</h2>
+          <p>Sorularınız için formu doldurun, en kısa sürede dönüş yapalım.</p>
+
+          <!-- Başarı mesajı -->
+          <div class="form-basari" *ngIf="basari">✓ {{ basari }}</div>
+
+          <form class="form-box" [formGroup]="form" (ngSubmit)="onSubmit()">
+            <ul class="list-unstyled">
+              <li>
+                <input
+                  type="text"
+                  formControlName="name"
+                  placeholder="Adınız:"
+                  [ngClass]="{
+                    'input-hata':
+                      form.get('name')?.invalid && form.get('name')?.touched,
+                  }"
+                />
+                <i class="fas fa-user"></i>
+                <span
+                  class="hata-mesaj"
+                  *ngIf="form.get('name')?.invalid && form.get('name')?.touched"
+                >
+                  Ad zorunludur.
+                </span>
+              </li>
+              <li>
+                <input
+                  type="text"
+                  formControlName="lastname"
+                  placeholder="Soyadınız:"
+                  [ngClass]="{
+                    'input-hata':
+                      form.get('lastname')?.invalid &&
+                      form.get('lastname')?.touched,
+                  }"
+                />
+                <i class="fas fa-user"></i>
+                <span
+                  class="hata-mesaj"
+                  *ngIf="
+                    form.get('lastname')?.invalid &&
+                    form.get('lastname')?.touched
+                  "
+                >
+                  Soyad zorunludur.
+                </span>
+              </li>
+              <li>
+                <input
+                  type="email"
+                  formControlName="email"
+                  placeholder="Email adresiniz:"
+                  [ngClass]="{
+                    'input-hata':
+                      form.get('email')?.invalid && form.get('email')?.touched,
+                  }"
+                />
+                <i class="fas fa-envelope"></i>
+                <span
+                  class="hata-mesaj"
+                  *ngIf="
+                    form.get('email')?.invalid && form.get('email')?.touched
+                  "
+                >
+                  Geçerli bir email girin.
+                </span>
+              </li>
+              <li>
+                <div class="telefon-grup">
+                  <i class="fas fa-phone-alt"></i>
+                  <input
+                    type="tel"
+                    formControlName="phone"
+                    placeholder="+90 5XX XXX XX XX"
+                    autocomplete="tel"
+                    (input)="onPhoneInput($event)"
+                    (keydown)="onPhoneKeydown($event)"
+                    [ngClass]="{
+                      'input-hata':
+                        form.get('phone')?.invalid &&
+                        form.get('phone')?.touched,
+                    }"
+                  />
+                </div>
+
+                <span class="hata-mesaj" *ngIf="form.get('phone')?.touched">
+                  <ng-container *ngIf="form.get('phone')?.errors?.['required']">
+                    Telefon zorunludur.
+                  </ng-container>
+                  <ng-container
+                    *ngIf="form.get('phone')?.errors?.['invalidPhone']"
+                  >
+                    Geçerli bir telefon girin (örn: +90 530 123 45 67)
+                  </ng-container>
+                </span>
+              </li>
+              <li>
+                <!-- ✅ Doğru — açılış ve kapanış arasında hiçbir şey olmamalı -->
+                <textarea
+                  formControlName="message"
+                  placeholder="Mesajınız:"
+                  [ngClass]="{
+                    'input-hata':
+                      form.get('message')?.invalid &&
+                      form.get('message')?.touched,
+                  }"
+                ></textarea>
+                <span
+                  class="hata-mesaj"
+                  *ngIf="
+                    form.get('message')?.invalid && form.get('message')?.touched
+                  "
+                >
+                  Mesaj zorunludur.
+                </span>
+              </li>
+            </ul>
+            <div class="submit-btn">
+              <button type="submit" [disabled]="form.invalid || yukleniyor">
+                {{ yukleniyor ? "Gönderiliyor..." : "Gönder" }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HARİTA -->
+<div class="index2-map-section w-100 float-left">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d24379.62660311833!2d29.210572950000003!3d40.19897795!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14ca3839007cb741%3A0xce84902dfb5629f4!2sKestel%2C%20Bursa!5e0!3m2!1str!2str!4v1775042680990!5m2!1str!2str"
+    width="600"
+    height="450"
+    style="border: 0"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+  ></iframe>
+</div>

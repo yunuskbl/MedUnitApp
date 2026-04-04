@@ -1,0 +1,103 @@
+<section
+  id="projects"
+  class="project-main-section w-100 float-left padding-top light-bg"
+>
+  <div class="container">
+    <div class="generic-title text-center">
+      <span class="small-text" >
+        Vaka Çalışmaları
+      </span>
+      <h2 class="mb-0" >
+        En Son Vaka Çalışmalarımızı Keşfedin
+      </h2>
+    </div>
+
+    <owl-carousel-o
+      [options]="carouselOptions"
+    >
+      <ng-template carouselSlide>
+        <div class="item">
+          <div class="project-img">
+            <figure class="mb-0">
+              <img src="../../../../assets/images/project-section/zihinsel-bozukluk-img.jpg" alt="project-img1" />
+            </figure>
+          </div>
+          <div class="project-detail">
+            <span class="d-block">Çift Problemi</span>
+            <h4>Zihinsel Danışmanlık</h4>
+            <p [ngClass]="{ 'p-acik': acikMi(0) }">
+              Çift terapisi ile ilişki sorunlarınızı çözüme kavuşturun.
+            </p>
+            <span class="devamini-gor" (click)="toggleAcik(0)">
+              {{ acikMi(0) ? "Daha Az" : "Devamını Gör" }}
+            </span>
+            <a routerLink="/"><i class="fas fa-angle-right"></i></a>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template carouselSlide>
+        <div class="item">
+          <div class="project-img">
+            <figure class="mb-0">
+              <img src="../../../../assets/images/project-section/kisisel-img.jpg" alt="project-img2" />
+            </figure>
+          </div>
+          <div class="project-detail">
+            <span class="d-block">Bireysel Terapi</span>
+            <h4>Kişisel Danışmanlık</h4>
+            <p [ngClass]="{ 'p-acik': acikMi(1) }">
+                Bireysel terapi ile kişisel gelişiminizi destekleyin.
+            </p>
+            <span class="devamini-gor" (click)="toggleAcik(1)">
+              {{ acikMi(1) ? "Daha Az" : "Devamını Gör" }}
+            </span>
+            <a routerLink="/"><i class="fas fa-angle-right"></i></a>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template carouselSlide>
+        <div class="item">
+          <div class="project-img">
+            <figure class="mb-0">
+              <img src="../../../../assets/images/project-section/depresyon-img.jpg" alt="project-img3" />
+            </figure>
+          </div>
+          <div class="project-detail">
+            <span class="d-block">Depresyon</span>
+            <h4>Depresyon Terapisi</h4>
+            <p [ngClass]="{ 'p-acik': acikMi(2) }">
+                Depresyon terapisi ile ruh sağlığınızı iyileştirin.
+            </p>
+            <span class="devamini-gor" (click)="toggleAcik(2)">
+              {{ acikMi(2) ? "Daha Az" : "Devamını Gör" }}
+            </span>
+            <a routerLink="/"><i class="fas fa-angle-right"></i></a>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template carouselSlide>
+        <div class="item">
+          <div class="project-img">
+            <figure class="mb-0">
+              <img src="../../../../assets/images/project-section/anksiyete-img.jpg" alt="project-img1" />
+            </figure>
+          </div>
+          <div class="project-detail">
+            <span class="d-block">Anksiyete</span>
+            <h4>Kaygı Bozukluğu</h4>
+            <p [ngClass]="{ 'p-acik': acikMi(3) }">
+             Kaygı ve panik bozukluklarında profesyonel destek alın.
+            </p>
+            <span class="devamini-gor" (click)="toggleAcik(3)">
+              {{ acikMi(3) ? "Daha Az" : "Devamını Gör" }}
+            </span>
+            <a routerLink="/"><i class="fas fa-angle-right"></i></a>
+          </div>
+        </div>
+      </ng-template>
+    </owl-carousel-o>
+  </div>
+</section>

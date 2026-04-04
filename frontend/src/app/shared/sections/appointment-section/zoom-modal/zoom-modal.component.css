@@ -1,0 +1,69 @@
+.btn-gorusme {
+  background: #2D8CFF;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+
+  &:hover { background: #1a6fd4; }
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-kart {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  width: 400px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+
+.modal-baslik {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  h3 { margin: 0; font-size: 18px; color: #1a1a2e; }
+}
+
+.kapat-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #666;
+}
+
+.btn-zoom {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #2D8CFF;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 24px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  justify-content: center;
+  margin-top: 16px;
+
+  &:hover { background: #1a6fd4; }
+}
+
+.yukleniyor { color: #666; text-align: center; }
+.hata { color: #e53e3e; text-align: center; }
+.bilgi { color: #444; text-align: center; line-height: 1.6; }

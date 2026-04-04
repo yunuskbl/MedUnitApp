@@ -1,0 +1,64 @@
+<section id="about" class="about-main-section padding-top w-100 float-left position-relative">
+    <div class="container position-relative">
+        <div class="about-inner-con">
+            <div class="about-img-con" >
+                <figure class="mb-0">
+                    <img src="../../../../assets/images/about-section/about-img1.jpg" alt="about-img">
+                </figure>
+            </div>
+            <div class="about-txt-con">
+                <div class="generic-title">
+                    <span class="small-text" >
+                        Hakkımızda
+                    </span>
+                    <h2 class="mb-0" >
+                        Kontrolünüz Dışındaki Sorunları Birlikte Çözüyoruz
+                    </h2>
+                </div>
+                <p >
+                    Uzman psikolog ve terapistlerimizle bireylere, çiftlere ve ailelere
+                    yönelik profesyonel psikolojik destek sunuyoruz. Online ve yüz yüze
+                    seans seçenekleriyle yanınızdayız.
+                </p>
+                <ul class="list-unstyled" >
+                    <li><i class="fas fa-check-circle"></i> Bireysel ve Grup Terapisi</li>
+                    <li><i class="fas fa-check-circle"></i> Ücretsiz İlk Danışmanlık</li>
+                    <li><i class="fas fa-check-circle"></i> Çift ve Aile Terapisi</li>
+                    <li><i class="fas fa-check-circle"></i> Online Görüntülü Seans</li>
+                </ul>
+                <div class="generic-btn" >
+                    <a (click)="randevuyaGit()" style="cursor:pointer">Randevu Al</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video box -->
+        <div class="about-video-box"  *ngIf="!videoAcik">
+            <figure class="mb-0">
+                <img src="../../../../assets/images/about-section/about-img2.jpg" alt="about-video-img">
+            </figure>
+            <div class="btn-outer">
+                <a (click)="videoAc()" style="cursor:pointer">
+                    <div class="video-wrap">
+                        <img src="../../../../assets/images/about-section/video-play-icon.png" alt="video-play-icon">
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div class="video-overlay" *ngIf="videoAcik" (click)="videoKapat()">
+        <div class="video-modal" (click)="$event.stopPropagation()">
+            <button class="video-kapat-btn" (click)="videoKapat()">✕</button>
+            <iframe
+                src="../../../../assets/images/about-section/about-video.mp4"
+                allowfullscreen
+                width="100%"
+                height="100%">
+            </iframe>
+        </div>
+    </div>
+
+    <div class="video-fade" *ngIf="videoAcik" (click)="videoKapat()"></div>
+</section>

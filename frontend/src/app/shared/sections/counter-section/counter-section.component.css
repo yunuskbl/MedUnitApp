@@ -1,0 +1,53 @@
+.counter-section {
+    background: url(../../../../assets/images/counter-section/bg-img1.jpg) no-repeat center;
+    background-size: cover;
+    height: 396px;
+}
+
+.counter-outer-layer {
+    height: 100%;
+    background: rgb(21, 108, 95, 0.9);
+    padding: 105px 0;
+}
+
+.counter-inner-sec ul {
+    display: grid;
+    gap: 0;
+    grid-template-columns: 26% 26% 25% 23%;
+}
+
+.counter-inner-sec ul li figure {
+    width: 112px;
+    height: 112px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    border-radius: 100%;
+    background: var(--accent);
+    margin-bottom: 20px;
+    transition: .4s ease-in-out;
+}
+
+.counter-inner-sec ul li {
+    text-align: center;
+    color: var(--primary-color);
+    border-right: 1px solid #4b897e;
+}
+
+.counter-inner-sec ul li:hover figure {
+    transform: translateY(10px);
+}
+
+.counter-inner-sec ul li:last-child {
+    border: none;
+}
+
+.counter-inner-sec ul li .count {
+    font-size: 42px;
+    line-height: 56px;
+    margin-bottom: 3px;
+    font-family: 'Marcellus', serif;
+}
+
+/* counter section style end */

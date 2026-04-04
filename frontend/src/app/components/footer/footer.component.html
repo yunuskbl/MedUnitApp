@@ -1,0 +1,147 @@
+<section class="footer-main-section w-100 float-left position-relative">
+    <div class="container">
+
+        <!-- Newsletter -->
+        <div class="subscribe-con d-flex">
+            <h4>Bültenimize <br> Abone Olun</h4>
+            <div class="form-sec">
+                <input type="email" [(ngModel)]="email"
+                       placeholder="Email Adresiniz:">
+                <button type="button" class="sign-up-btn"
+                        (click)="newsletterKayit()">
+                    Abone Ol
+                </button>
+            </div>
+        </div>
+
+        <!-- Başarı/Hata mesajı -->
+        <div class="newsletter-mesaj" *ngIf="basari">✓ {{ basari }}</div>
+        <div class="newsletter-hata" *ngIf="hata">✕ {{ hata }}</div>
+
+        <div class="footer-inner-sec">
+
+            <!-- Logo ve açıklama -->
+            <div class="footer-boxes">
+                <div class="footer-logo-con">
+                    <a routerLink="/">
+                        <figure>
+                            <img src="../../../../../assets/images/logo.png" alt="logo">
+                        </figure>
+                    </a>
+                    <p>Uzman psikolog ve terapistlerimizle bireylere, çiftlere ve ailelere yönelik profesyonel psikolojik destek sunuyoruz.</p>
+                    <div class="social-links">
+                        <ul class="list-unstyled mb-0 d-flex">
+                            <li class="d-flex justify-content-center align-items-center">
+                                <a href="https://www.facebook.com" target="_blank">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li class="d-flex justify-content-center align-items-center">
+                                <a href="https://twitter.com" target="_blank">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </li>
+                            <li class="d-flex justify-content-center align-items-center">
+                                <a href="https://www.instagram.com" target="_blank">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hakkımızda linkleri -->
+            <div class="footer-text-boxes">
+                <h4>Hakkımızda</h4>
+                <ul class="mb-0 list-unstyled">
+                    <li class="position-relative">
+                        <a routerLink="/" fragment="services">
+                            <i class="fas fa-angle-right"></i>Hizmetler
+                        </a>
+                    </li>
+                    <li class="position-relative">
+                        <a routerLink="/" fragment="about">
+                            <i class="fas fa-angle-right"></i>Hakkımızda
+                        </a>
+                    </li>
+                    <li class="position-relative">
+                        <a routerLink="/" fragment="projects">
+                            <i class="fas fa-angle-right"></i>Blog
+                        </a>
+                    </li>
+                    <li class="position-relative">
+                        <a (click)="randevuyaGit()" style="cursor:pointer">
+                            <i class="fas fa-angle-right"></i>Randevu Al
+                        </a>
+                    </li>
+                    <li class="position-relative mb-0">
+                        <a routerLink="/contact">
+                            <i class="fas fa-angle-right"></i>İletişim
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Hizmetler linkleri -->
+            <div class="footer-text-boxes">
+                <h4>Hizmetlerimiz</h4>
+                <ul class="mb-0 list-unstyled">
+                    <li class="position-relative">
+                        <a routerLink="/" fragment="services">
+                            <i class="fas fa-angle-right"></i>Çift Terapisi
+                        </a>
+                    </li>
+                    <li class="position-relative">
+                        <a routerLink="/" fragment="services">
+                            <i class="fas fa-angle-right"></i>Aile Danışmanlığı
+                        </a>
+                    </li>
+                    <li class="position-relative">
+                        <a routerLink="/" fragment="services">
+                            <i class="fas fa-angle-right"></i>Anksiyete Bozukluğu
+                        </a>
+                    </li>
+                    <li class="position-relative">
+                        <a routerLink="/" fragment="services">
+                            <i class="fas fa-angle-right"></i>Bireysel Görüşme
+                        </a>
+                    </li>
+                    <li class="position-relative mb-0">
+                        <a routerLink="/" fragment="services">
+                            <i class="fas fa-angle-right"></i>Online Terapi
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- İletişim bilgileri -->
+            <div class="footer-text-boxes">
+                <h4>İletişim</h4>
+                <ul class="mb-0 list-unstyled">
+                    <li class="position-relative">
+                        <a href="tel:+905383996916">
+                            <i class="fas fa-phone-alt"></i>+90 538 399 69 16
+                        </a>
+                    </li>
+                    <li class="position-relative">
+                        <a href="mailto:yunuskoball12@gmail.com">
+                            <i class="fas fa-envelope"></i>yunuskoball12&#64;gmail.com
+                        </a>
+                    </li>
+                    <li class="position-relative mb-0">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Kestel,Bursa<br>Türkiye
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<div class="copy-rihgt-sec w-100 float-left text-center">
+    <p class="mb-0">Medunit © 2024. Tüm Hakları Saklıdır.</p>
+</div>
+
+<a id="button"></a>

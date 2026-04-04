@@ -1,0 +1,205 @@
+.banner-main-section {
+    background: url(../../../../assets/images/Banner-section/Banner-bg.jpg) no-repeat top;
+    height: 856px;
+    position: relative;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.banner-main-section::after {
+    content: "";
+    background: rgb(21, 108, 95, .80);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Sosyal medya hover — beyazlaşma */
+.social-links ul li a {
+  transition: all 0.3s ease;
+}
+
+.social-links ul li a:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+}
+.social-links {
+    z-index: 3;
+    position: absolute;
+    left: 68px;
+    top: 50%;
+    transform: translateY(-46%);
+}
+
+.social-links ul li {
+    margin-bottom: 15px;
+}
+
+.social-links ul li a {
+    color: var(--primary-color);
+    width: 46px;
+    height: 46px;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background: rgb(21, 108, 95, .90);
+    transition: .4s ease-in-out;
+}
+
+.social-links ul li a:hover {
+    transform: translateY(-6px);
+    background: var(--accent);
+}
+
+/* Banner butonlar */
+.generic-btn a {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 15px;
+    padding: 21px 25px;
+    border-radius: 8px;
+    display: inline-block;
+    text-decoration: none;
+    background: var(--accent);
+    color: var(--primary-color);
+}
+.banner-btns a:first-child {
+  background: #e8724a;
+  color: white !important;
+  border: 2px solid #e8724a;
+}
+
+.banner-btns a:first-child:hover {
+  background: #d45126;
+  color: white !important;
+  border-color: #d45126;
+}
+
+.banner-btns a:last-child {
+  background: transparent;
+  color: white !important;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+}
+
+.banner-btns a:last-child:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white !important;
+  border-color: white;
+}
+.banner-images-con figure img {
+  border-radius: inherit;
+  object-fit: cover;
+}
+
+.banner-images-con figure:last-child {
+  border-radius: 20px;
+  overflow: hidden;
+}
+.banner-images-con::before {
+  content: "";
+  width: 88px;
+  height: 84px;
+  border-radius: 15px;
+  background: var(--primary-color);
+  position: absolute;
+  right: 132px;
+  bottom: 240px;
+}
+
+.banner-images-con::after {
+  content: "";
+  width: 88px;
+  height: 84px;
+  border-radius: 15px;
+  background: var(--accent);
+  position: absolute;
+  right: 420px;
+  bottom: -240px;
+}
+.banner-txt-section span,
+.banner-txt-section h1,
+.banner-txt-section p {
+  color: var(--primary-color);
+}
+.banner-inner-con {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 50% 45%;
+  gap: 10px;
+  align-items: center;
+}
+
+.banner-images-con {
+  position: relative;
+}
+
+.banner-images-con figure {
+  border-radius: 40px;
+  overflow: hidden;
+  width: fit-content;
+  position: absolute;
+  margin: 0;
+  box-sizing: border-box;
+  
+}
+.banner-txt-section span::before {
+  content: "";
+  width: 53px;
+  height: 2px;
+  background: var(--primary-color);
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.banner-txt-section span {
+  padding-left: 65px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.banner-txt-section p {
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 500;
+  margin-bottom: 33px;
+}
+
+.banner-txt-section h1 {
+  margin-bottom: 10px;
+}
+
+.banner-txt-section span::before {
+  content: "";
+  width: 53px;
+  height: 2px;
+  background: var(--primary-color);
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.banner-txt-section span {
+  padding-left: 65px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.banner-txt-section p {
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 500;
+  margin-bottom: 33px;
+}
+
+.banner-txt-section h1 {
+  margin-bottom: 10px;
+}
+ 

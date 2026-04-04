@@ -1,0 +1,134 @@
+<div class="admin-panel">
+
+  <!-- Başlık -->
+  <div class="admin-header">
+    <h1>Admin Paneli</h1>
+    <a href="/" class="btn-geri">← Siteye Dön</a>
+  </div>
+
+  <!-- Mesaj -->
+  <div class="admin-mesaj" *ngIf="mesaj">{{ mesaj }}</div>
+
+  <!-- Sekmeler -->
+  <div class="admin-sekmeler">
+    <button [ngClass]="{'aktif': aktifSekme === 'istatistik'}"
+            (click)="sekmeDegistir('istatistik')">
+      📊 İstatistikler
+    </button>
+    <button [ngClass]="{'aktif': aktifSekme === 'kullanicilar'}"
+            (click)="sekmeDegistir('kullanicilar')">
+      👥 Kullanıcılar
+    </button>
+    <button [ngClass]="{'aktif': aktifSekme === 'randevular'}"
+            (click)="sekmeDegistir('randevular')">
+      📅 Randevular
+    </button>
+    
+  </div>
+
+  <!-- İSTATİSTİKLER -->
+  <div class="istatistik-grid" *ngIf="aktifSekme === 'istatistik' && istatistik">
+    <div class="stat-kart mavi">
+      <span class="stat-sayi">{{ istatistik.toplamKullanici }}</span>
+      <span class="stat-etiket">Toplam Kullanıcı</span>
+    </div>
+    <div class="stat-kart yesil">
+      <span class="stat-sayi">{{ istatistik.toplamHasta }}</span>
+      <span class="stat-etiket">Hasta</span>
+    </div>
+    <div class="stat-kart turuncu">
+      <span class="stat-sayi">{{ istatistik.toplamDoktor }}</span>
+      <span class="stat-etiket">Doktor</span>
+    </div>
+    <div class="stat-kart mor">
+      <span class="stat-sayi">{{ istatistik.toplamRandevu }}</span>
+      <span class="stat-etiket">Toplam Randevu</span>
+    </div>
+    <div class="stat-kart sari">
+      <span class="stat-sayi">{{ istatistik.bekleyenRandevu }}</span>
+      <span class="stat-etiket">Bekleyen</span>
+    </div>
+    <div class="stat-kart yesil">
+      <span class="stat-sayi">{{ istatistik.onayliRandevu }}</span>
+      <span class="stat-etiket">Onaylı</span>
+    </div>
+    <div class="stat-kart kirmizi">
+      <span class="stat-sayi">{{ istatistik.iptalRandevu }}</span>
+      <span class="stat-etiket">İptal</span>
+    </div>
+  </div>
+
+  <!-- KULLANICILAR -->
+  <div class="tablo-konteyner" *ngIf="aktifSekme === 'kullanicilar'">
+    <table class="admin-tablo">
+      <thead>
+        <tr>
+          <th>Ad Soyad</th>
+          <th>Email</th>
+          <th>Rol</th>
+          <th>Durum</th>
+          <th>İşlemler</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let k of kullanicilar">
+          <td>{{ k.ad }} {{ k.soyad }}</td>
+          <td>{{ k.email }}</td>
+          <td>
+            <select (change)="rolDegistir(k.id, $any($event.target).value)"
+                    [value]="k.rol">
+              <option value="hasta">Hasta</option>
+              <option value="doktor">Doktor</option>
+              <option value="admin">Admin</option>
+            </select>
+          </td>
+          <td>
+            <span class="badge" [ngClass]="k.aktif ? 'badge-onay' : 'badge-iptal'">
+              {{ k.aktif ? 'Aktif' : 'Pasif' }}
+            </span>
+          </td>
+          <td>
+            <button class="btn-tablo"
+                    [ngClass]="k.aktif ? 'btn-pasif' : 'btn-aktif'"
+                    (click)="aktifDegistir(k.id)">
+              {{ k.aktif ? 'Pasif Yap' : 'Aktif Yap' }}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- RANDEVULAR -->
+  <div class="tablo-konteyner" *ngIf="aktifSekme === 'randevular'">
+    <table class="admin-tablo">
+      <thead>
+        <tr>
+          <th>Hasta</th>
+          <th>Doktor</th>
+          <th>Tarih</th>
+          <th>Durum</th>
+          <th>İşlemler</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of randevular">
+          <td>{{ r.hastaAd }}</td>
+          <td>{{ r.doktorAd }}</td>
+          <td>{{ r.baslangicTarihi | date:'dd MMM yyyy, HH:mm' : '+0300' }}</td>
+          <td>
+            <span class="badge" [ngClass]="durumRengi(r.durum)">
+              {{ r.durum }}
+            </span>
+          </td>
+          <td>
+            <button class="btn-tablo btn-sil" (click)="randevuSil(r.id)">
+              Sil
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

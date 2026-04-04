@@ -1,0 +1,172 @@
+/* Carousel container - FOUC önlemek için */
+.service-slider {
+  position: relative;
+  padding: 0 30px;
+  margin-top: 40px;
+  max-height: 550px;
+  overflow: hidden !important;
+}
+
+/* Carousel yüklendiğinde kısıtlamayı kaldır */
+.service-slider.carousel-loaded {
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+/* Item base styling */
+.item {
+  padding: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.treatment-types {
+  background: white;
+  border-radius: 16px;
+  padding: 24px 20px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  border-bottom: 3px solid transparent;
+  height: 420px;              /* sabit yükseklik */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.treatment-types:hover {
+  transform: translateY(-6px);
+  border-bottom-color: #e8724a;
+}
+
+/* Resim alanı sabit yükseklik */
+.treatment-types > figure {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  border-radius: 12px;
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
+
+.treatment-types > figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* İkon dairesi */
+.type-img {
+  width: 60px;
+  height: 60px;
+  background: #3d7a6f;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: -30px auto 16px;
+  border: 3px solid white;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.type-img figure {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.type-img figure img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.treatment-types h4 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 10px;
+}
+
+.treatment-types p {
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.treatment-types a {
+  color: #e8724a;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: auto;
+}
+
+.treatment-types a:hover { color: #3d7a6f; }
+
+/* Carousel okları */
+.owl-nav button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white !important;
+  border-radius: 50% !important;
+  width: 40px !important;
+  height: 40px !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #3d7a6f !important;
+  font-size: 16px !important;
+}
+
+.owl-nav .owl-prev { left: -20px; }
+.owl-nav .owl-next { right: -20px; }
+
+.owl-nav button:hover {
+  background: #3d7a6f !important;
+  color: white !important;
+}
+
+/* Carousel container */
+.service-slider {
+  position: relative;
+  padding: 0 30px;
+  margin-top: 40px;
+}
+
+/* Carousel yüklenene kadar fazla itemları gizle */
+owl-carousel-o {
+  overflow: hidden;
+}
+
+owl-carousel-o .owl-stage-outer {
+  overflow: hidden;
+}
+
+/* Carousel initialize olmadan önce itemları ilk 3 göster */
+.service-slider:not(.carousel-loaded) .item:nth-child(n+4) {
+  display: none;
+}
+
+.carousel-loaded .item:nth-child(n+4) {
+  display: block;
+}

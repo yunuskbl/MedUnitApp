@@ -1,0 +1,129 @@
+<section
+  class="service-main-section w-100 float-left padding-top padding-bottom light-bg"
+>
+  <div class="container">
+    <div class="generic-title text-center">
+      <span class="small-text" 
+        >Sunduğumuz Hizmetler</span
+      >
+      <h2 class="mb-0" >
+        Profesyonel Psikoloji ve Terapi Hizmetleri
+        <br />
+        Seçiminizi Yapabilirsiniz
+      </h2>
+    </div>
+    <div class="service-slider" [class.carousel-loaded]="carouselLoaded">
+      <owl-carousel-o [options]="customOptions" (initialized)="onCarouselLoaded()">
+        <ng-template carouselSlide>
+          <div class="item">
+            <div class="treatment-types text-center">
+              <figure>
+                <img
+                  src="../../../../assets/images/Service-section/couple-img.jpg"
+                  alt="treatment-img1"
+                />
+              </figure>
+              <div class="type-img">
+                <figure class="mb-0">
+                  <img src="assets/images/type-img1.png" alt="type-img1" />
+                </figure>
+              </div>
+              <h4>Çift Terapisi</h4>
+              <p>İlişkinizi güçlendirin, iletişim sorunlarını birlikte aşın.</p>
+              <a href="#">Devamını Oku<i class="fas fa-angle-right"></i></a>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template carouselSlide>
+          <div class="item">
+            <div class="treatment-types text-center">
+              <figure>
+                <img
+                  src="../../../../assets/images/Service-section/family-img.jpg"
+                  alt="treatment-img2"
+                />
+              </figure>
+              <div class="type-img">
+                <figure class="mb-0">
+                  <img src="assets/images/type-img2.png" alt="type-img2" />
+                </figure>
+              </div>
+              <h4>Aile Danışmanlığı</h4>
+              <p>Aile içi uyumu ve iletişimi güçlendirin.</p>
+              <a href="services.html"
+                >Devamını Oku <i class="fas fa-angle-right"></i
+              ></a>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template carouselSlide>
+          <div class="item">
+            <div class="treatment-types text-center">
+              <figure>
+                <img
+                  src="../../../../assets/images/Service-section/anxiety-img.jpg"
+                  alt="treatment-img3"
+                />
+              </figure>
+              <div class="type-img">
+                <figure class="mb-0">
+                  <img src="assets/images/type-img3.png" alt="type-img3" />
+                </figure>
+              </div>
+              <h4>Anksiyete Bozukluğu</h4>
+              <p>Kaygı ve stresle başa çıkmanızda yanınızdayız.</p>
+              <a href="services.html"
+                >Devamını Oku <i class="fas fa-angle-right"></i
+              ></a>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template carouselSlide>
+          <div class="item">
+            <div class="treatment-types text-center">
+              <figure>
+                <img
+                  src="../../../../assets/images/Service-section/individual-img.jpg"
+                  alt="treatment-img4"
+                />
+              </figure>
+              <div class="type-img">
+                <figure class="mb-0">
+                  <img src="assets/images/type-img4.png" alt="type-img4" />
+                </figure>
+              </div>
+              <h4>Bireysel Görüşme</h4>
+              <p>Kişisel gelişiminiz için birebir terapi seansları.</p>
+
+              <a href="services.html"
+                >Devamını Oku <i class="fas fa-angle-right"></i
+              ></a>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template carouselSlide>
+          <div class="item">
+            <div class="treatment-types text-center">
+              <figure>
+                <img
+                  src="../../../../assets/images/Service-section/child-img.jpg"
+                  alt="treatment-img3"
+                />
+              </figure>
+              <div class="type-img">
+                <figure class="mb-0">
+                  <img src="assets/images/type-img3.png" alt="type-img3" />
+                </figure>
+              </div>
+              <h4>Çocuk Psikolojisi</h4>
+              <p>Çocuğunuzun duygusal gelişimini destekleyin.</p>
+              <a href="services.html"
+                >Devamını Oku <i class="fas fa-angle-right"></i
+              ></a>
+            </div>
+          </div>
+        </ng-template>
+      </owl-carousel-o>
+    </div>
+  </div>
+</section>

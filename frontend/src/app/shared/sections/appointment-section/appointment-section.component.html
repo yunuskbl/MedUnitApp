@@ -1,0 +1,241 @@
+<section class="w-100 float-left contact-con position-relative">
+  <div class="padding-top padding-bottom contact-inner-con position-relative">
+    <div class="container" >
+      <!-- RANDEVU FORMU -->
+      <div class="randevu-form contact-form">
+        <span
+          class="sub-txt d-block"
+        >
+          Bizimle İletişime Geçin ve Randevu Alın
+        </span>
+        <h2 >
+          Randevu Al
+        </h2>
+        <p >
+          Size en uygun doktor ve saat için hemen randevu oluşturun.
+        </p>
+
+        <!-- Başarı / Hata mesajları -->
+        <div class="alert-basari" *ngIf="basari">
+          ✓ {{ basari }}
+        </div>
+        <div class="alert-hata" *ngIf="hata">
+          ✕ {{ hata }}
+        </div>
+        <div class="form-box">
+          <ul class="list-unstyled">
+            <!-- Doktor seç -->
+            <li>
+              <select [(ngModel)]="secilenDoktorId" name="doktor">
+                <option [value]="0">Doktor Seçin</option>
+                <option *ngFor="let d of doktorlar" [value]="d.id">
+                  Dr. {{ d.ad }} {{ d.soyad }}
+                </option>
+              </select>
+            </li>
+
+            <!-- Tarih -->
+            <li>
+              <input
+                type="date"
+                [(ngModel)]="secilenTarih"
+                [min]="bugun()"
+                placeholder="Tarih seçin"
+              />
+            </li>
+
+            <!-- Saat -->
+            <li>
+              <input
+                type="time"
+                [(ngModel)]="secilenSaat"
+                placeholder="Saat seçin"
+              />
+            </li>
+
+            <!-- Not -->
+            <li>
+              <input
+                type="text"
+                [(ngModel)]="notlar"
+                placeholder="Notlarınız (isteğe bağlı)"
+              />
+            </li>
+          </ul>
+
+          <div class="submit-btn">
+            <button
+              type="button"
+              (click)="randevuOlustur()"
+              [disabled]="yukleniyor"
+            >
+              {{ yukleniyor ? "Gönderiliyor..." : "Randevu Oluştur" }}
+            </button>
+          </div>
+          <div
+            class="randevu-liste-bolum"
+            *ngIf="token && randevular.length > 0"
+            
+          >
+            <h3 class="liste-baslik">Randevularım</h3>
+
+            <div class="accordion-liste">
+              <div
+                class="accordion-item"
+                *ngFor="let r of randevular"
+                [ngClass]="{ acik: acikKartId === r.id }"
+              >
+                <!-- Başlık satırı — her zaman görünür -->
+                <div class="accordion-baslik" (click)="kartToggle(r.id)">
+                  <div class="accordion-sol">
+                    <i
+                      class="fas"
+                      [ngClass]="
+                        acikKartId === r.id
+                          ? 'fa-chevron-down'
+                          : 'fa-chevron-right'
+                      "
+                    ></i>
+                    <span class="accordion-doktor">
+                      <i class="fas fa-user-md"></i>
+                      {{ r.doktorAd }}
+                    </span>
+                  </div>
+                  <div class="accordion-sag">
+                    <span class="accordion-tarih">
+                      {{ r.baslangicTarihi | date: "dd MMM, HH:mm" : "+0300" }}
+                    </span>
+                    <span class="durum-badge" [ngClass]="durumRengi(r.durum)">
+                      {{ durumMetni(r.durum) }}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Detay alanı — sadece açıkken görünür -->
+                <div class="accordion-detay" *ngIf="acikKartId === r.id">
+                  <div class="detay-icerik">
+                    <!-- Hasta bilgisi (doktor görür) -->
+                    <div class="detay-satir" *ngIf="rol === 'doktor'">
+                      <i class="fas fa-user"></i>
+                      <span>Hasta: {{ r.hastaAd }}</span>
+                    </div>
+
+                    <!-- Bitiş saati -->
+                    <div class="detay-satir">
+                      <i class="fas fa-clock"></i>
+                      <span
+                        >{{
+                          r.baslangicTarihi | date: "dd MMM, HH:mm" : "+0300"
+                        }}
+                        — {{ r.bitisTarihi | date: "HH:mm" }}</span
+                      >
+                    </div>
+
+                    <!-- Not -->
+                    <div class="detay-satir" *ngIf="r.notlar">
+                      <i class="fas fa-sticky-note"></i>
+                      <span>{{ r.notlar }}</span>
+                    </div>
+                  </div>
+
+                  <!-- Butonlar -->
+                  <div class="detay-butonlar">
+                    <!-- DOKTOR: Toplantıyı Başlat — host linki ile -->
+                    <button
+                      class="btn-zoom"
+                      *ngIf="rol === 'doktor' && r.durum === 'onaylandi'"
+                      (click)="zoomModalAc(r)"
+                    >
+                      <i class="fas fa-video"></i>
+                      Toplantıyı Başlat
+                    </button>
+
+                    <!-- HASTA: Görüşmeye Katıl — join linki ile, sadece doktor başlatınca aktif -->
+                    <button
+                      class="btn-zoom btn-katil"
+                      *ngIf="rol === 'hasta' && r.durum === 'onaylandi'"
+                      [disabled]="!gorusmeAktifMi(r)"
+                      (click)="zoomModalAc(r)"
+                    >
+                      <i class="fas fa-video"></i>
+                      {{
+                        gorusmeAktifMi(r)
+                          ? "Görüşmeye Katıl"
+                          : "Görüşme Saatinde Aktif"
+                      }}
+                    </button>
+
+                    <!-- Onayla butonu -->
+                    <button
+                      class="btn-onayla"
+                      *ngIf="rol === 'doktor' && r.durum === 'beklemede'"
+                      (click)="randevuOnayla(r.id)"
+                    >
+                      <i class="fas fa-check"></i>
+                      Onayla
+                    </button>
+
+                    <!-- İptal butonu -->
+                    <button
+                      class="btn-iptal"
+                      *ngIf="
+                        (rol === 'hasta' && r.durum === 'beklemede') ||
+                        (rol === 'doktor' && r.durum !== 'iptal')
+                      "
+                      (click)="randevuIptal(r.id)"
+                    >
+                      <i class="fas fa-times"></i>
+                      İptal Et
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Randevu yoksa -->
+        <div
+          class="randevu-yok"
+          *ngIf="token && randevular.length === 0"
+          
+        >
+          <i class="fas fa-calendar-times" ></i>
+          <p>Henüz randevunuz bulunmuyor.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ZOOM MODAL -->
+<div class="zoom-overlay" *ngIf="modalAcik" (click)="modalKapat()">
+  <div class="zoom-modal" (click)="$event.stopPropagation()">
+    <div class="zoom-modal-ust">
+      <h3>Zoom Görüşmesi</h3>
+      <button class="zoom-kapat" (click)="modalKapat()">✕</button>
+    </div>
+
+    <div class="zoom-modal-icerik">
+      <div class="zoom-bilgi" *ngIf="modalRandevu">
+        <p><i class="fas fa-user-md"></i> {{ modalRandevu.doktorAd }}</p>
+        <p>
+          <i class="fas fa-calendar"></i>
+          {{ modalRandevu.baslangicTarihi | date: "dd MMM yyyy, HH:mm" }}
+        </p>
+      </div>
+
+      <p class="zoom-aciklama">
+        {{
+          rol === "doktor"
+            ? "Toplantı sahibi olarak başlatacaksınız. Zoom uygulaması açılacak."
+            : "Doktor toplantıyı başlattığında katılabilirsiniz."
+        }}
+      </p>
+
+      <button class="btn-zoom-ac" (click)="zoomAc()" [disabled]="!zoomLink">
+        <i class="fas fa-video"></i>
+        {{ zoomLink ? "Zoom'da Aç" : "Link yükleniyor..." }}
+      </button>
+    </div>
+  </div>
+</div>

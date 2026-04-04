@@ -1,0 +1,68 @@
+<section
+  class="testimonial-main-sec w-100 float-left padding-top position-relative padding-bottom"
+>
+  <div class="container">
+    <div class="generic-title text-center mb-0">
+      <span
+        class="d-block small-text"
+      >
+        Hasta Yorumları
+      </span>
+      <h2 >Hastalarımız Ne Diyor?</h2>
+    </div>
+
+    <div
+      class="testimonial-inner-sec"
+    >
+      <!-- Sol ok -->
+      <a
+        class="carousel-control-prev"
+        (click)="onceki()"
+        style="cursor: pointer"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      </a>
+
+      <!-- Aktif yorum -->
+      <div class="carousel-inner">
+        <div class="carousel-item active text-center">
+          <div class="review-details-box">
+            <figure class="d-inline-block">
+              <img src="assets/images/stars-img.png" alt="stars" />
+            </figure>
+            <p>"{{ yorumlar[aktifIndex].yorum }}"</p>
+            <div class="customer-status">
+              <h5>{{ yorumlar[aktifIndex].ad }}</h5>
+              <span class="d-block">{{ yorumlar[aktifIndex].unvan }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sağ ok -->
+      <a
+        class="carousel-control-next"
+        (click)="sonraki()"
+        style="cursor: pointer"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      </a>
+
+      <!-- Profil resimleri / indikatörler -->
+      <ol class="carousel-indicators">
+        <li
+          *ngFor="let y of yorumlar; let i = index"
+          [ngClass]="{ active: i === aktifIndex }"
+          (click)="secili(i)"
+          style="cursor: pointer"
+        >
+          <img
+            [src]="y.resim"
+            [alt]="y.ad"
+            onerror="this.src = 'assets/images/testimonials_image1.jpg'"
+          />
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>

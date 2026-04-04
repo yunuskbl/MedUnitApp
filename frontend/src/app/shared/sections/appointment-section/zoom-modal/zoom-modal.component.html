@@ -1,0 +1,36 @@
+<!-- Butonu randevu kartına ekle -->
+<button class="btn-gorusme" (click)="modalAc()">
+  Görüşmeyi Başlat
+</button>
+
+<!-- Modal -->
+<div class="modal-overlay" *ngIf="modalAcik" (click)="modalKapat()">
+  <div class="modal-kart" (click)="$event.stopPropagation()">
+
+    <div class="modal-baslik">
+      <h3>Zoom Görüşmesi</h3>
+      <button class="kapat-btn" (click)="modalKapat()">✕</button>
+    </div>
+
+    <div class="modal-icerik">
+      <ng-container *ngIf="yukleniyor">
+        <p class="yukleniyor">Zoom linki hazırlanıyor...</p>
+      </ng-container>
+
+      <ng-container *ngIf="!yukleniyor && !hata">
+        <p class="bilgi">
+          {{ rol === 'doktor' ? 'Toplantıyı siz başlatacaksınız.' : 'Doktor görüşmeyi başlatınca katılabilirsiniz.' }}
+        </p>
+        <button class="btn-zoom" (click)="zoomAc()">
+          <img src="assets/images/zoom-icon.png" width="20" alt="zoom"/>
+          Zoom'da Aç
+        </button>
+      </ng-container>
+
+      <ng-container *ngIf="hata">
+        <p class="hata">{{ hata }}</p>
+      </ng-container>
+    </div>
+
+  </div>
+</div>

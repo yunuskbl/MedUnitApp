@@ -1,0 +1,71 @@
+/* Animasyon tanımı */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Başlangıçta gizle — sadece home page */
+/* .servis-kart, */
+.blog-box,
+.member-con,
+.project-img,
+.about-img-con,
+.about-txt-con,
+.process-left-sec,
+.process-right-sec,
+.counter-inner-sec,
+.testimonial-inner-sec,
+.blogs-inner-con,
+.team-inner-section,
+.project-detail{
+  opacity: 0;
+}
+
+/* animate class gelince göster */
+/* .servis-kart.animate, */
+.blog-box.animate,
+.member-con.animate,
+.project-img.animate,
+.about-img-con.animate,
+.about-txt-con.animate,
+.process-left-sec.animate,
+.process-right-sec.animate,
+.counter-inner-sec.animate,
+.testimonial-inner-sec.animate,
+.blogs-inner-con.animate,
+.team-inner-section.animate,
+.project-detail {
+  animation: fadeUp 0.8s ease-out forwards;
+}
+
+/* Başlık animasyonları — sayfa yüklenince hemen çalışsın */
+.generic-title,
+.generic-title h2,
+.generic-title span,
+.banner-txt-section h1,
+.banner-txt-section p,
+.banner-txt-section .banner-btns,
+.about-txt-con h2,
+.about-txt-con p,
+.about-txt-con ul {
+  animation: fadeUp 0.5s ease-out both;
+}
+
+/* Gecikme efekti */
+.servis-kart:nth-child(1).animate { animation-delay: 0.1s; }
+.servis-kart:nth-child(2).animate { animation-delay: 0.2s; }
+.servis-kart:nth-child(3).animate { animation-delay: 0.3s; }
+/* .servis-kart:nth-child(4).animate { animation-delay: 0.4s; }
+.servis-kart:nth-child(5).animate { animation-delay: 0.5s; }
+.servis-kart:nth-child(6).animate { animation-delay: 0.6s; } */
+
+.member-con:nth-child(1).animate { animation-delay: 0.1s; }
+.member-con:nth-child(2).animate { animation-delay: 0.2s; }
+.member-con:nth-child(3).animate { animation-delay: 0.3s; }
+.member-con:nth-child(4).animate { animation-delay: 0.4s; }

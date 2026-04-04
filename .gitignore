@@ -1,0 +1,17 @@
+﻿# .NET Backend - Build outputs
+backend/**/bin/
+backend/**/obj/
+backend/.vs/
+backend/**/*.user
+backend/**/*.suo
+backend/**/appsettings.Development.json
+
+# Angular Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+
+# Genel
+.env
+.DS_Store
+Thumbs.db

@@ -1,0 +1,196 @@
+<div class="header-main-con w-100 float-left">
+  <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-light p-0">
+
+      <a class="navbar-brand" href="#">
+        <img src="/assets/images/logo.png" />
+      </a>
+
+      <button class="navbar-toggler" type="button" (click)="toggleNavbar()"
+              aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse"
+           [ngClass]="{ show: !isNavbarCollapsed }">
+
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link p-0" routerLink="" fragment="about">Hakkımızda</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link p-0" routerLink="" fragment="services">Hizmetler</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link p-0" routerLink="" fragment="appointment">Randevu</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link p-0" routerLink="/contact">İletişim</a>
+          </li>
+        </ul>
+
+        <div class="header-contact d-flex align-items-center">
+
+          <!-- Telefon -->
+          <div class="phone d-flex align-items-center">
+            <figure class="mb-0">
+              <img src="assets/images/phone.png" alt="phone" />
+            </figure>
+            <div class="phone-txt">
+              <span class="d-block">İletişime Geçin:</span>
+              <a href="tel:+905383996916">+90 538 399 69 16</a>
+            </div>
+          </div>
+
+          <ng-container *ngIf="isBrowser">
+
+            <!-- Giriş yapılmamışsa -->
+            <div class="auth-butonlar" *ngIf="!girisYapildi">
+              <button class="btn-giris" (click)="modalAc('giris')">Giriş Yap</button>
+              <button class="btn-kayit" (click)="modalAc('kayit')">Kayıt Ol</button>
+            </div>
+
+            <!-- Giriş yapılmışsa -->
+            <div class="kullanici-menu" *ngIf="girisYapildi">
+              <div class="kullanici-bilgi">
+                <i class="fas fa-user-circle"></i>
+                <span>{{ kullaniciAd }}</span>
+                <span class="rol-badge">{{ rol }}</span>
+              </div>
+              <a class="btn-admin" *ngIf="rol === 'admin'" routerLink="/admin">
+                <i class="fas fa-cog"></i> Admin
+              </a>
+              <button class="btn-cikis" (click)="cikisYap()">
+                <i class="fas fa-sign-out-alt"></i> Çıkış
+              </button>
+            </div>
+
+          </ng-container>
+        </div>
+      </div>
+
+    </nav>
+  </div>
+</div>
+
+<!-- MODAL aynı kalır -->
+
+<!-- LOGIN / REGISTER MODAL -->
+<div class="auth-overlay" *ngIf="modalAcik" (click)="modalKapat()">
+  <div class="auth-modal" (click)="$event.stopPropagation()">
+    <!-- Sekme başlıkları -->
+    <div class="auth-sekmeler">
+      <button
+        [ngClass]="{ aktif: aktifSekme === 'giris' }"
+        (click)="sekmeDegistir('giris')"
+      >
+        Giriş Yap
+      </button>
+      <button
+        [ngClass]="{ aktif: aktifSekme === 'kayit' }"
+        (click)="sekmeDegistir('kayit')"
+      >
+        Kayıt Ol
+      </button>
+      <button class="modal-kapat-btn" (click)="modalKapat()">✕</button>
+    </div>
+
+    <!-- Hata mesajı -->
+    <div class="auth-hata" *ngIf="hata">{{ hata }}</div>
+
+    <!-- GİRİŞ FORMU -->
+    <div *ngIf="aktifSekme === 'giris'" class="auth-form">
+      <div class="auth-input-grup">
+        <i class="fas fa-envelope"></i>
+        <input
+          type="email"
+          placeholder="Email adresiniz"
+          [(ngModel)]="girisEmail"
+          name="girisEmail"
+        />
+      </div>
+      <div class="auth-input-grup">
+        <i class="fas fa-lock"></i>
+        <input
+          type="password"
+          placeholder="Şifreniz"
+          [(ngModel)]="girisSifre"
+          name="girisSifre"
+        />
+      </div>
+      <button
+        class="auth-submit-btn"
+        (click)="girisYap()"
+        [disabled]="yukleniyor"
+      >
+        {{ yukleniyor ? "Giriş yapılıyor..." : "Giriş Yap" }}
+      </button>
+      <p class="auth-alt-txt">
+        Hesabınız yok mu?
+        <a (click)="sekmeDegistir('kayit')">Kayıt olun</a>
+      </p>
+    </div>
+
+    <!-- KAYIT FORMU -->
+    <div *ngIf="aktifSekme === 'kayit'" class="auth-form">
+      <div class="auth-input-row">
+        <div class="auth-input-grup">
+          <i class="fas fa-user"></i>
+          <input
+            type="text"
+            placeholder="Adınız"
+            [(ngModel)]="kayitAd"
+            name="kayitAd"
+          />
+        </div>
+        <div class="auth-input-grup">
+          <i class="fas fa-user"></i>
+          <input
+            type="text"
+            placeholder="Soyadınız"
+            [(ngModel)]="kayitSoyad"
+            name="kayitSoyad"
+          />
+        </div>
+      </div>
+      <div class="auth-input-grup">
+        <i class="fas fa-envelope"></i>
+        <input
+          type="email"
+          placeholder="Email adresiniz"
+          [(ngModel)]="kayitEmail"
+          name="kayitEmail"
+        />
+      </div>
+      <div class="auth-input-grup">
+        <i class="fas fa-lock"></i>
+        <input
+          type="password"
+          placeholder="Şifreniz (min. 6 karakter)"
+          [(ngModel)]="kayitSifre"
+          name="kayitSifre"
+        />
+      </div>
+      <div class="auth-input-grup">
+        <i class="fas fa-user-tag"></i>
+        <select [(ngModel)]="kayitRol" name="kayitRol">
+          <option value="hasta">Hasta</option>
+          <option value="doktor">Doktor</option>
+        </select>
+      </div>
+      <button
+        class="auth-submit-btn"
+        (click)="kayitOl()"
+        [disabled]="yukleniyor"
+      >
+        {{ yukleniyor ? "Kayıt yapılıyor..." : "Kayıt Ol" }}
+      </button>
+      <p class="auth-alt-txt">
+        Zaten hesabınız var mı?
+        <a (click)="sekmeDegistir('giris')">Giriş yapın</a>
+      </p>
+    </div>
+  </div>
+</div>

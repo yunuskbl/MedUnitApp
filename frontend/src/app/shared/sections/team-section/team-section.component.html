@@ -1,0 +1,52 @@
+<section class="team-main-section w-100 float-left padding-top padding-bottom light-bg">
+    <div class="container">
+        <div class="generic-title text-center">
+            <span class="small-text" >
+                Ekip Üyelerimiz
+            </span>
+            <h2 class="mb-0" >
+                Profesyonel Ekibimiz
+            </h2>
+        </div>
+        <div class="team-inner-section">
+
+            <div class="member-con text-center" *ngFor="let uye of ekip">
+                <div class="member-img-details position-relative">
+                    <figure >
+                        <img [src]="uye.resim" [alt]="uye.ad">
+                    </figure>
+                    <div class="member-detail-box">
+                        <ul class="list-unstyled">
+                            <li class="d-inline-block">
+                                <a [href]="uye.facebook" target="_blank">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li class="d-inline-block">
+                                <a [href]="uye.twitter" target="_blank">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </li>
+                            <li class="d-inline-block">
+                                <a [href]="uye.linkedin" target="_blank">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                            </li>
+                        </ul>
+                        <p>{{ uye.aciklama }}</p>
+                        <div class="generic-btn">
+                            <a (click)="randevuyaGit()" style="cursor:pointer">
+                                Randevu Al
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <h4 >{{ uye.ad }}</h4>
+                <span class="d-block" >
+                    {{ uye.unvan }}
+                </span>
+            </div>
+
+        </div>
+    </div>
+</section>

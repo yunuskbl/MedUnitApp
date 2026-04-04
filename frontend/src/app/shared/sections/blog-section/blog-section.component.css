@@ -1,0 +1,141 @@
+.blog-box {
+  transition: transform 0.3s, box-shadow 0.3s;
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 8px;
+}
+
+.blog-box:hover {
+  transform: translateY(-12px);
+}
+
+.blog-details h4 a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.blog-details h4 a:hover {
+  color: #e8724a;
+  
+}
+
+.blog-details a:last-child {
+  color: #e8724a;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.blog-details a:last-child:hover {
+  color: #3d7a6f;
+}
+/* Banner Section CSS */
+/* blog section style start */
+.blog-img-box {
+    width: 350px;
+    height: 342px;
+    border-radius: 10px;
+    object-fit: cover;
+    display: block;
+}
+
+.blog-box {
+    width: 350px;
+    background: var(--white-color);
+}
+
+.blog-details {
+    width: 290px;
+    padding: 30px 28px 21px;
+    border-radius: 10px;
+    margin: -96px auto 0;
+    transition: .4s ease-in-out;
+    background: var(--primary-color);
+    position: relative;
+    z-index: 3;
+}
+
+.blog-details span {
+    color: var(--accent);
+    font-weight: 400;
+    font-size: 14px;
+    margin-bottom: 10px;
+    font-family: 'Marcellus', serif;
+}
+
+.blog-details h4 a {
+    text-decoration: none;
+    transition: .3s ease-in-out;
+    color: var(--secondary-color);
+}
+
+.blog-details h4 a:hover {
+    color: var(--accent);
+}
+
+.blog-details h4 {
+    margin-bottom: 6px;
+}
+
+.blog-details>a {
+    color: var(--button-color);
+    font-weight: 700;
+    font-size: 14px;
+    transition: .3s ease-in-out;
+}
+
+.blog-details>a:hover {
+    color: var(--accent);
+}
+
+.blogs-section .owl-carousel button.owl-dot.active {
+    height: 18px;
+    width: 18px;
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+.blogs-section .owl-carousel .owl-dots {
+    text-align: center;
+}
+
+.blogs-section .owl-carousel button.owl-dot {
+    border: solid;
+    margin: 0 5px;
+    height: 13px;
+    width: 13px;
+    background: #e2dad3;
+    border-radius: 100%;
+    border-color: #e2dad3;
+}
+
+.blogs-section .owl-carousel .owl-dots.disabled {
+    display: block;
+}
+
+.blogs-section .owl-carousel .owl-nav {
+    display: none;
+}
+
+.blogs-section .owl-carousel .owl-dots button:focus {
+    outline: none;
+}
+
+.blogs-section .owl-stage-outer {
+    margin-bottom: 40px;
+}
+
+.blogs-section {
+    padding-bottom: 250px;
+}
+
+.blog-txt-con>a {
+    text-decoration: none;
+}
+
+.blog-txt-con>a:hover h4 {
+    color: var(--accent);
+}
+
+/* blog section style end */

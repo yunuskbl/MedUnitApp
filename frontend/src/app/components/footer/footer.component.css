@@ -1,0 +1,240 @@
+.newsletter-mesaj {
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid #22c55e;
+  color: #166534;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.newsletter-hata {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid #ef4444;
+  color: #991b1b;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+/* footer section style start */
+.footer-main-section {
+  background: #156c5f;
+  border-bottom: 1px solid #388277;
+}
+
+.footer-logo-con .social-links ul li {
+  margin: 0 4px;
+}
+
+.footer-logo-con .social-links ul li:first-child {
+  margin-left: 0;
+}
+
+.footer-logo-con .social-links ul li:last-child {
+  margin-right: 0;
+}
+
+.footer-logo-con .social-links {
+  position: unset;
+  transform: unset;
+}
+
+.footer-logo-con .social-links ul li a {
+  background: transparent !important;
+  color: #ffffff !important;
+  transition: 0.3s ease-in-out;
+}
+
+.footer-logo-con .social-links ul li a:hover {
+  background: var(--accent);
+}
+
+.footer-main-section {
+  padding-bottom: 90px;
+}
+
+.footer-boxes {
+  color: var(--primary-color);
+  padding-right: 45px;
+}
+
+.footer-main-section::after {
+  content: "";
+  background: url(../../../assets/images/footer-shape-img.png) no-repeat center;
+  width: 301px;
+  height: 285px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+.footer-text-boxes ul li a,
+.footer-logo-con p,
+.footer-text-boxes ul li a i {
+  font-size: 14px;
+  line-height: 25px;
+}
+
+.footer-text-boxes ul li a,
+.footer-text-boxes h4,
+.footer-text-boxes ul li a i,
+.footer-text-boxes ul li {
+  color: var(--primary-color);
+}
+
+.footer-inner-sec {
+  display: grid;
+  gap: 30px;
+  grid-template-columns: 29% 13.3% 18.6% 20%;
+  justify-content: center;
+}
+
+.footer-text-boxes ul li a:hover {
+  color: var(--accent);
+}
+
+.footer-logo-con figure {
+  margin-bottom: 20px;
+}
+
+.footer-logo-con p {
+  margin-bottom: 22px;
+}
+
+.footer-text-boxes ul li {
+  padding-left: 20px;
+  margin-bottom: 7px;
+}
+
+.footer-text-boxes ul li i {
+  position: absolute;
+  left: 0;
+}
+
+.footer-text-boxes {
+  padding-left: 22px;
+  margin-top: -4px;
+  z-index: 1;
+}
+
+.footer-text-boxes h4 {
+  margin-bottom: 12px;
+}
+
+.footer-text-boxes:last-child ul li {
+  padding-left: 26px;
+}
+
+.footer-text-boxes:last-child ul li {
+  padding-left: 27px;
+  margin-bottom: 13px;
+  font-size: 14px;
+}
+
+.footer-text-boxes:last-child ul li:last-child i {
+  top: 6px;
+}
+
+.footer-text-boxes:last-child h4 {
+  margin-bottom: 14px;
+}
+
+.footer-text-boxes:last-child ul li:last-child br {
+  display: none;
+}
+
+.copy-rihgt-sec {
+  padding: 25px 25px;
+  background: #156c5f;
+}
+
+.copy-rihgt-sec p {
+  font-size: 12px;
+  color: var(--primary-color);
+}
+
+/* footer section style end */
+/* Subscribe section start */
+.subscribe-con {
+  padding: 40px 45px;
+  border-radius: 20px;
+  align-items: center;
+  background: var(--accent);
+  justify-content: space-between;
+  position: relative;
+  top: -100px;
+}
+.sign-up-btn {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 15px;
+  padding: 21px 25px;
+  border-radius: 8px;
+  display: inline-block;
+  text-decoration: none;
+  background: var(--accent);
+  color: var(--primary-color);
+}
+.subscribe-con h4 {
+  font-size: 36px;
+  line-height: 39px;
+  margin-bottom: 0;
+  color: var(--primary-color);
+}
+
+.subscribe-con input {
+  width: 492px;
+  font-size: 14px;
+  background: #ef916c;
+  padding: 17px 20px 18px;
+  border-radius: 8px;
+  color: white;
+  border: 1px solid rgb(255, 255, 255, 0.3);
+  
+}
+
+.subscribe-con input::placeholder {
+  font-size: 14px;
+  color: white;
+}
+
+.subscribe-con button {
+  font-size: 16px;
+  font-weight: 700;
+  padding: 19px 36px 18px 37px;
+  border-radius: 8px;
+  border: white solid 2px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  background: var(--accent);
+}
+.subscribe-con button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.subscribe-con button:focus,
+.subscribe-con input:focus {
+  outline: none;
+}
+
+.subscribe-con input:focus {
+  border: 1px solid rgb(255, 255, 255);
+}
+
+.subscribe-con .form-sec {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.subscribe-con input::after {
+  content: "/f0e0";
+}
+/* Subscribe section end */
