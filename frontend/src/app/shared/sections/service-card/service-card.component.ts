@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 
 @Component({
   standalone:true,
   selector: 'app-service-card',
+  encapsulation: ViewEncapsulation.None,
   imports: [CommonModule,CarouselModule,RouterModule],
   templateUrl: './service-card.component.html',
   styleUrl: './service-card.component.css'

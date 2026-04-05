@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CarouselModule } from 'ngx-owl-carousel-o';
@@ -12,6 +12,7 @@ interface Blog {
 
 @Component({
   selector: 'app-blog-section',
+  encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [CommonModule, RouterModule, CarouselModule],
   templateUrl: './blog-section.component.html',

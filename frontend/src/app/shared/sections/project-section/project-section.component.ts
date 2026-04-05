@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component,ViewEncapsulation } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,
+  encapsulation: ViewEncapsulation.None,
   selector: 'app-project-section',
   imports: [RouterModule, CarouselModule, CommonModule],
   templateUrl: './project-section.component.html',
