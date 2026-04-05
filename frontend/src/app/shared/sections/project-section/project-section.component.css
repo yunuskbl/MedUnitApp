@@ -165,5 +165,18 @@
     transform: translateX(8px);
     background: var(--accent);
 }
+@media (max-width: 768px) {
+  .project-detail {
+    width: 90% !important;
+    padding: 15px !important;
+    bottom: 40px !important;
+  }
+  .project-img {
+    height: 220px !important;
+  }
+  .project-main-section {
+    padding-bottom: 60px !important;
+  }
+}
 
 /* project section style end */

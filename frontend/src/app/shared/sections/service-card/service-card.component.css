@@ -170,3 +170,12 @@ owl-carousel-o .owl-stage-outer {
 .carousel-loaded .item:nth-child(n+4) {
   display: block;
 }
+@media (max-width: 768px) {
+  .service-slider {
+    padding: 0 10px !important;
+  }
+  .treatment-types {
+    height: auto !important;
+    min-height: 350px !important;
+  }
+}

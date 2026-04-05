@@ -137,5 +137,22 @@
 .blog-txt-con>a:hover h4 {
     color: var(--accent);
 }
-
+@media (max-width: 768px) {
+  .blog-box {
+    width: 100% !important;
+    max-width: 320px !important;
+    margin: 0 auto 20px !important;
+  }
+  .blog-img-box {
+    width: 100% !important;
+    height: 200px !important;
+  }
+  .blog-details {
+    width: 85% !important;
+    padding: 15px !important;
+  }
+  .blogs-section {
+    padding-bottom: 60px !important;
+  }
+}
 /* blog section style end */
