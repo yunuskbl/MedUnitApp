@@ -73,6 +73,7 @@ builder.Services.AddCors(options =>
             "https://med-unit-app.vercel.app",
             "https://med-unit-rol6s8zz9-yunuskbls-projects.vercel.app"
         )
+        .SetIsOriginAllowedToAllowWildcardSubdomains()
         .AllowAnyHeader()
         .AllowAnyMethod()
         .AllowCredentials());
