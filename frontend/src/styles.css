@@ -111,3 +111,29 @@ html, body {
     height: auto;
   }
 }
+@media (max-width: 768px) {
+  .owl-stage-outer {
+    overflow: hidden !important;
+    width: 100% !important;
+  }
+  
+  .owl-stage {
+    width: auto !important;
+    transform: none !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+  }
+  
+  .owl-item {
+    width: 100% !important;
+    margin-right: 0 !important;
+  }
+
+  .owl-item.cloned {
+    display: none !important;
+  }
+
+  .owl-nav {
+    display: none !important;
+  }
+}
