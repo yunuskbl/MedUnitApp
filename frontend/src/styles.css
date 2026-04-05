@@ -76,3 +76,38 @@ html, body {
 .member-con:nth-child(2).animate { animation-delay: 0.2s; }
 .member-con:nth-child(3).animate { animation-delay: 0.3s; }
 .member-con:nth-child(4).animate { animation-delay: 0.4s; }
+
+/* Global Mobil Düzeltmeler */
+@media (max-width: 768px) {
+  * {
+    box-sizing: border-box;
+  }
+
+  html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
+  .container {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+    max-width: 100% !important;
+  }
+
+  /* Tüm grid'leri mobilde tek kolona al */
+  [class*="col-"] {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Taşan içerikleri gizle */
+  section, div {
+    max-width: 100vw;
+  }
+
+  /* Absolute konumlu elementleri sınırla */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
