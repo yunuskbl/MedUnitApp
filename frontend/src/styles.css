@@ -9,7 +9,14 @@
     transform: translateY(0);
   }
 }
+* {
+  box-sizing: border-box;
+}
 
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
 /* Başlangıçta gizle — sadece home page */
 /* .servis-kart, */
 .blog-box,
