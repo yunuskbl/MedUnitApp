@@ -111,3 +111,48 @@ html, body {
     height: auto;
   }
 }
+/* ===== MOBİL DÜZELTMELER ===== */
+@media (max-width: 768px) {
+
+  /* Project Section */
+  .project-detail {
+    width: 90% !important;
+    padding: 15px !important;
+    bottom: 60px !important;
+  }
+
+  .project-img {
+    height: 220px !important;
+  }
+
+  /* Service Card Section */
+  .service-slider {
+    padding: 0 10px !important;
+  }
+
+  .treatment-types {
+    height: auto !important;
+    min-height: 380px !important;
+  }
+
+  /* Blog Section */
+  .blog-box {
+    width: 100% !important;
+    max-width: 340px !important;
+    margin: 0 auto 20px !important;
+  }
+
+  .blog-img-box {
+    width: 100% !important;
+    height: 220px !important;
+  }
+
+  .blog-details {
+    width: 85% !important;
+    padding: 20px !important;
+  }
+
+  .blogs-section {
+    padding-bottom: 80px !important;
+  }
+}
