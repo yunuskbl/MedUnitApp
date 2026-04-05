@@ -71,7 +71,7 @@ builder.Services.AddCors(options =>
         policy.WithOrigins(
             "http://localhost:4200",
             "https://med-unit-app.vercel.app",
-            "https://med-unit-rol6s8zz9-yunuskbls-projects.vercel.app"
+            "https://medunit.vercel.app"
         )
         .SetIsOriginAllowedToAllowWildcardSubdomains()
         .AllowAnyHeader()
