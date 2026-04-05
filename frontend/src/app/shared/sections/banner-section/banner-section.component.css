@@ -134,6 +134,30 @@
   align-items: center;
 }
 
+@media (max-width: 768px) {
+  .banner-inner-con {
+    grid-template-columns: 1fr;
+  }
+
+  .banner-images-con {
+    display: none;
+  }
+
+  .banner-main-section {
+    height: auto;
+    min-height: 500px;
+    padding: 80px 20px;
+  }
+
+  .social-links {
+    display: none;
+  }
+
+  .banner-txt-section h1 {
+    font-size: 28px;
+  }
+}
+
 .banner-images-con {
   position: relative;
 }
