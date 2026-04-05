@@ -237,4 +237,45 @@
 .subscribe-con input::after {
   content: "/f0e0";
 }
+@media (max-width: 768px) {
+  .subscribe-con {
+    flex-direction: column !important;
+    gap: 20px !important;
+    padding: 30px 20px !important;
+    top: -50px !important;
+  }
+
+  .subscribe-con h4 {
+    font-size: 24px !important;
+    text-align: center !important;
+  }
+
+  .subscribe-con .form-sec {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+
+  .subscribe-con input {
+    width: 100% !important;
+  }
+
+  .subscribe-con button {
+    width: 100% !important;
+  }
+
+  .footer-inner-sec {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 30px !important;
+  }
+
+  .footer-main-section::after {
+    display: none !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-inner-sec {
+    grid-template-columns: 1fr !important;
+  }
+}
 /* Subscribe section end */

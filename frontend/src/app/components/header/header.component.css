@@ -428,3 +428,47 @@
 }
 
 .btn-admin:hover { background: #2d5c54; color: white; }
+@media (max-width: 992px) {
+  .container-fluid {
+    padding: 0 20px !important;
+  }
+
+  .navbar-brand img {
+    width: 120px !important;
+    margin-left: 0 !important;
+  }
+
+  .navbar-collapse.show {
+    background: #156c5f;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 10px;
+  }
+
+  .navbar-nav {
+    flex-direction: column !important;
+    gap: 10px !important;
+    margin-bottom: 15px !important;
+  }
+
+  .header-contact {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+
+  .phone {
+    border-right: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .auth-butonlar {
+    margin-left: 0 !important;
+  }
+
+  .kullanici-menu {
+    margin-left: 0 !important;
+    flex-wrap: wrap !important;
+  }
+}
