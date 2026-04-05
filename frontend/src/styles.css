@@ -136,4 +136,11 @@ html, body {
   .owl-nav {
     display: none !important;
   }
+  app-appointment-section,
+  app-team-section,
+  app-process-section {
+    display: block;
+    overflow: hidden !important;
+    width: 100% !important;
+  }
 }

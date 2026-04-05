@@ -615,6 +615,21 @@
 .contact-con .submit-btn button:focus {
   outline: none;
 }
+@media (max-width: 768px) {
+  .appointment-section,
+  [class*="appointment"] {
+    overflow: hidden !important;
+    width: 100% !important;
+  }
+
+  .contact-inner-con > .container {
+    padding: 30px 16px;
+  }
+
+  .contact-con::after {
+    height: 250px;
+  }
+}
 @media (max-width: 992px) {
   .contact-inner-con {
     flex-direction: column;

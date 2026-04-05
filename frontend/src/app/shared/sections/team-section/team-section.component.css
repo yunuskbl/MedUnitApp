@@ -99,3 +99,9 @@
 .member-detail-box ul {
     margin-bottom: 10px;
 }
+@media (max-width: 768px) {
+  .team-box {
+    width: 80% !important;
+    margin: 0 auto 20px !important;
+  }
+}
