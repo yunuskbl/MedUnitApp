@@ -616,18 +616,33 @@
   outline: none;
 }
 @media (max-width: 768px) {
-  .appointment-section,
-  [class*="appointment"] {
-    overflow: hidden !important;
+  .contact-con:before {
     width: 100% !important;
   }
 
-  .contact-inner-con > .container {
-    padding: 30px 16px;
+  .contact-con:after {
+    display: none !important;
   }
 
-  .contact-con::after {
-    height: 250px;
+  .contact-inner-con {
+    flex-direction: column !important;
+    min-height: auto !important;
+  }
+
+  .contact-inner-con > .container {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 40px 20px !important;
+    justify-content: center !important;
+  }
+
+  .contact-form {
+    max-width: 100% !important;
+  }
+
+  .contact-con form ul {
+    grid-template-columns: 1fr !important;
   }
 }
 @media (max-width: 992px) {
@@ -652,3 +667,4 @@
     display: block;
   }
 }
+
