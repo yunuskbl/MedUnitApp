@@ -299,3 +299,36 @@
     transform: scale(1.1); /* Üzerine gelince büyüme efekti */
 }
 /* about video section */
+@media (max-width: 768px) {
+  .about-inner-con {
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
+  }
+
+  .about-img-con {
+    grid-column: 1 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .about-img-con img {
+    width: 100% !important;
+    height: 280px !important;
+  }
+
+  .about-txt-con {
+    grid-column: 1 !important;
+    margin-top: 0 !important;
+  }
+
+  .about-txt-con ul {
+    grid-template-columns: 1fr !important;
+  }
+
+  .about-video-box {
+    display: none !important;
+  }
+
+  #about {
+    padding-bottom: 60px !important;
+  }
+}

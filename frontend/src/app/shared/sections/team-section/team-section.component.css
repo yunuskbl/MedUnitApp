@@ -100,8 +100,36 @@
     margin-bottom: 10px;
 }
 @media (max-width: 768px) {
-  .team-box {
-    width: 80% !important;
-    margin: 0 auto 20px !important;
+  .team-inner-section {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 20px !important;
+  }
+
+  .member-img-details figure img {
+    height: 200px !important;
+  }
+
+  .member-detail-box {
+    width: 95% !important;
+    padding: 20px 12px !important;
+    top: -250px !important;
+  }
+
+  .member-con h4 {
+    font-size: 14px !important;
+  }
+
+  .member-con span {
+    font-size: 12px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .team-inner-section {
+    grid-template-columns: 1fr !important;
+  }
+
+  .member-img-details figure img {
+    height: 280px !important;
   }
 }

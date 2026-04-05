@@ -287,4 +287,45 @@
 }
 
 
+@media (max-width: 768px) {
+  .testimonial-inner-sec {
+    width: 100% !important;
+  }
+
+  .testimonial-inner-sec .carousel-item {
+    padding: 20px 10px !important;
+  }
+
+  .testimonial-inner-sec .review-details-box {
+    padding: 30px 20px !important;
+  }
+
+  .testimonial-inner-sec .carousel-item p {
+    font-size: 16px !important;
+    line-height: 26px !important;
+  }
+
+  .testimonial-inner-sec .carousel-inner {
+    padding-bottom: 120px !important;
+  }
+
+  .customer-status {
+    bottom: -80px !important;
+  }
+
+  .testimonial-inner-sec .carousel-indicators {
+    bottom: 50px !important;
+    gap: 8px !important;
+  }
+
+  .testimonial-inner-sec .carousel-indicators li {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .testimonial-inner-sec .carousel-indicators li.active {
+    scale: 1.2 !important;
+    margin: 0 10px !important;
+  }
+}
 /* testimonial style end */

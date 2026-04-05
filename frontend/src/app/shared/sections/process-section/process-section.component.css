@@ -147,3 +147,21 @@
   line-height: 1.6;
   margin: 0;
 }
+@media (max-width: 768px) {
+  .process-inner-con {
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
+  }
+
+  .process-left-sec {
+    display: none !important;
+  }
+
+  .process-right-sec {
+    padding-left: 0 !important;
+  }
+
+  .process-right-sec ul li {
+    gap: 15px !important;
+  }
+}

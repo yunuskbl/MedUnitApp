@@ -49,5 +49,39 @@
     margin-bottom: 3px;
     font-family: 'Marcellus', serif;
 }
+@media (max-width: 768px) {
+  .counter-section {
+    height: auto !important;
+  }
 
+  .counter-outer-layer {
+    padding: 50px 0 !important;
+  }
+
+  .counter-inner-sec ul {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 30px 0 !important;
+  }
+
+  .counter-inner-sec ul li {
+    border-right: none !important;
+    border-bottom: 1px solid #4b897e;
+    padding-bottom: 20px;
+  }
+
+  .counter-inner-sec ul li:nth-child(3),
+  .counter-inner-sec ul li:last-child {
+    border-bottom: none !important;
+  }
+
+  .counter-inner-sec ul li figure {
+    width: 85px !important;
+    height: 85px !important;
+  }
+
+  .counter-inner-sec ul li .count {
+    font-size: 32px !important;
+    line-height: 40px !important;
+  }
+}
 /* counter section style end */
