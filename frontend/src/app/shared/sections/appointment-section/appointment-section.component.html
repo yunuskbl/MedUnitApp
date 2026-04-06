@@ -24,13 +24,14 @@
               </select>
             </li>
 
-            <!-- Tarih -->
+            <!-- Saat -->
             <li>
               <input
                 type="date"
                 [(ngModel)]="secilenTarih"
                 [min]="bugun()"
                 placeholder="Tarih seçin"
+                (change)="musaitSaatleriGetir()"
               />
             </li>
 
