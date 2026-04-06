@@ -129,5 +129,4 @@ catch (Exception ex)
 {
     Console.WriteLine($"Uygulama hatasý: {ex.Message}");
     Console.WriteLine(ex.StackTrace);
-    Console.ReadLine(); // konsol kapanmasýn
 }
