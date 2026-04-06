@@ -28,7 +28,16 @@ export class FooterComponent {
     this.email = '';
     setTimeout(() => this.basari = '', 4000);
   }
-
+sayfayaGit(id: string): void {
+  if (!isPlatformBrowser(this.platformId)) return;
+  
+  setTimeout(() => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, 100);
+}
   randevuyaGit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
     const el = document.querySelector('.contact-con');

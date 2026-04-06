@@ -52,7 +52,19 @@ ngOnInit(): void {
     this.girisYapildi = !!token;
   }
 }
-
+sayfayaGit(id: string): void {
+  if (!isPlatformBrowser(this.platformId)) return;
+  
+  // Menüyü kapat
+  this.isNavbarCollapsed = true;
+  
+  setTimeout(() => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, 100);
+}
   toggleNavbar() {
     this.isNavbarCollapsed = !this.isNavbarCollapsed;
   }

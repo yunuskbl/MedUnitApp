@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { ProjectSectionComponent } from './shared/sections/project-section/project-section.component';
 import { AboutSectionComponent } from './shared/sections/about-section/about-section.component';
-import { AdminGuard } from './guards/admin.guard';
+import { AdminGuard } from './guards/admin/admin.guard';
 
 export const routes: Routes = [
   {

@@ -56,22 +56,22 @@
                 <h4>Hakkımızda</h4>
                 <ul class="mb-0 list-unstyled">
                     <li class="position-relative">
-                        <a routerLink="/" fragment="services">
+                        <a routerLink="/" fragment="services" (click)="sayfayaGit('services')">
                             <i class="fas fa-angle-right"></i>Hizmetler
                         </a>
                     </li>
                     <li class="position-relative">
-                        <a routerLink="/" fragment="about">
+                        <a routerLink="/" fragment="about" (click)="sayfayaGit('about')">
                             <i class="fas fa-angle-right"></i>Hakkımızda
                         </a>
                     </li>
                     <li class="position-relative">
-                        <a routerLink="/" fragment="projects">
+                        <a routerLink="/" fragment="projects" (click)="sayfayaGit('projects')">
                             <i class="fas fa-angle-right"></i>Blog
                         </a>
                     </li>
                     <li class="position-relative">
-                        <a (click)="randevuyaGit()" style="cursor:pointer">
+                        <a routerLink="/" fragment="appointment" (click)="sayfayaGit('appointment')">
                             <i class="fas fa-angle-right"></i>Randevu Al
                         </a>
                     </li>
