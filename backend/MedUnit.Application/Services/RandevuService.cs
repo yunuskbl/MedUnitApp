@@ -126,4 +126,12 @@ public class RandevuService : IRandevuService
                 ZoomHostUrl = r.ZoomHostUrl
             }).FirstAsync();
     }
+
+    public async Task<List<Randevu>> DoktorRandevulariAsync(int doktorId, DateTime tarih)
+    {
+        return await _context.Randevular
+        .Where(r => r.DoktorId == doktorId &&
+                    r.BaslangicTarihi.Date == tarih.Date)
+        .ToListAsync();
+    }
 }

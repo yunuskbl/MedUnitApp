@@ -136,4 +136,38 @@ public class RandevuController : ControllerBase
             return BadRequest(new { message = ex.Message });
         }
     }
+
+    [HttpGet("musait-saatler")]
+    [AllowAnonymous]
+    public async Task<IActionResult> MusaitSaatler([FromQuery] int doktorId, [FromQuery] string tarih)
+    {
+        if (!DateTime.TryParse(tarih, out var secilenTarih))
+            return BadRequest(new { message = "Geçersiz tarih." });
+
+        // Tüm çalışma saatleri (09:00 - 17:00, 45'er dakika)
+        var tumSaatler = new List<string>
+    {
+        "09:00", "09:45", "10:30", "11:15",
+        "13:00", "13:45", "14:30", "15:15", "16:00"
+    };
+
+        // O gün o doktorun dolu randevularını çek
+        var mevcutRandevular = await _randevuService.DoktorRandevulariAsync(
+            doktorId, secilenTarih);
+
+        var doluSaatler = mevcutRandevular
+            .Where(r => r.Durum != "iptal")
+            .Select(r => r.BaslangicTarihi.ToString("HH:mm"))
+            .ToList();
+
+        var musaitSaatler = tumSaatler
+            .Select(s => new
+            {
+                saat = s,
+                musait = !doluSaatler.Contains(s)
+            })
+            .ToList();
+
+        return Ok(musaitSaatler);
+    }
 }
