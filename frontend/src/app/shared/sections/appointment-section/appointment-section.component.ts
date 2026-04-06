@@ -19,6 +19,11 @@ export interface Doktor {
   soyad: string;
 }
 
+export interface MusaitSaat {
+  saat: string;
+  musait: boolean;
+}
+
 export interface Randevu {
   id: number;
   hastaAd: string;
@@ -29,6 +34,7 @@ export interface Randevu {
   notlar: string;
   zoomJoinUrl?: string;
   zoomHostUrl?: string;
+  
 }
 @Component({
   standalone: true,
@@ -43,6 +49,10 @@ export class AppointmentSectionComponent implements OnInit, OnDestroy{
     return new Date().toISOString().split('T')[0];
   }
   
+musaitSaatler: MusaitSaat[] = [];
+saatYukleniyor = false;
+
+
   // Form alanları
   secilenDoktorId: number = 0;
   secilenTarih: string = '';
@@ -95,6 +105,24 @@ export class AppointmentSectionComponent implements OnInit, OnDestroy{
     }
   }
 
+  musaitSaatleriGetir(): void {
+  if (!this.secilenDoktorId || !this.secilenTarih) return;
+  
+  this.saatYukleniyor = true;
+  this.secilenSaat = '';
+  
+  this.http.get<MusaitSaat[]>(
+    `${this.apiUrl}/randevu/musait-saatler?doktorId=${this.secilenDoktorId}&tarih=${this.secilenTarih}`
+  ).subscribe({
+    next: (data) => {
+      this.musaitSaatler = data;
+      this.saatYukleniyor = false;
+    },
+    error: () => {
+      this.saatYukleniyor = false;
+    }
+  });
+}
   
   private signalrDinle(): void {
     this.bildirimSub = this.signalrService.bildirim$.subscribe((bildirim) => {
@@ -328,5 +356,13 @@ export class AppointmentSectionComponent implements OnInit, OnDestroy{
     this.secilenSaat = '';
     this.notlar = '';
   }
+
+  saatSec(saat: string, musait: boolean): void {
+  if (!musait) return;
+  this.secilenSaat = saat;
 }
+
+}
+
+
 

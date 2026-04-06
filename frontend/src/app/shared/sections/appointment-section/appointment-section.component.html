@@ -1,27 +1,17 @@
 <section class="w-100 float-left contact-con position-relative">
   <div class="padding-top padding-bottom contact-inner-con position-relative">
-    <div class="container" >
+    <div class="container">
       <!-- RANDEVU FORMU -->
       <div class="randevu-form contact-form">
-        <span
-          class="sub-txt d-block"
-        >
+        <span class="sub-txt d-block">
           Bizimle İletişime Geçin ve Randevu Alın
         </span>
-        <h2 >
-          Randevu Al
-        </h2>
-        <p >
-          Size en uygun doktor ve saat için hemen randevu oluşturun.
-        </p>
+        <h2>Randevu Al</h2>
+        <p>Size en uygun doktor ve saat için hemen randevu oluşturun.</p>
 
         <!-- Başarı / Hata mesajları -->
-        <div class="alert-basari" *ngIf="basari">
-          ✓ {{ basari }}
-        </div>
-        <div class="alert-hata" *ngIf="hata">
-          ✕ {{ hata }}
-        </div>
+        <div class="alert-basari" *ngIf="basari">✓ {{ basari }}</div>
+        <div class="alert-hata" *ngIf="hata">✕ {{ hata }}</div>
         <div class="form-box">
           <ul class="list-unstyled">
             <!-- Doktor seç -->
@@ -47,10 +37,40 @@
             <!-- Saat -->
             <li>
               <input
-                type="time"
-                [(ngModel)]="secilenSaat"
-                placeholder="Saat seçin"
+                type="date"
+                [(ngModel)]="secilenTarih"
+                [min]="bugun()"
+                placeholder="Tarih seçin"
+                (change)="musaitSaatleriGetir()"
               />
+            </li>
+
+            <!-- Müsait Saatler Takvimi -->
+            <li *ngIf="musaitSaatler.length > 0 || saatYukleniyor">
+              <div class="saat-takvim">
+                <p class="saat-baslik">Müsait Saatler</p>
+
+                <div class="saat-yukleniyor" *ngIf="saatYukleniyor">
+                  <i class="fas fa-spinner fa-spin"></i> Yükleniyor...
+                </div>
+
+                <div class="saat-grid" *ngIf="!saatYukleniyor">
+                  <button
+                    *ngFor="let s of musaitSaatler"
+                    class="saat-btn"
+                    [ngClass]="{
+                      'saat-musait': s.musait,
+                      'saat-dolu': !s.musait,
+                      'saat-secili': secilenSaat === s.saat,
+                    }"
+                    [disabled]="!s.musait"
+                    (click)="saatSec(s.saat, s.musait)"
+                    type="button"
+                  >
+                    {{ s.saat }}
+                  </button>
+                </div>
+              </div>
             </li>
 
             <!-- Not -->
@@ -75,7 +95,6 @@
           <div
             class="randevu-liste-bolum"
             *ngIf="token && randevular.length > 0"
-            
           >
             <h3 class="liste-baslik">Randevularım</h3>
 
@@ -194,12 +213,8 @@
           </div>
         </div>
         <!-- Randevu yoksa -->
-        <div
-          class="randevu-yok"
-          *ngIf="token && randevular.length === 0"
-          
-        >
-          <i class="fas fa-calendar-times" ></i>
+        <div class="randevu-yok" *ngIf="token && randevular.length === 0">
+          <i class="fas fa-calendar-times"></i>
           <p>Henüz randevunuz bulunmuyor.</p>
         </div>
       </div>

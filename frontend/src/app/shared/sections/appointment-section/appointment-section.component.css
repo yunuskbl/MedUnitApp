@@ -615,6 +615,70 @@
 .contact-con .submit-btn button:focus {
   outline: none;
 }
+
+.saat-takvim {
+  margin-top: 8px;
+}
+
+.saat-baslik {
+  color: var(--primary-color);
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.saat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.saat-btn {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.saat-musait {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.saat-musait:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.saat-secili {
+  background: white !important;
+  color: #e8724a !important;
+  border-color: white !important;
+}
+
+.saat-dolu {
+  background: rgba(0, 0, 0, 0.2);
+  color: rgba(255, 255, 255, 0.3);
+  cursor: not-allowed;
+  border: 1px solid transparent;
+  text-decoration: line-through;
+}
+
+.saat-yukleniyor {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  text-align: center;
+  padding: 10px;
+}
+
+@media (max-width: 768px) {
+  .saat-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
 @media (max-width: 768px) {
   .contact-con:before {
     width: 100% !important;
@@ -645,6 +709,8 @@
     grid-template-columns: 1fr !important;
   }
 }
+
+
 @media (max-width: 992px) {
   .contact-inner-con {
     flex-direction: column;
