@@ -275,3 +275,48 @@
     border: 1px solid rgb(255, 255, 255, 30%);
     padding: 14px 29px 14px 28px;
 }
+/* Contact Main Layout */
+.contact-main-box {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.contact-detail {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.contact-detail figure img {
+  width: 50px;
+  height: 50px;
+}
+
+.contact-txt h4 {
+  margin-bottom: 6px;
+  color: #1a1a2e;
+}
+
+.contact-txt a,
+.contact-txt p {
+  display: block;
+  color: #64748b;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.contact-txt a:hover {
+  color: #e8724a;
+}
+
+/* Harita */
+.index2-map-section iframe {
+  width: 100%;
+  height: 450px;
+  display: block;
+}
+
+/* Mobil */
