@@ -34,17 +34,6 @@
               />
             </li>
 
-            <!-- Saat -->
-            <li>
-              <input
-                type="date"
-                [(ngModel)]="secilenTarih"
-                [min]="bugun()"
-                placeholder="Tarih seçin"
-                (change)="musaitSaatleriGetir()"
-              />
-            </li>
-
             <!-- Müsait Saatler Takvimi -->
             <li *ngIf="musaitSaatler.length > 0 || saatYukleniyor">
               <div class="saat-takvim">
