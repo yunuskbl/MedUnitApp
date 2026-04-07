@@ -31,6 +31,7 @@
                 type="date"
                 [(ngModel)]="secilenTarih"
                 [min]="bugun()"
+                [max]="maxTarih()"
                 placeholder="Tarih seçin"
                 (change)="musaitSaatleriGetir()"
               />

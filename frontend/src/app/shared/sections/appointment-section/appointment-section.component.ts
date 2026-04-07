@@ -48,6 +48,11 @@ export class AppointmentSectionComponent implements OnInit, OnDestroy{
   bugun(): string {
     return new Date().toISOString().split('T')[0];
   }
+  maxTarih(): string {
+  const tarih = new Date();
+  tarih.setDate(tarih.getDate() + 15);
+  return tarih.toISOString().split('T')[0];
+}
   
 musaitSaatler: MusaitSaat[] = [];
 saatYukleniyor = false;
