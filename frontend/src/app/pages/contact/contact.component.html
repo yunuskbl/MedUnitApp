@@ -76,83 +76,109 @@
           <form class="form-box" [formGroup]="form" (ngSubmit)="onSubmit()">
             <ul class="list-unstyled">
               <li>
-                <input
-                  type="text"
-                  formControlName="name"
-                  placeholder="Adınız:"
-                  [ngClass]="{
-                    'input-hata':
-                      form.get('name')?.invalid && form.get('name')?.touched,
-                  }"
-                />
-                <i class="fas fa-user"></i>
-                <span
-                  class="hata-mesaj"
-                  *ngIf="form.get('name')?.invalid && form.get('name')?.touched"
-                >
-                  Ad zorunludur.
-                </span>
-              </li>
-              <li>
-                <input
-                  type="text"
-                  formControlName="lastname"
-                  placeholder="Soyadınız:"
-                  [ngClass]="{
-                    'input-hata':
-                      form.get('lastname')?.invalid &&
-                      form.get('lastname')?.touched,
-                  }"
-                />
-                <i class="fas fa-user"></i>
-                <span
-                  class="hata-mesaj"
-                  *ngIf="
-                    form.get('lastname')?.invalid &&
-                    form.get('lastname')?.touched
-                  "
-                >
-                  Soyad zorunludur.
-                </span>
-              </li>
-              <li>
-                <input
-                  type="email"
-                  formControlName="email"
-                  placeholder="Email adresiniz:"
-                  [ngClass]="{
-                    'input-hata':
-                      form.get('email')?.invalid && form.get('email')?.touched,
-                  }"
-                />
-                <i class="fas fa-envelope"></i>
-                <span
-                  class="hata-mesaj"
-                  *ngIf="
-                    form.get('email')?.invalid && form.get('email')?.touched
-                  "
-                >
-                  Geçerli bir email girin.
-                </span>
-              </li>
-              <li>
-                <div class="telefon-grup">
-                  <i class="fas fa-phone-alt"></i>
+                <div class="input-wrapper">
+                  <i class="fas fa-user"></i>
                   <input
-                    type="tel"
-                    formControlName="phone"
-                    placeholder="+90 5XX XXX XX XX"
-                    autocomplete="tel"
-                    (input)="onPhoneInput($event)"
-                    (keydown)="onPhoneKeydown($event)"
+                    type="text"
+                    formControlName="name"
+                    placeholder="Adınız:"
                     [ngClass]="{
                       'input-hata':
-                        form.get('phone')?.invalid &&
-                        form.get('phone')?.touched,
+                        form.get('name')?.invalid && form.get('name')?.touched,
                     }"
                   />
                 </div>
+                <span class="hata-mesaj">
+                  <ng-container
+                    *ngIf="
+                      form.get('name')?.touched && form.get('name')?.errors
+                    "
+                  >
+                    <span *ngIf="form.get('name')?.errors?.['required']">
+                      Ad zorunludur.
+                    </span>
+                  </ng-container>
+                </span>
+              </li>
+              <li>
+                <div class="input-wrapper">
+                  <i class="fas fa-user"></i>
 
+                  <input
+                    type="text"
+                    formControlName="lastname"
+                    placeholder="Soyadınız:"
+                    [ngClass]="{
+                      'input-hata':
+                        form.get('lastname')?.invalid &&
+                        form.get('lastname')?.touched,
+                    }"
+                  />
+                </div>
+                <span class="hata-mesaj">
+                  <ng-container
+                    *ngIf="
+                      form.get('lastname')?.touched &&
+                      form.get('lastname')?.errors
+                    "
+                  >
+                    <span *ngIf="form.get('lastname')?.errors?.['required']">
+                      Soyad zorunludur.
+                    </span>
+                  </ng-container>
+                </span>
+              </li>
+
+              <li>
+                <div class="input-wrapper">
+                  <i class="fas fa-envelope"></i>
+                  <input
+                    type="email"
+                    formControlName="email"
+                    placeholder="Email adresiniz:"
+                    [ngClass]="{
+                      'input-hata':
+                        form.get('email')?.invalid &&
+                        form.get('email')?.touched,
+                    }"
+                  />
+                </div>
+                <span class="hata-mesaj">
+                  <ng-container
+                    *ngIf="
+                      form.get('email')?.touched && form.get('email')?.errors
+                    "
+                  >
+                    <span *ngIf="form.get('email')?.errors?.['required']">
+                      Email zorunludur.
+                    </span>
+                    <span *ngIf="form.get('email')?.errors?.['email']">
+                      Geçerli bir email girin.
+                    </span>
+                  </ng-container>
+                </span>
+              </li>
+              
+              <li>
+                <div class="input-wrapper">
+                  <i class="fas fa-phone-alt"></i>
+
+                  <div class="telefon-grup">
+                    <input
+                      type="tel"
+                      formControlName="phone"
+                      placeholder="+90 5XX XXX XX XX"
+                      autocomplete="tel"
+                      (input)="onPhoneInput($event)"
+                      (keydown)="onPhoneKeydown($event)"
+                      [ngClass]="{
+                        'input-hata':
+                          form.get('phone')?.invalid &&
+                          form.get('phone')?.touched,
+                      }"
+                    />
+                  </div>
+                </div>
                 <span class="hata-mesaj" *ngIf="form.get('phone')?.touched">
                   <ng-container *ngIf="form.get('phone')?.errors?.['required']">
                     Telefon zorunludur.
@@ -165,7 +191,6 @@
                 </span>
               </li>
               <li>
-                <!-- ✅ Doğru — açılış ve kapanış arasında hiçbir şey olmamalı -->
                 <textarea
                   formControlName="message"
                   placeholder="Mesajınız:"
