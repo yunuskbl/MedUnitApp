@@ -53,11 +53,11 @@ namespace RandevuAPI.Controllers
                     <small>Gönderim zamanı: {entity.CreatedAt:dd.MM.yyyy HH:mm}</small>
                 """;
 
-                await _emailService.GonderAsync(
-                    _config["Email:AliciAdresi"]!,
-                    konu,
-                    icerik
-                );
+                //await _emailService.GonderAsync(
+                //    _config["Email:AliciAdresi"]!,
+                //    konu,
+                //    icerik
+                //);
             }
             catch (Exception ex)
             {
