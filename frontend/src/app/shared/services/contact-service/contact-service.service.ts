@@ -12,7 +12,7 @@ export interface ContactPayload {
 
 @Injectable({ providedIn: 'root' })
 export class ContactService {
-  private apiUrl = 'https://medunit.vercel.app/contact';
+  private apiUrl = 'https://medunitapp.onrender.com/contact';
 
   constructor(private http: HttpClient) {}
 
