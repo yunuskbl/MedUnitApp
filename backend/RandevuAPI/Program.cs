@@ -85,6 +85,7 @@ builder.Services.AddCors(options =>
             "http://localhost:4200",
             "https://med-unit-app.vercel.app",
             "https://medunit.vercel.app",
+            "https://medunitapp.onrender.com",
             "https://medunit-8d8t141f2-yunuskbls-projects.vercel.app"
         )
         .SetIsOriginAllowedToAllowWildcardSubdomains()
