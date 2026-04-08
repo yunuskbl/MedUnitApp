@@ -344,7 +344,17 @@
 
 /* Mobil */
 @media (max-width: 768px) {
-  .form-box ul {
-    grid-template-columns: 1fr !important;
+  .contact-container {
+    flex-direction: column;  /* yan yana → alt alta */
+  }
+  
+  .contact-info,
+  .contact-form {
+    width: 100%;  /* tam genişlik */
+  }
+  
+  input, textarea {
+    min-height: 48px;  /* parmakla dokunulabilir boyut */
+    font-size: 16px;   /* iOS zoom'unu engeller */
   }
 }
