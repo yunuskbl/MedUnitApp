@@ -63,7 +63,8 @@ export class ContactComponent implements AfterViewInit {
       this.form.reset({ phone: '+90' });  // reset sonrası +90 korunur
       setTimeout(() => (this.basari = ''), 5000);
     },
-    error: () => {
+    error: (err) => {
+      console.error(err);
       this.basari = 'Bir hata oluştu, lütfen tekrar deneyin.';
       this.yukleniyor = false;
     }
