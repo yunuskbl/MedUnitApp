@@ -39,7 +39,7 @@ namespace RandevuAPI.Controllers
 
             _db.ContactMessages.Add(entity);
             await _db.SaveChangesAsync();
-
+            Console.WriteLine($"==> CONTACT REQUEST GELDI: {dto.Email}");
             try
             {
                 string konu = $"Yeni İletişim Mesajı: {entity.Name} {entity.LastName}";
@@ -58,10 +58,14 @@ namespace RandevuAPI.Controllers
                     konu,
                     icerik
                 );
+                Console.WriteLine("==> MAIL GONDERILDI");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"[Email Hatası] {ex.Message}");
+                Console.WriteLine($"==> MAIL HATASI: {ex.Message}");
+                Console.WriteLine($"==> STACK: {ex.StackTrace}");
+                throw; // geçici olarak ekleyin
             }
 
             return Ok(new { message = "Mesajınız alındı." });
