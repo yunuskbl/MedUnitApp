@@ -80,13 +80,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAngular", policy =>
+    options.AddPolicy("AllowVercel", policy =>
         policy.WithOrigins(
-            "http://localhost:4200",
             "https://med-unit-app.vercel.app",
-            "https://medunit.vercel.app",
-            "https://medunitapp.onrender.com",
-            "https://medunit-8d8t141f2-yunuskbls-projects.vercel.app"
+                "http://localhost:4200"
         )
         .SetIsOriginAllowedToAllowWildcardSubdomains()
         .AllowAnyHeader()
@@ -131,7 +128,7 @@ try
 
 
     app.UseRouting();
-    app.UseCors("AllowAngular");
+    app.UseCors("AllowVercel");
     app.UseAuthentication();
     app.UseAuthorization();
     app.MapGet("/health", () => Results.Ok());
