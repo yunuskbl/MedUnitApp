@@ -31,7 +31,16 @@ interface Randevu {
   durum: string;
   notlar: string;
 }
-
+interface ContactMesaj {
+  id: number;
+  name: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  message: string;
+  createdAt: string;
+  isRead: boolean;
+}
 @Component({
   standalone: true,
   selector: 'app-admin',
@@ -41,7 +50,8 @@ interface Randevu {
 })
 export class AdminComponent implements OnInit {
 
-  aktifSekme: 'istatistik' | 'kullanicilar' | 'randevular' = 'istatistik';
+  aktifSekme: 'istatistik' | 'kullanicilar' | 'randevular' | 'mesajlar' = 'istatistik';
+contactMesajlar: ContactMesaj[] = [];
   istatistik: Istatistik | null = null;
   kullanicilar: Kullanici[] = [];
   randevular: Randevu[] = [];
@@ -66,12 +76,13 @@ export class AdminComponent implements OnInit {
     return new HttpHeaders({ Authorization: `Bearer ${token}` });
   }
 
-  sekmeDegistir(sekme: 'istatistik' | 'kullanicilar' | 'randevular'): void {
-    this.aktifSekme = sekme;
-    if (sekme === 'istatistik') this.istatistikleriGetir();
-    if (sekme === 'kullanicilar') this.kullanicilariGetir();
-    if (sekme === 'randevular') this.randevulariGetir();
-  }
+  sekmeDegistir(sekme: 'istatistik' | 'kullanicilar' | 'randevular' | 'mesajlar'): void {
+  this.aktifSekme = sekme;
+  if (sekme === 'istatistik') this.istatistikleriGetir();
+  if (sekme === 'kullanicilar') this.kullanicilariGetir();
+  if (sekme === 'randevular') this.randevulariGetir();
+  if (sekme === 'mesajlar') this.mesajlariGetir();
+}
 
   istatistikleriGetir(): void {
     this.http.get<Istatistik>(`${this.apiUrl}/admin/istatistikler`,
@@ -147,4 +158,25 @@ export class AdminComponent implements OnInit {
       default:          return 'badge-bekle';
     }
   }
+  
+
+
+mesajlariGetir(): void {
+  this.yukleniyor = true;
+  this.http.get<ContactMesaj[]>(`${this.apiUrl}/contact`, { headers: this.headers() })
+    .subscribe({
+      next: (d) => { this.contactMesajlar = d; this.yukleniyor = false; }
+    });
+}
+
+mesajOkundu(id: number): void {
+  this.http.put(`${this.apiUrl}/contact/${id}/okundu`, {}, { headers: this.headers() })
+    .subscribe({
+      next: () => {
+        const m = this.contactMesajlar.find(x => x.id === id);
+        if (m) m.isRead = true;
+      }
+    });
+}
+
 }

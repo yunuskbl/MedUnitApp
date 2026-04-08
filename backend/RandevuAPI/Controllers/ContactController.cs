@@ -2,7 +2,9 @@
 using MedUnit.Application.Interfaces;
 using MedUnit.Domain.Entities;
 using MedUnit.Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace RandevuAPI.Controllers
 {
@@ -71,6 +73,37 @@ namespace RandevuAPI.Controllers
             }
 
             return Ok(new { message = "Mesajınız alındı." });
+        }
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> GetAll()
+        {
+            var mesajlar = await _db.ContactMessages
+                .OrderByDescending(x => x.CreatedAt)
+                .Select(x => new {
+                    x.Id,
+                    x.Name,
+                    x.LastName,
+                    x.Email,
+                    x.Phone,
+                    x.Message,
+                    x.CreatedAt,
+                    x.IsRead
+                })
+                .ToListAsync();
+
+            return Ok(mesajlar);
+        }
+
+        [HttpPut("{id}/okundu")]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> Okundu(int id)
+        {
+            var mesaj = await _db.ContactMessages.FindAsync(id);
+            if (mesaj == null) return NotFound();
+            mesaj.IsRead = true;
+            await _db.SaveChangesAsync();
+            return Ok();
         }
     }
 }
