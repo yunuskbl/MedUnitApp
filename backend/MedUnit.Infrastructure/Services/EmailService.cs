@@ -18,47 +18,24 @@ public class EmailService : IEmailService
 
     public async Task GonderAsync(string alici, string konu, string icerik)
     {
-        Console.WriteLine($"==> SMTP BASLIYOR");
-        Console.WriteLine($"==> Host: {_config["Email:Host"]}");
-        Console.WriteLine($"==> Port: {_config["Email:Port"]}");
-        Console.WriteLine($"==> KullaniciAdi: {_config["Email:KullaniciAdi"]}");
-        Console.WriteLine($"==> Alici: {alici}");
+        var apiKey = _config["Resend:ApiKey"];
 
-        var email = new MimeMessage();
-        email.From.Add(new MailboxAddress(
-            _config["Email:GonderenAd"],
-            _config["Email:KullaniciAdi"]));
-        email.To.Add(MailboxAddress.Parse(alici ?? _config["Email:ToAddress"]));
-        email.Subject = konu;
-        email.Body = new TextPart("html") { Text = icerik };
+        using var http = new HttpClient();
+        http.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
 
-        using var smtp = new SmtpClient();
-        try
+        var payload = new
         {
-            Console.WriteLine("==> ConnectAsync deneniyor...");
-            await smtp.ConnectAsync(
-                _config["Email:Host"],
-                int.Parse(_config["Email:Port"]!),
-                SecureSocketOptions.StartTls);
-            Console.WriteLine("==> Connected!");
+            from = "MedUnit <onboarding@resend.dev>",
+            to = new[] { alici },
+            subject = konu,
+            html = icerik
+        };
 
-            await smtp.AuthenticateAsync(
-                _config["Email:KullaniciAdi"],
-                _config["Email:Sifre"]);
-            Console.WriteLine("==> Auth OK!");
+        var response = await http.PostAsJsonAsync("https://api.resend.com/emails", payload);
+        var body = await response.Content.ReadAsStringAsync();
+        Console.WriteLine($"==> RESEND RESPONSE: {response.StatusCode} - {body}");
 
-            await smtp.SendAsync(email);
-            Console.WriteLine("==> MAIL GONDERILDI!");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"==> SMTP HATA TURU: {ex.GetType().Name}");
-            Console.WriteLine($"==> SMTP HATA MESAJI: {ex.Message}");
-            throw;
-        }
-        finally
-        {
-            await smtp.DisconnectAsync(true);
-        }
+        if (!response.IsSuccessStatusCode)
+            throw new Exception($"Mail gönderilemedi: {body}");
     }
 }
