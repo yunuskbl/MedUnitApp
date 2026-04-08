@@ -53,11 +53,13 @@ namespace RandevuAPI.Controllers
                     <small>Gönderim zamanı: {entity.CreatedAt:dd.MM.yyyy HH:mm}</small>
                 """;
 
-                await _emailService.GonderAsync(
-                    _config["Email:yunuskobal1233@gmail.com"]!,
-                    konu,
-                    icerik
-                );
+                var alici = _config["Email:AliciAdresi"]
+         ?? _config["Email:ToAddress"]
+         ?? "yunuskobal1233@gmail.com";
+
+                Console.WriteLine($"==> ALICI: {alici}");
+
+                await _emailService.GonderAsync(alici, konu, icerik);
                 Console.WriteLine("==> MAIL GONDERILDI");
             }
             catch (Exception ex)
