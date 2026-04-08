@@ -126,7 +126,23 @@ try
     app.UseSwagger();
     app.UseSwaggerUI();
 
+    app.Use(async (context, next) =>
+    {
+        try
+        {
+            await next();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"==> GLOBAL HATA: {ex.GetType().Name}");
+            Console.WriteLine($"==> MESAJ: {ex.Message}");
+            Console.WriteLine($"==> STACK: {ex.StackTrace}");
+            context.Response.StatusCode = 500;
+        }
+    });
 
+    app.UseRouting();
+    app.UseCors("AllowVercel");
     app.UseRouting();
     app.UseCors("AllowVercel");
     app.UseAuthentication();
