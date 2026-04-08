@@ -17,10 +17,7 @@ public class EmailService : IEmailService
 
     public async Task GonderAsync(string alici, string konu, string icerik)
     {
-        Console.WriteLine($"==> RESEND BASLIYOR, Alici: {alici}");
-
         var apiKey = _config["Resend:ApiKey"];
-        Console.WriteLine($"==> API KEY VAR MI: {!string.IsNullOrEmpty(apiKey)}");
 
         using var http = new HttpClient();
         http.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
@@ -38,11 +35,8 @@ public class EmailService : IEmailService
 
         var response = await http.PostAsync("https://api.resend.com/emails", content);
         var body = await response.Content.ReadAsStringAsync();
-        Console.WriteLine($"==> RESEND RESPONSE: {response.StatusCode} - {body}");
 
         if (!response.IsSuccessStatusCode)
             throw new Exception($"Mail gönderilemedi: {body}");
-
-        Console.WriteLine("==> MAIL BASARIYLA GONDERILDI!");
     }
 }
