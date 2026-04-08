@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { NgIf } from "../../../../../../node_modules/@angular/common/common_module.d-C8_X2MOZ";
+import { NgIf } from "@angular/common";
 
 @Component({
   selector: 'app-zoom-modal',

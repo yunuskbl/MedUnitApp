@@ -673,7 +673,14 @@
   text-align: center;
   padding: 10px;
 }
-
+.saat-yok-mesaj {
+  color: rgba(255,255,255,0.7);
+  font-size: 14px;
+  text-align: center;
+  padding: 12px;
+  background: rgba(0,0,0,0.15);
+  border-radius: 8px;
+}
 @media (max-width: 768px) {
   .saat-grid {
     grid-template-columns: repeat(2, 1fr) !important;

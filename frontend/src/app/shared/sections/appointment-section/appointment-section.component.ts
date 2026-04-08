@@ -146,12 +146,11 @@ saatYukleniyor = false;
   }
 
   private headers(): HttpHeaders {
-    // Her seferinde localStorage'dan taze oku
-    const token = isPlatformBrowser(this.platformId)
-      ? localStorage.getItem('token') || ''
-      : '';
-    return new HttpHeaders({ Authorization: `Bearer ${this.token}` });
-  }
+  const token = isPlatformBrowser(this.platformId)
+    ? localStorage.getItem('token') || ''
+    : '';
+  return new HttpHeaders({ Authorization: `Bearer ${token}` });
+}
   doktorlariGetir(): void {
     // Kayıtlı doktorları çek — endpoint yoksa statik liste kullan
     this.http.get<Doktor[]>(`${this.apiUrl}/kullanici/doktorlar`).subscribe({
@@ -210,55 +209,50 @@ saatYukleniyor = false;
   }
 
   randevuOlustur(): void {
-    // Token'ı direkt localStorage'dan al
-    const token = localStorage.getItem('token');
-    if (!this.token) {
-      this.hata = 'Randevu almak için giriş yapmanız gerekiyor.';
-      return;
-    }
-
-    if (!this.secilenDoktorId || !this.secilenTarih || !this.secilenSaat) {
-      this.hata = 'Lütfen tüm alanları doldurun.';
-      return;
-    }
-
-    this.yukleniyor = true;
-    this.hata = '';
-    this.basari = '';
-
-    const baslangic = new Date(`${this.secilenTarih}T${this.secilenSaat}:00`);
-    const bitis = new Date(baslangic.getTime() + 45 * 60000);
-    const pad = (n: number) => n.toString().padStart(2, '0');
-    const formatLocal = (d: Date) =>
-      `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:00`;
-    const body = {
-      doktorId: this.secilenDoktorId,
-      baslangicTarihi: formatLocal(baslangic),
-      bitisTarihi: formatLocal(bitis),
-      notlar: this.notlar,
-    };
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    });
-
-    this.http
-      .post<Randevu>(`${this.apiUrl}/randevu`, body, {
-        headers: this.headers(),
-      })
-      .subscribe({
-        next: () => {
-          this.basari = 'Randevunuz başarıyla oluşturuldu!';
-          this.yukleniyor = false;
-          this.formuSifirla();
-          this.randevulariGetir();
-        },
-        error: (err) => {
-          this.hata = err.error?.message || 'Randevu oluşturulamadı.';
-          this.yukleniyor = false;
-        },
-      });
+  if (!this.token) {
+    this.hata = 'Randevu almak için giriş yapmanız gerekiyor.';
+    return;
   }
+
+  if (!this.secilenDoktorId || !this.secilenTarih || !this.secilenSaat) {
+    this.hata = 'Lütfen tüm alanları doldurun.';
+    return;
+  }
+
+  this.yukleniyor = true;
+  this.hata = '';
+  this.basari = '';
+
+  const baslangic = new Date(`${this.secilenTarih}T${this.secilenSaat}:00`);
+  const bitis = new Date(baslangic.getTime() + 45 * 60000);
+  const pad = (n: number) => n.toString().padStart(2, '0');
+  const formatLocal = (d: Date) =>
+    `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:00`;
+
+  const body = {
+    doktorId: this.secilenDoktorId,
+    baslangicTarihi: formatLocal(baslangic),
+    bitisTarihi: formatLocal(bitis),
+    notlar: this.notlar,
+  };
+
+  this.http
+    .post<Randevu>(`${this.apiUrl}/randevu`, body, {
+      headers: this.headers(),
+    })
+    .subscribe({
+      next: () => {
+        this.basari = 'Randevunuz başarıyla oluşturuldu!';
+        this.yukleniyor = false;
+        this.formuSifirla();
+        this.randevulariGetir();
+      },
+      error: (err) => {
+        this.hata = err.error?.message || 'Randevu oluşturulamadı.';
+        this.yukleniyor = false;
+      },
+    });
+}
 
   randevuIptal(id: number): void {
     const token = localStorage.getItem('token');

@@ -139,7 +139,7 @@ sayfayaGit(id: string): void {
       soyad: this.kayitSoyad,
       email: this.kayitEmail,
       sifre: this.kayitSifre,
-      rol: this.kayitRol
+      rol: "hasta" // Kayıt sırasında rol seçimi kaldırıldı, varsayılan olarak "hasta" atanacak
     }).subscribe({
       next: (data) => {
         localStorage.setItem('token', data.token);

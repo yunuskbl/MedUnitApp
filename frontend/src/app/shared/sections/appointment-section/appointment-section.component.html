@@ -38,7 +38,15 @@
             </li>
 
             <!-- Müsait Saatler Takvimi -->
-            <li *ngIf="musaitSaatler.length > 0 || saatYukleniyor">
+            <li
+              *ngIf="
+                secilenTarih &&
+                secilenDoktorId &&
+                !saatYukleniyor &&
+                musaitSaatler.length === 0
+              "
+            >
+              <p class="saat-yok-mesaj">Bu tarihte müsait saat bulunmuyor.</p>
               <div class="saat-takvim">
                 <p class="saat-baslik">Müsait Saatler</p>
 
@@ -88,6 +96,11 @@
             class="randevu-liste-bolum"
             *ngIf="token && randevular.length > 0"
           >
+            <div class="giris-uyari" *ngIf="!token">
+              <i class="fas fa-lock"></i>
+              Randevu almak için
+              <a routerLink="/giris">giriş yapmanız</a> gerekiyor.
+            </div>
             <h3 class="liste-baslik">Randevularım</h3>
 
             <div class="accordion-liste">
