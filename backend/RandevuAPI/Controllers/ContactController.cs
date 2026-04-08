@@ -54,7 +54,7 @@ namespace RandevuAPI.Controllers
                 """;
 
                 await _emailService.GonderAsync(
-                    _config["Email:AliciAdresi"]!,
+                    _config["Email:yunuskobal1233@gmail.com"]!,
                     konu,
                     icerik
                 );
