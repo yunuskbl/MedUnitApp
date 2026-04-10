@@ -12,6 +12,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SignalrService } from '../../services/signalr/signalr.service';
 import { Subscription } from 'rxjs';
+import { Console } from 'node:console';
 
 export interface Doktor {
   id: number;
@@ -53,11 +54,18 @@ export class AppointmentSectionComponent implements OnInit, OnDestroy{
   tarih.setDate(tarih.getDate() + 15);
   return tarih.toISOString().split('T')[0];
 }
-  
-musaitSaatler: MusaitSaat[] = [];
 saatYukleniyor = false;
 
-
+  musaitGunler: string[] = [];
+  musaitSaatler: string[] = [];
+  takvimGoster = false;
+  secilenAy: Date = new Date();
+  takvimGunler: {
+    tarih: string;
+    gun: number;
+    musait: boolean;
+    disAy: boolean;
+  }[] = [];
   // Form alanları
   secilenDoktorId: number = 0;
   secilenTarih: string = '';
@@ -110,24 +118,7 @@ saatYukleniyor = false;
     }
   }
 
-  musaitSaatleriGetir(): void {
-  if (!this.secilenDoktorId || !this.secilenTarih) return;
-  
-  this.saatYukleniyor = true;
-  this.secilenSaat = '';
-  
-  this.http.get<MusaitSaat[]>(
-    `${this.apiUrl}/randevu/musait-saatler?doktorId=${this.secilenDoktorId}&tarih=${this.secilenTarih}`
-  ).subscribe({
-    next: (data) => {
-      this.musaitSaatler = data;
-      this.saatYukleniyor = false;
-    },
-    error: () => {
-      this.saatYukleniyor = false;
-    }
-  });
-}
+
   
   private signalrDinle(): void {
     this.bildirimSub = this.signalrService.bildirim$.subscribe((bildirim) => {
@@ -360,7 +351,98 @@ saatYukleniyor = false;
   if (!musait) return;
   this.secilenSaat = saat;
 }
+ takvimYukleniyor = false;
 
+doktorDegisti(): void {
+  if (!this.secilenDoktorId || this.secilenDoktorId == 0) return;
+  const istenenDoktorId = this.secilenDoktorId;
+
+  this.secilenTarih = '';
+  this.secilenSaat = '';
+  this.musaitSaatler = [];
+  this.musaitGunler = [];
+  this.takvimGunler = [];
+  this.secilenAy = new Date();
+  this.takvimGoster = true;
+  this.takvimYukleniyor = true; // ← ekle
+
+  this.http.get<string[]>(
+    `${this.apiUrl}/randevu/musait-gunler?doktorId=${this.secilenDoktorId}`
+  ).subscribe({
+    next: (gunler) => {
+      if (this.secilenDoktorId !== istenenDoktorId) return;
+      this.musaitGunler = gunler;
+      this.takvimOlustur();
+      this.takvimYukleniyor = false;
+      
+    },
+    error: () => {
+      this.takvimYukleniyor = false; 
+    }
+  });
+}
+takvimOlustur(): void {
+  const yil = this.secilenAy.getFullYear();
+  const ay = this.secilenAy.getMonth();
+  const ilkGun = new Date(yil, ay, 1);
+  const sonGun = new Date(yil, ay + 1, 0);
+
+  this.takvimGunler = [];
+
+  let bosluk = ilkGun.getDay() - 1;
+  if (bosluk < 0) bosluk = 6;
+
+  for (let i = 0; i < bosluk; i++) {
+    this.takvimGunler.push({ tarih: '', gun: 0, musait: false, disAy: true });
+  }
+
+  for (let g = 1; g <= sonGun.getDate(); g++) {
+    const tarihStr = `${yil}-${String(ay + 1).padStart(2, '0')}-${String(g).padStart(2, '0')}`;
+    const musaitMi = this.musaitGunler.includes(tarihStr);
+    this.takvimGunler.push({
+      tarih: tarihStr,
+      gun: g,
+      musait: musaitMi,
+      disAy: false
+    });
+  }
+
+  while (this.takvimGunler.length % 7 !== 0) {
+    this.takvimGunler.push({ tarih: '', gun: 0, musait: false, disAy: true });
+  }
+
+  console.log('Takvim günleri:', this.takvimGunler.filter(g => g.musait).length, 'müsait');
+}
+
+gunSec(gun: { tarih: string; musait: boolean; disAy: boolean }): void {
+  if (!gun.musait || gun.disAy) return;
+  this.secilenTarih = gun.tarih;
+  this.secilenSaat = '';
+
+  this.http.get<string[]>(
+    `${this.apiUrl}/randevu/musait-saatler?doktorId=${this.secilenDoktorId}&tarih=${gun.tarih}`
+  ).subscribe(saatler => {
+    this.musaitSaatler = saatler;
+  });
+}
+
+oncekiAy(): void {
+  this.secilenAy = new Date(
+    this.secilenAy.getFullYear(),
+    this.secilenAy.getMonth() - 1, 1);
+  this.takvimOlustur();
+}
+
+sonrakiAy(): void {
+  this.secilenAy = new Date(
+    this.secilenAy.getFullYear(),
+    this.secilenAy.getMonth() + 1, 1);
+  this.takvimOlustur();
+}
+
+ayAdi(): string {
+  return this.secilenAy.toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' });
+}
 }
 
 

@@ -716,7 +716,143 @@
     grid-template-columns: 1fr !important;
   }
 }
+/* Takvim konteyner */
+.takvim {
+  background: rgba(255,255,255,0.15);
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid rgba(255,255,255,0.3);
+  margin: 8px 0;
+  width: 100%;
+}
 
+.takvim-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 12px;
+  font-weight: 600;
+  color: white;
+}
+
+.takvim-header button {
+  background: rgba(255,255,255,0.2) !important;
+  border: 1px solid rgba(255,255,255,0.4) !important;
+  border-radius: 6px !important;
+  width: 32px !important;
+  height: 32px !important;
+  cursor: pointer !important;
+  font-size: 18px !important;
+  color: white !important;
+  line-height: 1 !important;
+}
+
+.takvim-header button:hover {
+  background: rgba(255,255,255,0.35) !important;
+}
+
+.takvim-gunler-header {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  text-align: center;
+  font-size: 11px;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.takvim-grid {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  gap: 3px;
+}
+
+.takvim-gun {
+  aspect-ratio: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: default;
+  color: rgba(255,255,255,0.3);
+  min-height: 36px;
+}
+
+.takvim-gun.musait {
+  background: rgba(255,255,255,0.25) !important;
+  color: white !important;
+  cursor: pointer !important;
+  font-weight: 600;
+}
+
+.takvim-gun.musait:hover {
+  background: rgba(255,255,255,0.45) !important;
+}
+
+.takvim-gun.secili {
+  background: white !important;
+  color: #e8724a !important;
+  font-weight: 700 !important;
+}
+
+.takvim-gun.dolu {
+  background: rgba(0,0,0,0.15) !important;
+  color: rgba(255,255,255,0.4) !important;
+  text-decoration: line-through;
+}
+
+.takvim-legend {
+  display: flex !important;
+  gap: 16px;
+  margin-top: 10px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+  align-items: center;
+}
+
+.legend-musait {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.25);
+  border: 1px solid rgba(255,255,255,0.5);
+}
+
+.legend-dolu {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background: rgba(0,0,0,0.15);
+}
+
+.takvim-yukleniyor {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 16px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  font-size: 14px;
+}
+
+.takvim-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
 
 @media (max-width: 992px) {
   .contact-inner-con {

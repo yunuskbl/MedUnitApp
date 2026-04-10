@@ -14,9 +14,13 @@
         <div class="alert-hata" *ngIf="hata">✕ {{ hata }}</div>
         <div class="form-box">
           <ul class="list-unstyled">
-            <!-- Doktor seç -->
+             <!-- Doktor seç — değişince takvim yükle -->
             <li>
-              <select [(ngModel)]="secilenDoktorId" name="doktor">
+              <select
+                [(ngModel)]="secilenDoktorId"
+                name="doktor"
+                (change)="doktorDegisti()"
+              >
                 <option [value]="0">Doktor Seçin</option>
                 <option *ngFor="let d of doktorlar" [value]="d.id">
                   Dr. {{ d.ad }} {{ d.soyad }}
@@ -24,54 +28,46 @@
               </select>
             </li>
 
-            <!-- Tarih -->
-            <!-- Tarih -->
-            <li>
-              <input
-                type="date"
-                [(ngModel)]="secilenTarih"
-                [min]="bugun()"
-                [max]="maxTarih()"
-                placeholder="Tarih seçin"
-                (change)="musaitSaatleriGetir()"
-              />
-            </li>
-
-            <!-- Müsait Saatler Takvimi -->
-            <li
-              *ngIf="
-                secilenTarih &&
-                secilenDoktorId &&
-                !saatYukleniyor &&
-                musaitSaatler.length === 0
-              "
-            >
-              <p class="saat-yok-mesaj">Bu tarihte müsait saat bulunmuyor.</p>
-              <div class="saat-takvim">
-                <p class="saat-baslik">Müsait Saatler</p>
-
-                <div class="saat-yukleniyor" *ngIf="saatYukleniyor">
-                  <i class="fas fa-spinner fa-spin"></i> Yükleniyor...
+            <!-- İnteraktif Takvim -->
+            <li *ngIf="takvimGoster" style="list-style: none; padding: 0">
+              <!-- Yükleniyor -->
+              <div *ngIf="takvimYukleniyor" class="takvim-yukleniyor">
+                <div class="takvim-spinner"></div>
+                <span>Müsait günler yükleniyor...</span>
+              </div>
+              <div class="takvim" *ngIf="!takvimYukleniyor">
+                <div class="takvim-header">
+                  <button type="button" (click)="oncekiAy()">‹</button>
+                  <span>{{ ayAdi() }}</span>
+                  <button type="button" (click)="sonrakiAy()">›</button>
                 </div>
-
-                <div class="saat-grid" *ngIf="!saatYukleniyor">
-                  <button
-                    *ngFor="let s of musaitSaatler"
-                    class="saat-btn"
+                <div class="takvim-gunler-header">
+                  <span>Pzt</span><span>Sal</span><span>Çar</span>
+                  <span>Per</span><span>Cum</span><span>Cmt</span
+                  ><span>Paz</span>
+                </div>
+                <div class="takvim-grid">
+                  <div
+                    *ngFor="let g of takvimGunler"
+                    class="takvim-gun"
                     [ngClass]="{
-                      'saat-musait': s.musait,
-                      'saat-dolu': !s.musait,
-                      'saat-secili': secilenSaat === s.saat,
+                      musait: g.musait,
+                      'dis-ay': g.disAy,
+                      secili: g.tarih === secilenTarih,
+                      dolu: !g.musait && !g.disAy && g.gun > 0,
                     }"
-                    [disabled]="!s.musait"
-                    (click)="saatSec(s.saat, s.musait)"
-                    type="button"
+                    (click)="gunSec(g)"
                   >
-                    {{ s.saat }}
-                  </button>
+                    {{ g.gun || "" }}
+                  </div>
+                </div>
+                <div class="takvim-legend">
+                  <span class="legend-musait"></span> Müsait
+                  <span class="legend-dolu"></span> Dolu
                 </div>
               </div>
             </li>
+
 
             <!-- Not -->
             <li>
