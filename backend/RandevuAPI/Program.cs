@@ -1,7 +1,10 @@
 using System.Text;
 using System.Text.Json;
+using Hangfire;
+using Hangfire.MemoryStorage;
 using MedUnit.Application.Interfaces;
 using MedUnit.Application.Services;
+using MedUnit.Domain.Interfaces;
 using MedUnit.Infrastructure.Data;
 using MedUnit.Infrastructure.Features;
 using MedUnit.Infrastructure.Services;
@@ -40,6 +43,9 @@ builder.Services.AddScoped<IRandevuService, RandevuService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IZoomService, ZoomService>();
 builder.Services.AddHostedService<HatirlaticiService>();
+builder.Services.AddScoped<SmsReminderService>();
+builder.Services.AddHangfire(cfg => cfg.UseMemoryStorage());
+builder.Services.AddHangfireServer();
 builder.Services.AddSignalR();
 builder.Services.AddHttpClient();
 builder.Services.AddControllers()

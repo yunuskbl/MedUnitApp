@@ -74,6 +74,7 @@ namespace RandevuAPI.Controllers
 
             return Ok(new { message = "Mesajınız alındı." });
         }
+
         [HttpGet]
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> GetAll()

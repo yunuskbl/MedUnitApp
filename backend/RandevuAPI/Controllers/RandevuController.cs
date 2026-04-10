@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.SignalR;
 using MedUnit.Application.Dtos;
 using MedUnit.Application.Interfaces;
 using RandevuAPI.Hubs;
+using Microsoft.EntityFrameworkCore;
 
 namespace RandevuAPI.Controllers;
 
@@ -26,7 +27,64 @@ public class RandevuController : ControllerBase
         _hubContext = hubContext;
         _zoomService = zoomService;
     }
+    [HttpGet("musait-gunler")]
+    [AllowAnonymous]
+    public async Task<IActionResult> MusaitGunler([FromQuery] int doktorId)
+    {
+        var db = HttpContext.RequestServices
+            .GetRequiredService<MedUnit.Infrastructure.Data.AppDbContext>();
 
+        var bugun = DateTime.UtcNow.Date;
+        var sonuc = new List<string>();
+
+        for (int i = 1; i <= 60; i++)
+        {
+            var gun = bugun.AddDays(i);
+
+            if (gun.DayOfWeek == DayOfWeek.Saturday ||
+                gun.DayOfWeek == DayOfWeek.Sunday)
+                continue;
+
+            var randevuSayisi = await db.Randevular
+                .CountAsync(r => r.DoktorId == doktorId &&
+                                 r.Durum != "iptal" &&
+                                 r.BaslangicTarihi.Date == gun);
+
+            if (randevuSayisi < 8)
+                sonuc.Add(gun.ToString("yyyy-MM-dd"));
+        }
+
+        return Ok(sonuc);
+    }
+
+    [HttpGet("musait-saatler")]
+    [AllowAnonymous]
+    public async Task<IActionResult> MusaitSaatler(
+        [FromQuery] int doktorId,
+        [FromQuery] string tarih)
+    {
+        using var scope = HttpContext.RequestServices.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<MedUnit.Infrastructure.Data.AppDbContext>();
+
+        var gun = DateTime.Parse(tarih).Date;
+
+        // Dolu saatler
+        var doluSaatler = await db.Randevular
+            .Where(r => r.DoktorId == doktorId &&
+                        r.Durum != "iptal" &&
+                        r.BaslangicTarihi.Date == gun)
+            .Select(r => r.BaslangicTarihi.Hour)
+            .ToListAsync();
+
+        // 09:00 - 17:00 arası saatler
+        var tumSaatler = Enumerable.Range(9, 9).ToList(); // 9,10,11,12,13,14,15,16,17
+        var musaitSaatler = tumSaatler
+            .Where(s => !doluSaatler.Contains(s))
+            .Select(s => $"{s:D2}:00")
+            .ToList();
+
+        return Ok(musaitSaatler);
+    }
     private int KullaniciId => int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
     private string Rol => User.FindFirstValue(ClaimTypes.Role)?.ToLower() ?? string.Empty;
 
@@ -137,37 +195,4 @@ public class RandevuController : ControllerBase
         }
     }
 
-    [HttpGet("musait-saatler")]
-    [AllowAnonymous]
-    public async Task<IActionResult> MusaitSaatler([FromQuery] int doktorId, [FromQuery] string tarih)
-    {
-        if (!DateTime.TryParse(tarih, out var secilenTarih))
-            return BadRequest(new { message = "Geçersiz tarih." });
-
-        // Tüm çalışma saatleri (09:00 - 17:00, 45'er dakika)
-        var tumSaatler = new List<string>
-    {
-        "09:00", "09:45", "10:30", "11:15",
-        "13:00", "13:45", "14:30", "15:15", "16:00"
-    };
-
-        // O gün o doktorun dolu randevularını çek
-        var mevcutRandevular = await _randevuService.DoktorRandevulariAsync(
-            doktorId, secilenTarih);
-
-        var doluSaatler = mevcutRandevular
-            .Where(r => r.Durum != "iptal")
-            .Select(r => r.BaslangicTarihi.ToString("HH:mm"))
-            .ToList();
-
-        var musaitSaatler = tumSaatler
-            .Select(s => new
-            {
-                saat = s,
-                musait = !doluSaatler.Contains(s)
-            })
-            .ToList();
-
-        return Ok(musaitSaatler);
-    }
 }
