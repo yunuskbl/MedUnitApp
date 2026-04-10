@@ -354,8 +354,8 @@ saatYukleniyor = false;
  takvimYukleniyor = false;
 
 doktorDegisti(): void {
-  if (!this.secilenDoktorId || this.secilenDoktorId == 0) return;
-  const istenenDoktorId = this.secilenDoktorId;
+  const doktorId = Number(this.secilenDoktorId); // string→number garantisi
+  if (!doktorId || doktorId === 0) return;
 
   this.secilenTarih = '';
   this.secilenSaat = '';
@@ -364,20 +364,24 @@ doktorDegisti(): void {
   this.takvimGunler = [];
   this.secilenAy = new Date();
   this.takvimGoster = true;
-  this.takvimYukleniyor = true; // ← ekle
+  this.takvimYukleniyor = true;
 
   this.http.get<string[]>(
-    `${this.apiUrl}/randevu/musait-gunler?doktorId=${this.secilenDoktorId}`
+    `${this.apiUrl}/randevu/musait-gunler?doktorId=${doktorId}`
   ).subscribe({
     next: (gunler) => {
-      if (this.secilenDoktorId !== istenenDoktorId) return;
-      this.musaitGunler = gunler;
-      this.takvimOlustur();
-      this.takvimYukleniyor = false;
+      if (Number(this.secilenDoktorId) !== doktorId) return;
       
+      // gunler array'ini kopyala ve sonra takvimi oluştur
+      this.musaitGunler = [...gunler];
+      
+      setTimeout(() => {
+        this.takvimOlustur();
+        this.takvimYukleniyor = false;
+      }, 0);
     },
     error: () => {
-      this.takvimYukleniyor = false; 
+      this.takvimYukleniyor = false;
     }
   });
 }

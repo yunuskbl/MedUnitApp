@@ -22,7 +22,7 @@
                 (change)="doktorDegisti()"
               >
                 <option [value]="0">Doktor Seçin</option>
-                <option *ngFor="let d of doktorlar" [value]="d.id">
+                <option *ngFor="let d of doktorlar" [ngValue]="d.id">
                   Dr. {{ d.ad }} {{ d.soyad }}
                 </option>
               </select>
