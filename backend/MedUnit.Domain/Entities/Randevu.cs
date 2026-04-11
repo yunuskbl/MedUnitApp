@@ -15,8 +15,5 @@ public class Randevu
     public string? ZoomMeetingId { get; set; }
     public string? ZoomJoinUrl { get; set; }
     public string? ZoomHostUrl { get; set; }
-    public DateTime OlusturulmaTarihi { get; set; } =
-        TimeZoneInfo.ConvertTimeFromUtc(
-            DateTime.UtcNow,
-            TimeZoneInfo.FindSystemTimeZoneById("Turkey Standard Time"));
+    public DateTime OlusturulmaTarihi { get; set; } = DateTime.UtcNow;
 }
