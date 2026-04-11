@@ -18,3 +18,4 @@ frontend/.angular/
 Thumbs.db
 
 backend/**/logs/
+**/appsettings.Development.json
