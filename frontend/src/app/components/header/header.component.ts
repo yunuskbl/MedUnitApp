@@ -43,16 +43,51 @@ activeDropdown: string | null = null;
     private http: HttpClient,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
-ngOnInit(): void {
-  this.isBrowser = isPlatformBrowser(this.platformId);
-  if (this.isBrowser) {
-    const token = localStorage.getItem('token');
-    this.kullaniciAd = localStorage.getItem('kullaniciAd') || '';
-    this.rol = (localStorage.getItem('rol') || '').toLowerCase();
-    this.girisYapildi = !!token;
+
+  ngOnInit(): void {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+    if (this.isBrowser) {
+      const token = localStorage.getItem('token');
+      this.kullaniciAd = localStorage.getItem('kullaniciAd') || '';
+      this.rol = (localStorage.getItem('rol') || '').toLowerCase();
+      this.girisYapildi = !!token;
+    }
+  }
+
+  private extractRole(data: any, token: string): string {
+    const rolFromData =
+      (data?.rol ?? data?.role ?? data?.user?.rol ?? data?.user?.role ??
+        data?.user?.claims?.rol ?? data?.user?.claims?.role ?? '') as string;
+    if (rolFromData) return rolFromData.toLowerCase();
+    return this.extractRoleFromToken(token) || 'hasta';
+  }
+
+  private extractRoleFromToken(token: string): string {
+  try {
+    const payload = token.split('.')[1];
+    if (!payload) return '';
+    const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+    const decoded = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map((c) => '%' + c.charCodeAt(0).toString(16).padStart(2, '0'))
+        .join(''),
+    );
+    const parsed = JSON.parse(decoded);
+    return (
+      parsed?.role ??
+      parsed?.rol ??
+      parsed?.['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ??
+      parsed?.user?.rol ??
+      parsed?.user?.role ??
+      ''
+    ) as string;
+  } catch {
+    return '';
   }
 }
-sayfayaGit(id: string): void {
+
+  sayfayaGit(id: string): void {
   if (!isPlatformBrowser(this.platformId)) return;
   
   // Menüyü kapat
@@ -104,14 +139,15 @@ sayfayaGit(id: string): void {
       sifre: this.girisSifre
     }).subscribe({
       next: (data) => {
+        const rol = this.extractRole(data, data.token);
         localStorage.setItem('token', data.token);
-        localStorage.setItem('rol', data.rol);
+        localStorage.setItem('rol', rol);
         localStorage.setItem('kullaniciAd', data.ad);
         localStorage.setItem('kullaniciId', data.id.toString());
 
         this.girisYapildi = true;
         this.kullaniciAd = data.ad;
-        this.rol = data.rol;
+        this.rol = rol;
         this.yukleniyor = false;
         this.modalKapat();
 
@@ -142,14 +178,15 @@ sayfayaGit(id: string): void {
       rol: "hasta" // Kayıt sırasında rol seçimi kaldırıldı, varsayılan olarak "hasta" atanacak
     }).subscribe({
       next: (data) => {
+        const rol = this.extractRole(data, data.token);
         localStorage.setItem('token', data.token);
-        localStorage.setItem('rol', data.rol);
+        localStorage.setItem('rol', rol);
         localStorage.setItem('kullaniciAd', data.ad);
         localStorage.setItem('kullaniciId', data.id.toString());
 
         this.girisYapildi = true;
         this.kullaniciAd = data.ad;
-        this.rol = data.rol;
+        this.rol = rol;
         this.yukleniyor = false;
         this.modalKapat();
 

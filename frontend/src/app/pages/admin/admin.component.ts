@@ -95,7 +95,15 @@ contactMesajlar: ContactMesaj[] = [];
     this.http.get<Kullanici[]>(`${this.apiUrl}/admin/kullanicilar`,
       { headers: this.headers() })
       .subscribe({
-        next: (d) => { this.kullanicilar = d; this.yukleniyor = false; }
+        next: (d) => {
+          this.kullanicilar = d.map((u) => ({
+            ...u,
+            rol: ((u as any).rol ?? (u as any).role ?? '')
+              .toString()
+              .toLowerCase(),
+          }));
+          this.yukleniyor = false;
+        }
       });
   }
 
@@ -122,7 +130,7 @@ contactMesajlar: ContactMesaj[] = [];
 
   rolDegistir(id: number, yeniRol: string): void {
     this.http.put(`${this.apiUrl}/admin/kullanici/${id}/rol`,
-      JSON.stringify(yeniRol),
+      { rol: yeniRol },
       { headers: new HttpHeaders({
           Authorization: `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'application/json'
