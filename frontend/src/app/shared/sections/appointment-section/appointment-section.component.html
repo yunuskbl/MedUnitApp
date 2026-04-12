@@ -14,7 +14,7 @@
         <div class="alert-hata" *ngIf="hata">✕ {{ hata }}</div>
         <div class="form-box">
           <ul class="list-unstyled">
-             <!-- Doktor seç — değişince takvim yükle -->
+            <!-- Doktor seç — değişince takvim yükle -->
             <li>
               <select
                 [(ngModel)]="secilenDoktorId"
@@ -67,7 +67,40 @@
                 </div>
               </div>
             </li>
+            <!-- Saat Seçimi -->
+            <li *ngIf="secilenTarih" style="list-style: none; padding: 0">
+              <div class="saat-takvim">
+                <div class="saat-baslik">
+                  {{ secilenTarih }} için müsait saatler:
+                </div>
 
+                <div *ngIf="saatYukleniyor" class="saat-yukleniyor">
+                  Saatler yükleniyor...
+                </div>
+
+                <div
+                  *ngIf="!saatYukleniyor && musaitSaatler.length === 0"
+                  class="saat-yok-mesaj"
+                >
+                  Bu gün için müsait saat bulunmuyor.
+                </div>
+
+                <div
+                  *ngIf="!saatYukleniyor && musaitSaatler.length > 0"
+                  class="saat-grid"
+                >
+                  <button
+                    *ngFor="let s of musaitSaatler"
+                    type="button"
+                    class="saat-btn saat-musait"
+                    [ngClass]="{ 'saat-secili': s === secilenSaat }"
+                    (click)="secilenSaat = s"
+                  >
+                    {{ s }}
+                  </button>
+                </div>
+              </div>
+            </li>
 
             <!-- Not -->
             <li>

@@ -391,11 +391,8 @@ export class AppointmentSectionComponent implements OnInit, OnDestroy {
   takvimOlustur(): void {
     const yil = this.secilenAy.getFullYear();
     const ay = this.secilenAy.getMonth();
-    const bugun = new Date();
-    const maxTarih = new Date();
-    maxTarih.setDate(bugun.getDate() + 15); // 15 gün sonrası
     const ilkGun = new Date(yil, ay, 1);
-    const sonGun = new Date(yil, ay + 1, 0).getDate(); // Son günün tarihini almak için ay+1'in 0. günü kullanılır
+    const sonGun = new Date(yil, ay + 1, 0); //
 
     this.takvimGunler = [];
 
@@ -406,14 +403,9 @@ export class AppointmentSectionComponent implements OnInit, OnDestroy {
       this.takvimGunler.push({ tarih: '', gun: 0, musait: false, disAy: true });
     }
 
-    for (let g = 1; g <= sonGun; g++) {
-      const tarih = new Date(yil, ay, g);
+    for (let g = 1; g <= sonGun.getDate(); g++) {
       const tarihStr = `${yil}-${String(ay + 1).padStart(2, '0')}-${String(g).padStart(2, '0')}`;
-
-      const musaitMi = tarih >= bugun &&
-      tarih <= maxTarih &&
-      this.musaitGunler.includes(tarihStr);
-
+      const musaitMi = this.musaitGunler.includes(tarihStr);
       this.takvimGunler.push({
         tarih: tarihStr,
         gun: g,
@@ -437,13 +429,21 @@ export class AppointmentSectionComponent implements OnInit, OnDestroy {
     if (!gun.musait || gun.disAy) return;
     this.secilenTarih = gun.tarih;
     this.secilenSaat = '';
+    this.musaitSaatler = [];
+    this.saatYukleniyor = true; // ✅ ekle
 
     this.http
       .get<
         string[]
       >(`${this.apiUrl}/randevu/musait-saatler?doktorId=${this.secilenDoktorId}&tarih=${gun.tarih}`)
-      .subscribe((saatler) => {
-        this.musaitSaatler = saatler;
+      .subscribe({
+        next: (saatler) => {
+          this.musaitSaatler = saatler;
+          this.saatYukleniyor = false; // ✅ ekle
+        },
+        error: () => {
+          this.saatYukleniyor = false; // ✅ ekle
+        },
       });
   }
 
