@@ -75,7 +75,8 @@ public class KullaniciService : IKullaniciService
         {
             new Claim(ClaimTypes.NameIdentifier, kullanici.Id.ToString()),
             new Claim(ClaimTypes.Email, kullanici.Email),
-            new Claim(ClaimTypes.Role, kullanici.Rol)
+            new Claim(ClaimTypes.Role, kullanici.Rol),
+            new Claim("role", kullanici.Rol)
         };
 
         var key = new SymmetricSecurityKey(

@@ -30,8 +30,14 @@ builder.Host.UseSerilog();
 
 
 // Veritabaný
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+{
+    if (connectionString != null && connectionString.Contains("Server="))
+        options.UseSqlServer(connectionString);
+    else
+        options.UseNpgsql(connectionString);
+});
 
 // IAppDbContext ? AppDbContext
 builder.Services.AddScoped<IAppDbContext>(provider =>
@@ -89,6 +95,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowVercel", policy =>
         policy.WithOrigins(
             "https://med-unit-app.vercel.app",
+            "https://medunitapp.onrender.com",
                 "http://localhost:4200"
         )
         .SetIsOriginAllowedToAllowWildcardSubdomains()
@@ -130,29 +137,14 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-    try
-    {
-        logger.LogInformation("Migration baþlýyor...");
-        db.Database.Migrate();
-        logger.LogInformation("Migration tamamlandý.");
-
-        // Tablo kontrolü
-        var tabloSayisi = db.Database.SqlQueryRaw<int>("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public'").ToList();
-        logger.LogInformation("Veritabanýnda {Sayi} tablo mevcut.", tabloSayisi.FirstOrDefault());
-    }
-    catch (Exception ex)
-    {
-        logger.LogError(ex, "Migration hatasý!");
-        throw;
-    }
+    db.Database.Migrate();
 }
 
 app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseRouting();
-app.UseCors("AllowVercel");
+app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapGet("/health", () => Results.Ok());

@@ -16,17 +16,16 @@ public class KullaniciController : ControllerBase
     {
         _context = context;
     }
-
-    [HttpGet("doktorlar")]
-    public async Task<IActionResult> Doktorlar()
+    [Authorize(Roles ="Admin")]
+    [HttpGet("kullanicilar")]
+    public async Task<IActionResult> Kullanicilar()
     {
         var doktorlar = await _context.Kullanicilar
-            .Where(k => k.Rol.ToLower() == "doktor" && k.Aktif)
-            .Select(k => new { k.Id, k.Ad, k.Soyad })
             .ToListAsync();
 
         return Ok(doktorlar);
     }
+
 
     [HttpGet("profil")]
     [Authorize]
