@@ -6,6 +6,7 @@ using MedUnit.Application.Dtos;
 using MedUnit.Application.Interfaces;
 using RandevuAPI.Hubs;
 using Microsoft.EntityFrameworkCore;
+using MedUnit.Infrastructure.Data;
 
 namespace RandevuAPI.Controllers;
 
@@ -32,12 +33,18 @@ public class RandevuController : ControllerBase
     public async Task<IActionResult> MusaitGunler([FromQuery] int doktorId)
     {
         var db = HttpContext.RequestServices
-            .GetRequiredService<MedUnit.Infrastructure.Data.AppDbContext>();
+            .GetRequiredService<AppDbContext>();
 
         var bugun = DateTime.UtcNow.Date;
         var sonuc = new List<string>();
 
-        for (int i = 1; i <= 60; i++)
+        // Tüm randevuları çek, in-memory filtrele
+        var tumRandevular = await db.Randevular
+            .Where(r => r.DoktorId == doktorId && r.Durum != "iptal")
+            .Select(r => r.BaslangicTarihi)
+            .ToListAsync();
+
+        for (int i = 1; i <= 15; i++)
         {
             var gun = bugun.AddDays(i);
 
@@ -45,10 +52,8 @@ public class RandevuController : ControllerBase
                 gun.DayOfWeek == DayOfWeek.Sunday)
                 continue;
 
-            var randevuSayisi = await db.Randevular
-                .CountAsync(r => r.DoktorId == doktorId &&
-                                 r.Durum != "iptal" &&
-                                 r.BaslangicTarihi.Date == gun);
+            var randevuSayisi = tumRandevular
+                .Count(r => r.ToUniversalTime().Date == gun);
 
             if (randevuSayisi < 8)
                 sonuc.Add(gun.ToString("yyyy-MM-dd"));
@@ -60,24 +65,27 @@ public class RandevuController : ControllerBase
     [HttpGet("musait-saatler")]
     [AllowAnonymous]
     public async Task<IActionResult> MusaitSaatler(
-        [FromQuery] int doktorId,
-        [FromQuery] string tarih)
+    [FromQuery] int doktorId,
+    [FromQuery] string tarih)
     {
-        using var scope = HttpContext.RequestServices.CreateScope();
-        var db = scope.ServiceProvider.GetRequiredService<MedUnit.Infrastructure.Data.AppDbContext>();
+        var db = HttpContext.RequestServices
+            .GetRequiredService<AppDbContext>();
 
-        var gun = DateTime.Parse(tarih).Date;
+        var gun = DateTime.SpecifyKind(DateTime.Parse(tarih), DateTimeKind.Utc).Date;
 
         // Dolu saatler
-        var doluSaatler = await db.Randevular
-            .Where(r => r.DoktorId == doktorId &&
-                        r.Durum != "iptal" &&
-                        r.BaslangicTarihi.Date == gun)
-            .Select(r => r.BaslangicTarihi.Hour)
+        var tumRandevular = await db.Randevular
+            .Where(r => r.DoktorId == doktorId && r.Durum != "iptal")
+            .Select(r => r.BaslangicTarihi)
             .ToListAsync();
 
-        // 09:00 - 17:00 arası saatler
-        var tumSaatler = Enumerable.Range(9, 9).ToList(); // 9,10,11,12,13,14,15,16,17
+        // In-memory filtrele — PostgreSQL Date karşılaştırma sorununu aşar
+        var doluSaatler = tumRandevular
+            .Where(r => r.ToUniversalTime().Date == gun)
+            .Select(r => r.ToUniversalTime().Hour)
+            .ToList();
+
+        var tumSaatler = Enumerable.Range(9, 9).ToList();
         var musaitSaatler = tumSaatler
             .Where(s => !doluSaatler.Contains(s))
             .Select(s => $"{s:D2}:00")
