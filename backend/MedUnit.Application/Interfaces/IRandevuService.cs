@@ -13,7 +13,6 @@ public interface IRandevuService
     Task<List<RandevuResponseDto>> ListeleAsync(int kullaniciId, string rol);
     Task<RandevuResponseDto> GuncelleAsync(int randevuId, int kullaniciId, RandevuGuncelleDto dto);
     Task SilAsync(int randevuId, int kullaniciId);
-    Task<List<Randevu>> DoktorRandevulariAsync(int doktorId, DateTime tarih);
 
 }
 

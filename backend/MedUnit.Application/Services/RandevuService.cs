@@ -15,10 +15,14 @@ public class RandevuService : IRandevuService
 
     public async Task<RandevuResponseDto> OlusturAsync(int hastaId, RandevuOlusturDto dto)
     {
-        if (dto.BaslangicTarihi.ToUniversalTime() <= DateTime.UtcNow.AddMinutes(-5))
+        // ✅ Gelen tarihleri UTC'ye çevir
+        var baslangic = DateTime.SpecifyKind(dto.BaslangicTarihi, DateTimeKind.Utc);
+        var bitis = DateTime.SpecifyKind(dto.BitisTarihi, DateTimeKind.Utc);
+
+        if (baslangic <= DateTime.UtcNow.AddMinutes(-5))
             throw new Exception("Geçmiş bir tarihe randevu oluşturamazsınız.");
 
-        var sure = (dto.BitisTarihi - dto.BaslangicTarihi).TotalMinutes;
+        var sure = (bitis - baslangic).TotalMinutes;
         if (sure < 15)
             throw new Exception("Randevu süresi en az 15 dakika olmalıdır.");
 
@@ -28,8 +32,8 @@ public class RandevuService : IRandevuService
         var cakisma = await _context.Randevular.AnyAsync(r =>
             r.DoktorId == dto.DoktorId &&
             r.Durum != "iptal" &&
-            r.BaslangicTarihi < dto.BitisTarihi &&
-            r.BitisTarihi > dto.BaslangicTarihi);
+            r.BaslangicTarihi < bitis &&
+            r.BitisTarihi > baslangic);
 
         if (cakisma)
             throw new Exception("Doktorun bu saatte başka randevusu bulunmaktadır.");
@@ -38,8 +42,8 @@ public class RandevuService : IRandevuService
         {
             HastaId = hastaId,
             DoktorId = dto.DoktorId,
-            BaslangicTarihi = dto.BaslangicTarihi,
-            BitisTarihi = dto.BitisTarihi,
+            BaslangicTarihi = baslangic, // ✅
+            BitisTarihi = bitis,          // ✅
             Notlar = dto.Notlar
         };
 
@@ -127,11 +131,4 @@ public class RandevuService : IRandevuService
             }).FirstAsync();
     }
 
-    public async Task<List<Randevu>> DoktorRandevulariAsync(int doktorId, DateTime tarih)
-    {
-        return await _context.Randevular
-        .Where(r => r.DoktorId == doktorId &&
-                    r.BaslangicTarihi.Date == tarih.Date)
-        .ToListAsync();
-    }
 }
