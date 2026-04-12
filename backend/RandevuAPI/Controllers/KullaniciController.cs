@@ -16,7 +16,6 @@ public class KullaniciController : ControllerBase
     {
         _context = context;
     }
-    [Authorize(Roles ="admin")]
     [HttpGet("kullanicilar")]
     public async Task<IActionResult> Kullanicilar()
     {
