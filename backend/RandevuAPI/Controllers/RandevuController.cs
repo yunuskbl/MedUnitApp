@@ -34,10 +34,18 @@ public class RandevuController : ControllerBase
         var db = HttpContext.RequestServices
             .GetRequiredService<MedUnit.Infrastructure.Data.AppDbContext>();
 
-        // UTC yerine TR saatiyle bugünü hesapla
-        var trZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/Istanbul");
-        var bugun = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, trZone).Date;
+        // ✅ Cross-platform timezone
+        TimeZoneInfo trZone;
+        try
+        {
+            trZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/Istanbul");
+        }
+        catch
+        {
+            trZone = TimeZoneInfo.FindSystemTimeZoneById("Turkey Standard Time");
+        }
 
+        var bugun = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, trZone).Date;
         var sonuc = new List<string>();
 
         for (int i = 1; i <= 60; i++)
