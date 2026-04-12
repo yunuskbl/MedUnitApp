@@ -392,7 +392,7 @@ export class AppointmentSectionComponent implements OnInit, OnDestroy {
     const yil = this.secilenAy.getFullYear();
     const ay = this.secilenAy.getMonth();
     const ilkGun = new Date(yil, ay, 1);
-    const sonGun = new Date(yil, ay + 1, 0);
+    const sonGun = new Date(yil, +15);
 
     this.takvimGunler = [];
 
