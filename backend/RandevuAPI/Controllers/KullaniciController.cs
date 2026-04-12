@@ -16,14 +16,13 @@ public class KullaniciController : ControllerBase
     {
         _context = context;
     }
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles ="admin")]
     [HttpGet("kullanicilar")]
     public async Task<IActionResult> Kullanicilar()
     {
-        var doktorlar = await _context.Kullanicilar
-            .ToListAsync();
+        var kullanicilar = await _context.Kullanicilar.ToListAsync();
 
-        return Ok(doktorlar);
+        return Ok(kullanicilar);
     }
 
 

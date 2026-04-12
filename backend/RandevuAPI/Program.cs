@@ -137,14 +137,18 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate();
+    var connStr = builder.Configuration.GetConnectionString("DefaultConnection");
+    if (connStr != null && !connStr.Contains("Server="))
+    {
+        db.Database.Migrate();
+    }
 }
 
 app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseRouting();
-app.UseCors("AllowAll");
+app.UseCors("AllowVercel");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapGet("/health", () => Results.Ok());
