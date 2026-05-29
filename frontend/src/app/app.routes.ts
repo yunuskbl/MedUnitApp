@@ -1,8 +1,6 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
-import { ProjectSectionComponent } from './shared/sections/project-section/project-section.component';
-import { AboutSectionComponent } from './shared/sections/about-section/about-section.component';
 import { AdminGuard } from './guards/admin/admin.guard';
+import { AuthGuard } from './guards/auth/auth.guard';
 
 export const routes: Routes = [
   {
@@ -25,12 +23,13 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./shared/sections/process-section/process-section.component').then((m) => m.ProcessSectionComponent),
   },
-  { 
-    path: 'projects', 
+  {
+    path: 'projects',
     loadComponent: () =>
       import('./shared/sections/project-section/project-section.component').then((m) => m.ProjectSectionComponent)
   },
-  { path: 'about', 
+  {
+    path: 'about',
     loadComponent: () =>
       import('./shared/sections/about-section/about-section.component').then((m) => m.AboutSectionComponent),
   },
@@ -39,6 +38,27 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/admin/admin.component').then(m => m.AdminComponent),
     canActivate: [AdminGuard]
+  },
+  {
+    path: 'dashboard',
+    loadComponent: () =>
+      import('./pages/dashboard/dashboard.component').then(m => m.DashboardComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'sifremi-unuttum',
+    loadComponent: () =>
+      import('./pages/forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent),
+  },
+  {
+    path: 'sifre-yenile',
+    loadComponent: () =>
+      import('./pages/reset-password/reset-password.component').then(m => m.ResetPasswordComponent),
+  },
+  {
+    path: 'kvkk',
+    loadComponent: () =>
+      import('./pages/kvkk/kvkk.component').then(m => m.KvkkComponent),
   }
 ];
 

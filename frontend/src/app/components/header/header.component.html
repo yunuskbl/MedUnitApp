@@ -59,6 +59,9 @@
                 <span>{{ kullaniciAd }}</span>
                 <span class="rol-badge">{{ rol }}</span>
               </div>
+              <a class="btn-profil" routerLink="/dashboard">
+                <i class="fas fa-user"></i> Profilim
+              </a>
               <a class="btn-admin" *ngIf="rol === 'admin'" routerLink="/admin">
                 <i class="fas fa-cog"></i> Admin
               </a>
@@ -127,6 +130,9 @@
       >
         {{ yukleniyor ? "Giriş yapılıyor..." : "Giriş Yap" }}
       </button>
+      <p class="auth-alt-txt sifremi-unut">
+        <a routerLink="/sifremi-unuttum" (click)="modalKapat()">Şifremi unuttum</a>
+      </p>
       <p class="auth-alt-txt">
         Hesabınız yok mu?
         <a (click)="sekmeDegistir('kayit')">Kayıt olun</a>
@@ -174,6 +180,12 @@
         />
       </div>
       
+      <div class="kvkk-onay">
+        <input type="checkbox" id="kvkkCheckbox" [(ngModel)]="kvkkKabul" name="kvkkKabul" />
+        <label for="kvkkCheckbox">
+          <a routerLink="/kvkk" target="_blank">KVKK Metnini</a> okudum ve kabul ediyorum.
+        </label>
+      </div>
       <button
         class="auth-submit-btn"
         (click)="kayitOl()"

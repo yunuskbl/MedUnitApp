@@ -26,6 +26,7 @@ activeDropdown: string | null = null;
   kayitEmail = '';
   kayitSifre = '';
   kayitRol = 'hasta';
+  kvkkKabul = false;
 
   // Durum
   yukleniyor = false;
@@ -166,6 +167,10 @@ activeDropdown: string | null = null;
       this.hata = 'Lütfen tüm alanları doldurun.';
       return;
     }
+    if (!this.kvkkKabul) {
+      this.hata = 'Devam etmek için KVKK metnini kabul etmelisiniz.';
+      return;
+    }
 
     this.yukleniyor = true;
     this.hata = '';
@@ -214,6 +219,7 @@ activeDropdown: string | null = null;
     this.kayitSoyad = '';
     this.kayitEmail = '';
     this.kayitSifre = '';
+    this.kvkkKabul = false;
     this.hata = '';
   }
 }

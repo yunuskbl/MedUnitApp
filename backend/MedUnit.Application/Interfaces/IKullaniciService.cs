@@ -11,5 +11,7 @@ namespace MedUnit.Application.Interfaces;
     {
         Task<AuthResponseDto> KayitOlAsync(KayitDto dto);
         Task<AuthResponseDto> GirisYapAsync(GirisDto dto);
+        Task<AuthResponseDto> ProfilGuncelleAsync(int kullaniciId, ProfilGuncelleDto dto);
+        Task SifreDegistirAsync(int kullaniciId, SifreDegistirDto dto);
     }
 

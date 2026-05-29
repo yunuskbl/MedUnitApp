@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 interface Istatistik {
@@ -18,8 +19,11 @@ interface Kullanici {
   soyad: string;
   email: string;
   rol: string;
+  uzmanlik?: string;
   aktif: boolean;
   olusturulmaTarihi: string;
+  uzmanlikDuzenle?: boolean;
+  yeniUzmanlik?: string;
 }
 
 interface Randevu {
@@ -44,7 +48,7 @@ interface ContactMesaj {
 @Component({
   standalone: true,
   selector: 'app-admin',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
@@ -98,11 +102,25 @@ contactMesajlar: ContactMesaj[] = [];
         next: (d) => {
           this.kullanicilar = d.map((u) => ({
             ...u,
-            rol: ((u as any).rol ?? (u as any).role ?? '')
-              .toString()
-              .toLowerCase(),
+            rol: ((u as any).rol ?? (u as any).role ?? '').toString().toLowerCase(),
+            uzmanlikDuzenle: false,
+            yeniUzmanlik: u.uzmanlik || ''
           }));
           this.yukleniyor = false;
+        }
+      });
+  }
+
+  uzmanlikKaydet(k: Kullanici): void {
+    this.http.put(`${this.apiUrl}/admin/kullanici/${k.id}/uzmanlik`,
+      { uzmanlik: k.yeniUzmanlik },
+      { headers: this.headers() })
+      .subscribe({
+        next: () => {
+          k.uzmanlik = k.yeniUzmanlik;
+          k.uzmanlikDuzenle = false;
+          this.mesaj = 'Uzmanlık güncellendi.';
+          setTimeout(() => this.mesaj = '', 3000);
         }
       });
   }

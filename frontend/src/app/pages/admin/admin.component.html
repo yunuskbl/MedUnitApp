@@ -79,6 +79,7 @@
           <th>Ad Soyad</th>
           <th>Email</th>
           <th>Rol</th>
+          <th>Uzmanlık</th>
           <th>Durum</th>
           <th>İşlemler</th>
         </tr>
@@ -96,6 +97,24 @@
               <option value="doktor">Doktor</option>
               <option value="admin">Admin</option>
             </select>
+          </td>
+          <td>
+            <ng-container *ngIf="k.rol === 'doktor'">
+              <ng-container *ngIf="!k.uzmanlikDuzenle">
+                <span style="font-size:13px;color:#374151">{{ k.uzmanlik || '—' }}</span>
+                <button class="btn-tablo btn-aktif" style="margin-left:6px;padding:2px 8px;font-size:11px"
+                  (click)="k.uzmanlikDuzenle = true; k.yeniUzmanlik = k.uzmanlik || ''">Düzenle</button>
+              </ng-container>
+              <ng-container *ngIf="k.uzmanlikDuzenle">
+                <input type="text" [(ngModel)]="k.yeniUzmanlik"
+                  placeholder="Uzmanlık" style="width:120px;padding:4px 8px;font-size:12px;border:1px solid #e2e8f0;border-radius:6px" />
+                <button class="btn-tablo btn-aktif" style="margin-left:4px;padding:2px 8px;font-size:11px"
+                  (click)="uzmanlikKaydet(k)">Kaydet</button>
+                <button class="btn-tablo btn-pasif" style="margin-left:2px;padding:2px 8px;font-size:11px"
+                  (click)="k.uzmanlikDuzenle = false">İptal</button>
+              </ng-container>
+            </ng-container>
+            <span *ngIf="k.rol !== 'doktor'" style="color:#94a3b8;font-size:12px">—</span>
           </td>
           <td>
             <span

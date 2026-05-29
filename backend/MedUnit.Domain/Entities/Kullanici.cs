@@ -14,7 +14,10 @@ public class Kullanici
     public string Email { get; set; } = string.Empty;
     public string SifreHash { get; set; } = string.Empty;
     public string Rol { get; set; } = "hasta";   // hasta | doktor | admin
+    public string? Uzmanlik { get; set; }
     public bool Aktif { get; set; } = true;
     public DateTime OlusturulmaTarihi { get; set; } = DateTime.UtcNow;
+    public string? SifreSifirlamaToken { get; set; }
+    public DateTime? SifreSifirlamaTokenSon { get; set; }
 }
 

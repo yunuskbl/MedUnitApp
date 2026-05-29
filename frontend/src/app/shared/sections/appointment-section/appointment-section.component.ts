@@ -18,6 +18,7 @@ export interface Doktor {
   id: number;
   ad: string;
   soyad: string;
+  uzmanlik?: string;
 }
 
 export interface MusaitSaat {
@@ -73,7 +74,18 @@ export class AppointmentSectionComponent implements OnInit, OnDestroy {
 
   // Durum
   doktorlar: Doktor[] = [];
+  secilenUzmanlik = '';
   randevular: Randevu[] = [];
+
+  get uzmanliklar(): string[] {
+    const set = new Set(this.doktorlar.map(d => d.uzmanlik).filter((u): u is string => !!u));
+    return Array.from(set).sort();
+  }
+
+  get filtreliDoktorlar(): Doktor[] {
+    if (!this.secilenUzmanlik) return this.doktorlar;
+    return this.doktorlar.filter(d => d.uzmanlik === this.secilenUzmanlik);
+  }
   yukleniyor = false;
   basari = '';
   hata = '';
@@ -140,21 +152,27 @@ export class AppointmentSectionComponent implements OnInit, OnDestroy {
     return new HttpHeaders({ Authorization: `Bearer ${token}` });
   }
   doktorlariGetir(): void {
-    // Kayıtlı doktorları çek — endpoint yoksa statik liste kullan
-    this.http.get<Doktor[]>(`${this.apiUrl}/kullanici/kullanicilar`).subscribe({
+    this.http.get<any[]>(`${this.apiUrl}/kullanici/kullanicilar`).subscribe({
       next: (data) => {
         this.doktorlar = data
-          .filter((u) => (u as any).rol?.toLowerCase() === 'doktor')
-          .map((u) => ({ id: u.id, ad: u.ad, soyad: u.soyad }));
+          .filter((u) => u.rol?.toLowerCase() === 'doktor')
+          .map((u) => ({ id: u.id, ad: u.ad, soyad: u.soyad, uzmanlik: u.uzmanlik }));
       },
       error: () => {
-        // Backend henüz hazır değilse geçici statik liste
-        this.doktorlar = [
-          { id: 1, ad: 'Ahmet', soyad: 'Yılmaz' },
-          { id: 2, ad: 'Ayşe', soyad: 'Kaya' },
-        ];
+        this.doktorlar = [];
       },
     });
+  }
+
+  uzmanlikDegisti(): void {
+    // Filtre değişince doktor seçimini sıfırla
+    this.secilenDoktorId = 0;
+    this.secilenTarih = '';
+    this.secilenSaat = '';
+    this.musaitGunler = [];
+    this.musaitSaatler = [];
+    this.takvimGunler = [];
+    this.takvimGoster = false;
   }
 
   randevuOnayla(id: number): void {

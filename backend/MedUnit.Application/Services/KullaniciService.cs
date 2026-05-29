@@ -46,6 +46,7 @@ public class KullaniciService : IKullaniciService
             Id = kullanici.Id,
             Token = TokenOlustur(kullanici),
             Ad = kullanici.Ad,
+            Soyad = kullanici.Soyad,
             Email = kullanici.Email,
             Rol = kullanici.Rol
         };
@@ -64,9 +65,46 @@ public class KullaniciService : IKullaniciService
             Id = kullanici.Id,
             Token = TokenOlustur(kullanici),
             Ad = kullanici.Ad,
+            Soyad = kullanici.Soyad,
             Email = kullanici.Email,
-            Rol = kullanici.Rol
+            Rol = kullanici.Rol,
+            Uzmanlik = kullanici.Uzmanlik
         };
+    }
+
+    public async Task<AuthResponseDto> ProfilGuncelleAsync(int kullaniciId, ProfilGuncelleDto dto)
+    {
+        var kullanici = await _context.Kullanicilar.FindAsync(kullaniciId)
+            ?? throw new Exception("Kullanıcı bulunamadı.");
+
+        if (!string.IsNullOrWhiteSpace(dto.Ad)) kullanici.Ad = dto.Ad;
+        if (!string.IsNullOrWhiteSpace(dto.Soyad)) kullanici.Soyad = dto.Soyad;
+        if (dto.Uzmanlik != null) kullanici.Uzmanlik = dto.Uzmanlik;
+
+        await _context.SaveChangesAsync();
+
+        return new AuthResponseDto
+        {
+            Id = kullanici.Id,
+            Token = TokenOlustur(kullanici),
+            Ad = kullanici.Ad,
+            Soyad = kullanici.Soyad,
+            Email = kullanici.Email,
+            Rol = kullanici.Rol,
+            Uzmanlik = kullanici.Uzmanlik
+        };
+    }
+
+    public async Task SifreDegistirAsync(int kullaniciId, SifreDegistirDto dto)
+    {
+        var kullanici = await _context.Kullanicilar.FindAsync(kullaniciId)
+            ?? throw new Exception("Kullanıcı bulunamadı.");
+
+        if (!BCrypt.Net.BCrypt.Verify(dto.MevcutSifre, kullanici.SifreHash))
+            throw new Exception("Mevcut şifre hatalı.");
+
+        kullanici.SifreHash = BCrypt.Net.BCrypt.HashPassword(dto.YeniSifre);
+        await _context.SaveChangesAsync();
     }
 
     private string TokenOlustur(Kullanici kullanici)

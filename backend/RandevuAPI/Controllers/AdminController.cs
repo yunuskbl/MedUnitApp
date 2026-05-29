@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MedUnit.Application.Interfaces;
+using MedUnit.Application.Dtos;
 
 namespace RandevuAPI.Controllers;
 
@@ -126,5 +127,18 @@ public class AdminController : ControllerBase
         await _context.SaveChangesAsync();
 
         return NoContent();
+    }
+
+    // Doktor uzmanlık alanını güncelle
+    [HttpPut("kullanici/{id}/uzmanlik")]
+    public async Task<IActionResult> UzmanlikGuncelle(int id, [FromBody] UzmanlikGuncelleDto dto)
+    {
+        var kullanici = await _context.Kullanicilar.FindAsync(id);
+        if (kullanici == null) return NotFound();
+
+        kullanici.Uzmanlik = string.IsNullOrWhiteSpace(dto.Uzmanlik) ? null : dto.Uzmanlik.Trim();
+        await _context.SaveChangesAsync();
+
+        return Ok(new { kullanici.Id, kullanici.Uzmanlik });
     }
 }
