@@ -20,7 +20,10 @@ interface Kullanici {
   email: string;
   rol: string;
   uzmanlik?: string;
+  telefon?: string;
   aktif: boolean;
+  klinikId?: number;
+  klinikAd?: string;
   olusturulmaTarihi: string;
   uzmanlikDuzenle?: boolean;
   yeniUzmanlik?: string;
@@ -35,6 +38,7 @@ interface Randevu {
   durum: string;
   notlar: string;
 }
+
 interface ContactMesaj {
   id: number;
   name: string;
@@ -45,6 +49,20 @@ interface ContactMesaj {
   createdAt: string;
   isRead: boolean;
 }
+
+interface Klinik {
+  id: number;
+  ad: string;
+  adres?: string;
+  telefon?: string;
+  email?: string;
+  abonelikTipi: string;
+  aktif: boolean;
+  olusturulmaTarihi: string;
+  uyeSayisi: number;
+  duzenlemeModu?: boolean;
+}
+
 @Component({
   standalone: true,
   selector: 'app-admin',
@@ -54,11 +72,22 @@ interface ContactMesaj {
 })
 export class AdminComponent implements OnInit {
 
-  aktifSekme: 'istatistik' | 'kullanicilar' | 'randevular' | 'mesajlar' = 'istatistik';
-contactMesajlar: ContactMesaj[] = [];
+  aktifSekme: 'istatistik' | 'kullanicilar' | 'randevular' | 'mesajlar' | 'klinikler' = 'istatistik';
+
+  contactMesajlar: ContactMesaj[] = [];
   istatistik: Istatistik | null = null;
   kullanicilar: Kullanici[] = [];
   randevular: Randevu[] = [];
+  klinikler: Klinik[] = [];
+
+  // Yeni klinik formu
+  yeniKlinikAd = '';
+  yeniKlinikAdres = '';
+  yeniKlinikTelefon = '';
+  yeniKlinikEmail = '';
+  yeniKlinikAbonelik = 'ucretsiz';
+  klinikFormAcik = false;
+
   yukleniyor = false;
   mesaj = '';
 
@@ -80,13 +109,14 @@ contactMesajlar: ContactMesaj[] = [];
     return new HttpHeaders({ Authorization: `Bearer ${token}` });
   }
 
-  sekmeDegistir(sekme: 'istatistik' | 'kullanicilar' | 'randevular' | 'mesajlar'): void {
-  this.aktifSekme = sekme;
-  if (sekme === 'istatistik') this.istatistikleriGetir();
-  if (sekme === 'kullanicilar') this.kullanicilariGetir();
-  if (sekme === 'randevular') this.randevulariGetir();
-  if (sekme === 'mesajlar') this.mesajlariGetir();
-}
+  sekmeDegistir(sekme: 'istatistik' | 'kullanicilar' | 'randevular' | 'mesajlar' | 'klinikler'): void {
+    this.aktifSekme = sekme;
+    if (sekme === 'istatistik') this.istatistikleriGetir();
+    if (sekme === 'kullanicilar') this.kullanicilariGetir();
+    if (sekme === 'randevular') this.randevulariGetir();
+    if (sekme === 'mesajlar') this.mesajlariGetir();
+    if (sekme === 'klinikler') this.klinikleriGetir();
+  }
 
   istatistikleriGetir(): void {
     this.http.get<Istatistik>(`${this.apiUrl}/admin/istatistikler`,
@@ -163,6 +193,20 @@ contactMesajlar: ContactMesaj[] = [];
       });
   }
 
+  klinikAta(kullaniciId: number, klinikIdStr: string): void {
+    const klinikId = parseInt(klinikIdStr, 10) || 0;
+    this.http.put(`${this.apiUrl}/admin/kullanici/${kullaniciId}/klinik`,
+      { klinikId },
+      { headers: this.headers() })
+      .subscribe({
+        next: () => {
+          this.mesaj = 'Klinik atandı.';
+          this.kullanicilariGetir();
+          setTimeout(() => this.mesaj = '', 3000);
+        }
+      });
+  }
+
   randevuSil(id: number): void {
     if (!confirm('Randevuyu silmek istediğinizden emin misiniz?')) return;
 
@@ -184,25 +228,65 @@ contactMesajlar: ContactMesaj[] = [];
       default:          return 'badge-bekle';
     }
   }
-  
 
+  mesajlariGetir(): void {
+    this.yukleniyor = true;
+    this.http.get<ContactMesaj[]>(`${this.apiUrl}/contact`, { headers: this.headers() })
+      .subscribe({
+        next: (d) => { this.contactMesajlar = d; this.yukleniyor = false; }
+      });
+  }
 
-mesajlariGetir(): void {
-  this.yukleniyor = true;
-  this.http.get<ContactMesaj[]>(`${this.apiUrl}/contact`, { headers: this.headers() })
-    .subscribe({
-      next: (d) => { this.contactMesajlar = d; this.yukleniyor = false; }
-    });
-}
+  mesajOkundu(id: number): void {
+    this.http.put(`${this.apiUrl}/contact/${id}/okundu`, {}, { headers: this.headers() })
+      .subscribe({
+        next: () => {
+          const m = this.contactMesajlar.find(x => x.id === id);
+          if (m) m.isRead = true;
+        }
+      });
+  }
 
-mesajOkundu(id: number): void {
-  this.http.put(`${this.apiUrl}/contact/${id}/okundu`, {}, { headers: this.headers() })
-    .subscribe({
-      next: () => {
-        const m = this.contactMesajlar.find(x => x.id === id);
-        if (m) m.isRead = true;
-      }
-    });
-}
+  klinikleriGetir(): void {
+    this.yukleniyor = true;
+    this.http.get<Klinik[]>(`${this.apiUrl}/klinik`, { headers: this.headers() })
+      .subscribe({
+        next: (d) => { this.klinikler = d; this.yukleniyor = false; },
+        error: () => this.yukleniyor = false
+      });
+  }
 
+  klinikOlustur(): void {
+    if (!this.yeniKlinikAd.trim()) return;
+
+    this.http.post(`${this.apiUrl}/klinik`,
+      {
+        ad: this.yeniKlinikAd,
+        adres: this.yeniKlinikAdres,
+        telefon: this.yeniKlinikTelefon,
+        email: this.yeniKlinikEmail,
+        abonelikTipi: this.yeniKlinikAbonelik
+      },
+      { headers: this.headers() })
+      .subscribe({
+        next: () => {
+          this.mesaj = 'Klinik oluşturuldu.';
+          this.klinikFormAcik = false;
+          this.yeniKlinikAd = '';
+          this.yeniKlinikAdres = '';
+          this.yeniKlinikTelefon = '';
+          this.yeniKlinikEmail = '';
+          this.klinikleriGetir();
+          setTimeout(() => this.mesaj = '', 3000);
+        }
+      });
+  }
+
+  abonelikRengi(tip: string): string {
+    switch (tip) {
+      case 'premium': return 'badge-onay';
+      case 'temel': return 'badge-bekle';
+      default: return '';
+    }
+  }
 }

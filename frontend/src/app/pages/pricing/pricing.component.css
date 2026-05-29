@@ -1,0 +1,165 @@
+.pricing-sayfa {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 60px 24px 80px;
+}
+
+.pricing-baslik {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.pricing-baslik h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 12px;
+}
+
+.pricing-baslik p {
+  color: #64748b;
+  font-size: 1.05rem;
+}
+
+.plan-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 24px;
+  align-items: start;
+}
+
+.plan-kart {
+  background: #fff;
+  border: 2px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 32px 28px;
+  position: relative;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.plan-kart:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+}
+
+.plan-kart.vurgulu {
+  border-color: #4f46e5;
+  box-shadow: 0 8px 32px rgba(79, 70, 229, 0.15);
+  transform: translateY(-8px);
+}
+
+.plan-rozet {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #4f46e5;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 16px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.plan-ust h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 12px;
+}
+
+.plan-fiyat {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 24px;
+}
+
+.fiyat-rakam {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #4f46e5;
+}
+
+.fiyat-periyot {
+  font-size: 1rem;
+  color: #94a3b8;
+}
+
+.ozellik-listesi {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 28px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ozellik-listesi li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.ozellik-listesi li i {
+  color: #10b981;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.plan-btn {
+  display: block;
+  text-align: center;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  background: #f1f5f9;
+  color: #374151;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.plan-btn:hover {
+  background: #e2e8f0;
+}
+
+.plan-btn.btn-vurgulu {
+  background: #4f46e5;
+  color: #fff;
+}
+
+.plan-btn.btn-vurgulu:hover {
+  background: #4338ca;
+}
+
+.pricing-alt {
+  text-align: center;
+  margin-top: 48px;
+  color: #64748b;
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+.pricing-alt a {
+  color: #4f46e5;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.pricing-alt a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .plan-kart.vurgulu {
+    transform: translateY(0);
+  }
+
+  .pricing-baslik h1 {
+    font-size: 1.6rem;
+  }
+}

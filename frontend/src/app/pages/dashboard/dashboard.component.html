@@ -25,6 +25,10 @@
     <button [ngClass]="{ aktif: aktifSekme === 'randevular' }" (click)="sekmeDegistir('randevular')">
       <i class="fas fa-calendar-alt"></i> Randevularım
     </button>
+    <button [ngClass]="{ aktif: aktifSekme === 'dosyalar' }" (click)="sekmeDegistir('dosyalar')">
+      <i class="fas fa-folder-open"></i>
+      {{ profil?.rol === 'doktor' ? 'Notlarım' : 'Dosyalarım' }}
+    </button>
     <button [ngClass]="{ aktif: aktifSekme === 'sifre' }" (click)="sekmeDegistir('sifre')">
       <i class="fas fa-lock"></i> Şifre Değiştir
     </button>
@@ -54,6 +58,10 @@
         <span class="etiket">Uzmanlık</span>
         <span>{{ profil.uzmanlik || 'Belirtilmemiş' }}</span>
       </div>
+      <div class="profil-satir">
+        <span class="etiket">Telefon</span>
+        <span>{{ profil.telefon || 'Belirtilmemiş' }}</span>
+      </div>
       <button class="btn-duzenle" (click)="profilDuzenle = true">
         <i class="fas fa-edit"></i> Düzenle
       </button>
@@ -67,6 +75,10 @@
       <div class="form-grup">
         <label>Soyad</label>
         <input type="text" [(ngModel)]="yeniSoyad" placeholder="Soyadınız" />
+      </div>
+      <div class="form-grup">
+        <label>Telefon <span style="color:#94a3b8;font-size:12px">(SMS hatırlatıcı için)</span></label>
+        <input type="tel" [(ngModel)]="yeniTelefon" placeholder="+905xxxxxxxxx" />
       </div>
       <div class="form-grup" *ngIf="profil.rol === 'doktor'">
         <label>Uzmanlık Alanı</label>
@@ -111,6 +123,78 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- DOSYALAR / NOTLAR SEKMESİ -->
+  <div class="sekme-icerik" *ngIf="aktifSekme === 'dosyalar'">
+
+    <!-- HASTA: Tıbbi Dosya Yönetimi -->
+    <ng-container *ngIf="profil?.rol !== 'doktor'">
+      <div class="dosya-yukle-bolum">
+        <h3>Dosya Yükle</h3>
+        <p class="dosya-aciklama">PDF, JPG veya PNG formatında, maksimum 10 MB boyutunda dosya yükleyebilirsiniz.</p>
+        <div class="dosya-secim-alani">
+          <input type="file" id="dosyaInput" accept=".pdf,.jpg,.jpeg,.png"
+                 (change)="dosyaSec($event)" style="display:none" />
+          <label for="dosyaInput" class="dosya-sec-btn">
+            <i class="fas fa-cloud-upload-alt"></i>
+            {{ seciliDosya ? seciliDosya.name : 'Dosya Seç' }}
+          </label>
+          <button class="btn-yukle" (click)="dosyaYukle()" [disabled]="!seciliDosya || dosyaYukleniyor">
+            {{ dosyaYukleniyor ? 'Yükleniyor...' : 'Yükle' }}
+          </button>
+        </div>
+      </div>
+
+      <div class="dosya-listesi-bolum">
+        <h3>Yüklenen Dosyalarım</h3>
+        <div class="dosya-bos" *ngIf="dosyalar.length === 0">
+          <i class="fas fa-file-medical"></i>
+          <p>Henüz dosya yüklenmemiş.</p>
+        </div>
+        <div class="dosya-listesi">
+          <div class="dosya-satir" *ngFor="let d of dosyalar">
+            <div class="dosya-ikon">
+              <i class="fas" [ngClass]="d.dosyaTipi.includes('pdf') ? 'fa-file-pdf' : 'fa-file-image'"></i>
+            </div>
+            <div class="dosya-bilgi">
+              <span class="dosya-ad">{{ d.dosyaAdi }}</span>
+              <span class="dosya-meta">{{ boyutFormat(d.dosyaBoyutu) }} · {{ tarihFormat(d.yuklemeTarihi) }}</span>
+            </div>
+            <div class="dosya-butonlar">
+              <button class="btn-indir" (click)="dosyaIndir(d.id, d.dosyaAdi)">
+                <i class="fas fa-download"></i>
+              </button>
+              <button class="btn-sil-dosya" (click)="dosyaSil(d.id)">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- DOKTOR: Yazdığı Notlar -->
+    <ng-container *ngIf="profil?.rol === 'doktor'">
+      <h3 class="notlar-baslik">Yazdığım Notlar</h3>
+      <div class="not-bos" *ngIf="doktorNotlari.length === 0">
+        <i class="fas fa-notes-medical"></i>
+        <p>Henüz not eklenmemiş.</p>
+      </div>
+      <div class="not-listesi">
+        <div class="not-kart" *ngFor="let n of doktorNotlari">
+          <div class="not-ust">
+            <span class="not-hasta"><i class="fas fa-user"></i> {{ n.hastaAdSoyad }}</span>
+            <span class="not-tarih">{{ tarihFormat(n.olusturulmaTarihi) }}</span>
+          </div>
+          <div class="not-icerik">
+            <p><strong>Not:</strong> {{ n.not }}</p>
+            <p *ngIf="n.tani"><strong>Tanı:</strong> {{ n.tani }}</p>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
   </div>
 
   <!-- ŞİFRE SEKMESİ -->

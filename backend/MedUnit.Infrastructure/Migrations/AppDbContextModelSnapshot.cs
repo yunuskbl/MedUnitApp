@@ -22,168 +22,210 @@ namespace MedUnit.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("MedUnit.Domain.Entities.ContactMessage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+            modelBuilder.Entity("ContactMessage", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("integer");
+                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                b.Property<DateTime>("CreatedAt").HasColumnType("timestamp with time zone");
+                b.Property<string>("Email").IsRequired().HasColumnType("text");
+                b.Property<bool>("IsRead").HasColumnType("boolean");
+                b.Property<string>("LastName").IsRequired().HasColumnType("text");
+                b.Property<string>("Message").IsRequired().HasColumnType("text");
+                b.Property<string>("Name").IsRequired().HasColumnType("text");
+                b.Property<string>("Phone").IsRequired().HasColumnType("text");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                b.HasKey("Id");
+                b.ToTable("ContactMessages");
+            });
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
+            modelBuilder.Entity("MedUnit.Domain.Entities.Klinik", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("integer");
+                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("IsRead")
-                        .HasColumnType("boolean");
+                b.Property<string>("Ad").IsRequired().HasColumnType("text");
+                b.Property<string>("Adres").HasColumnType("text");
+                b.Property<string>("Telefon").HasColumnType("text");
+                b.Property<string>("Email").HasColumnType("text");
+                b.Property<string>("LogoUrl").HasColumnType("text");
+                b.Property<string>("AbonelikTipi").IsRequired().HasColumnType("text");
+                b.Property<DateTime?>("AbonelikBitisTarihi").HasColumnType("timestamp with time zone");
+                b.Property<bool>("Aktif").HasColumnType("boolean");
+                b.Property<DateTime>("OlusturulmaTarihi").HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ContactMessages");
-                });
+                b.HasKey("Id");
+                b.ToTable("Klinikler");
+            });
 
             modelBuilder.Entity("MedUnit.Domain.Entities.Kullanici", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("integer");
+                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                b.Property<string>("Ad").IsRequired().HasColumnType("text");
+                b.Property<bool>("Aktif").HasColumnType("boolean");
+                b.Property<string>("Email")
+                    .IsRequired()
+                    .HasMaxLength(450)
+                    .HasColumnType("character varying(450)");
+                b.Property<int?>("KlinikId").HasColumnType("integer");
+                b.Property<DateTime>("OlusturulmaTarihi").HasColumnType("timestamp with time zone");
+                b.Property<string>("Rol")
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .HasColumnType("character varying(20)");
+                b.Property<string>("SifreHash").IsRequired().HasColumnType("text");
+                b.Property<string>("SifreSifirlamaToken").HasColumnType("text");
+                b.Property<DateTime?>("SifreSifirlamaTokenSon").HasColumnType("timestamp with time zone");
+                b.Property<string>("Soyad").IsRequired().HasColumnType("text");
+                b.Property<string>("Telefon")
+                    .HasMaxLength(20)
+                    .HasColumnType("character varying(20)");
+                b.Property<string>("Uzmanlik")
+                    .HasMaxLength(100)
+                    .HasColumnType("character varying(100)");
 
-                    b.Property<string>("Ad")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.HasKey("Id");
+                b.HasIndex("Email").IsUnique();
+                b.HasIndex("KlinikId");
+                b.ToTable("Kullanicilar");
+            });
 
-                    b.Property<bool>("Aktif")
-                        .HasColumnType("boolean");
+            modelBuilder.Entity("MedUnit.Domain.Entities.DoktorNotu", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("integer");
+                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("character varying(450)");
+                b.Property<int>("RandevuId").HasColumnType("integer");
+                b.Property<int>("DoktorId").HasColumnType("integer");
+                b.Property<int>("HastaId").HasColumnType("integer");
+                b.Property<string>("Not").IsRequired().HasColumnType("text");
+                b.Property<string>("Tani").HasColumnType("text");
+                b.Property<DateTime>("OlusturulmaTarihi").HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("OlusturulmaTarihi")
-                        .HasColumnType("timestamp with time zone");
+                b.HasKey("Id");
+                b.HasIndex("DoktorId");
+                b.HasIndex("HastaId");
+                b.HasIndex("RandevuId");
+                b.ToTable("DoktorNotlari");
+            });
 
-                    b.Property<string>("Rol")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+            modelBuilder.Entity("MedUnit.Domain.Entities.TibbiDosya", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("integer");
+                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("SifreHash")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<int>("HastaId").HasColumnType("integer");
+                b.Property<string>("DosyaAdi").IsRequired().HasColumnType("text");
+                b.Property<string>("DosyaTipi").IsRequired().HasColumnType("text");
+                b.Property<byte[]>("DosyaVerisi").IsRequired().HasColumnType("bytea");
+                b.Property<long>("DosyaBoyutu").HasColumnType("bigint");
+                b.Property<DateTime>("YuklemeTarihi").HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("SifreSifirlamaToken")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("SifreSifirlamaTokenSon")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Soyad")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Uzmanlik")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.ToTable("Kullanicilar");
-                });
-
-            modelBuilder.Entity("MedUnit.Domain.Entities.Randevu", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("BaslangicTarihi")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("BitisTarihi")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("DoktorId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Durum")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("HastaId")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("HatirlaticiGonderildi")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Notlar")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("OlusturulmaTarihi")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("ZoomHostUrl")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ZoomJoinUrl")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ZoomMeetingId")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DoktorId");
-
-                    b.HasIndex("HastaId");
-
-                    b.ToTable("Randevular");
-                });
+                b.HasKey("Id");
+                b.HasIndex("HastaId");
+                b.ToTable("TibbiDosyalar");
+            });
 
             modelBuilder.Entity("MedUnit.Domain.Entities.Randevu", b =>
-                {
-                    b.HasOne("MedUnit.Domain.Entities.Kullanici", "Doktor")
-                        .WithMany()
-                        .HasForeignKey("DoktorId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("integer");
+                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.HasOne("MedUnit.Domain.Entities.Kullanici", "Hasta")
-                        .WithMany()
-                        .HasForeignKey("HastaId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                b.Property<DateTime>("BaslangicTarihi").HasColumnType("timestamp with time zone");
+                b.Property<DateTime>("BitisTarihi").HasColumnType("timestamp with time zone");
+                b.Property<int>("DoktorId").HasColumnType("integer");
+                b.Property<string>("Durum").IsRequired().HasColumnType("text");
+                b.Property<bool>("HatirlaticiGonderildi").HasColumnType("boolean");
+                b.Property<int>("HastaId").HasColumnType("integer");
+                b.Property<string>("Notlar").HasColumnType("text");
+                b.Property<DateTime>("OlusturulmaTarihi").HasColumnType("timestamp with time zone");
+                b.Property<string>("ZoomHostUrl").HasColumnType("text");
+                b.Property<string>("ZoomJoinUrl").HasColumnType("text");
+                b.Property<string>("ZoomMeetingId").HasColumnType("text");
 
-                    b.Navigation("Doktor");
+                b.HasKey("Id");
+                b.HasIndex("DoktorId");
+                b.HasIndex("HastaId");
+                b.ToTable("Randevular");
+            });
 
-                    b.Navigation("Hasta");
-                });
+            modelBuilder.Entity("MedUnit.Domain.Entities.Kullanici", b =>
+            {
+                b.HasOne("MedUnit.Domain.Entities.Klinik", "Klinik")
+                    .WithMany()
+                    .HasForeignKey("KlinikId")
+                    .OnDelete(DeleteBehavior.SetNull);
+
+                b.Navigation("Klinik");
+            });
+
+            modelBuilder.Entity("MedUnit.Domain.Entities.DoktorNotu", b =>
+            {
+                b.HasOne("MedUnit.Domain.Entities.Kullanici", "Doktor")
+                    .WithMany()
+                    .HasForeignKey("DoktorId")
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired();
+
+                b.HasOne("MedUnit.Domain.Entities.Kullanici", "Hasta")
+                    .WithMany()
+                    .HasForeignKey("HastaId")
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired();
+
+                b.HasOne("MedUnit.Domain.Entities.Randevu", "Randevu")
+                    .WithMany()
+                    .HasForeignKey("RandevuId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.Navigation("Doktor");
+                b.Navigation("Hasta");
+                b.Navigation("Randevu");
+            });
+
+            modelBuilder.Entity("MedUnit.Domain.Entities.TibbiDosya", b =>
+            {
+                b.HasOne("MedUnit.Domain.Entities.Kullanici", "Hasta")
+                    .WithMany()
+                    .HasForeignKey("HastaId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.Navigation("Hasta");
+            });
+
+            modelBuilder.Entity("MedUnit.Domain.Entities.Randevu", b =>
+            {
+                b.HasOne("MedUnit.Domain.Entities.Kullanici", "Doktor")
+                    .WithMany()
+                    .HasForeignKey("DoktorId")
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired();
+
+                b.HasOne("MedUnit.Domain.Entities.Kullanici", "Hasta")
+                    .WithMany()
+                    .HasForeignKey("HastaId")
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired();
+
+                b.Navigation("Doktor");
+                b.Navigation("Hasta");
+            });
 #pragma warning restore 612, 618
         }
     }

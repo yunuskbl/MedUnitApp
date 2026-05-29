@@ -54,7 +54,9 @@ public class KullaniciController : ControllerBase
             kullanici.Soyad,
             kullanici.Email,
             kullanici.Rol,
-            kullanici.Uzmanlik
+            kullanici.Uzmanlik,
+            kullanici.Telefon,
+            kullanici.KlinikId
         });
     }
 

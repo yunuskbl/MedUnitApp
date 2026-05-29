@@ -34,6 +34,12 @@
     >
       ✉️ Mesajlar
     </button>
+    <button
+      [ngClass]="{ aktif: aktifSekme === 'klinikler' }"
+      (click)="sekmeDegistir('klinikler')"
+    >
+      🏥 Klinikler
+    </button>
   </div>
 
   <!-- İSTATİSTİKLER -->
@@ -80,6 +86,7 @@
           <th>Email</th>
           <th>Rol</th>
           <th>Uzmanlık</th>
+          <th>Klinik</th>
           <th>Durum</th>
           <th>İşlemler</th>
         </tr>
@@ -96,6 +103,7 @@
               <option value="hasta">Hasta</option>
               <option value="doktor">Doktor</option>
               <option value="admin">Admin</option>
+              <option value="klinik_sahibi">Klinik Sahibi</option>
             </select>
           </td>
           <td>
@@ -115,6 +123,16 @@
               </ng-container>
             </ng-container>
             <span *ngIf="k.rol !== 'doktor'" style="color:#94a3b8;font-size:12px">—</span>
+          </td>
+          <td>
+            <select
+              (change)="klinikAta(k.id, $any($event.target).value)"
+              [value]="k.klinikId || 0"
+              style="font-size:12px;padding:2px 6px;border:1px solid #e2e8f0;border-radius:6px"
+            >
+              <option [value]="0">— Klinik Yok</option>
+              <option *ngFor="let kl of klinikler" [value]="kl.id">{{ kl.ad }}</option>
+            </select>
           </td>
           <td>
             <span
@@ -171,39 +189,106 @@
       </tbody>
     </table>
   </div>
+
   <!-- MESAJLAR -->
-<div class="tablo-konteyner" *ngIf="aktifSekme === 'mesajlar'">
-  <table class="admin-tablo">
-    <thead>
-      <tr>
-        <th>Ad Soyad</th>
-        <th>Email</th>
-        <th>Telefon</th>
-        <th>Mesaj</th>
-        <th>Tarih</th>
-        <th>Durum</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let m of contactMesajlar"
-          [style.background]="m.isRead ? '' : '#f0fdf4'">
-        <td>{{ m.name }} {{ m.lastName }}</td>
-        <td>{{ m.email }}</td>
-        <td>{{ m.phone }}</td>
-        <td style="max-width:300px; white-space:pre-wrap">{{ m.message }}</td>
-        <td>{{ m.createdAt | date:'dd MMM yyyy, HH:mm' }}</td>
-        <td>
-          <span class="badge" [ngClass]="m.isRead ? 'badge-onay' : 'badge-bekle'">
-            {{ m.isRead ? 'Okundu' : 'Yeni' }}
-          </span>
-          <button *ngIf="!m.isRead" class="btn-tablo btn-aktif"
-                  style="margin-left:8px"
-                  (click)="mesajOkundu(m.id)">
-            Okundu İşaretle
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+  <div class="tablo-konteyner" *ngIf="aktifSekme === 'mesajlar'">
+    <table class="admin-tablo">
+      <thead>
+        <tr>
+          <th>Ad Soyad</th>
+          <th>Email</th>
+          <th>Telefon</th>
+          <th>Mesaj</th>
+          <th>Tarih</th>
+          <th>Durum</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let m of contactMesajlar"
+            [style.background]="m.isRead ? '' : '#f0fdf4'">
+          <td>{{ m.name }} {{ m.lastName }}</td>
+          <td>{{ m.email }}</td>
+          <td>{{ m.phone }}</td>
+          <td style="max-width:300px; white-space:pre-wrap">{{ m.message }}</td>
+          <td>{{ m.createdAt | date:'dd MMM yyyy, HH:mm' }}</td>
+          <td>
+            <span class="badge" [ngClass]="m.isRead ? 'badge-onay' : 'badge-bekle'">
+              {{ m.isRead ? 'Okundu' : 'Yeni' }}
+            </span>
+            <button *ngIf="!m.isRead" class="btn-tablo btn-aktif"
+                    style="margin-left:8px"
+                    (click)="mesajOkundu(m.id)">
+              Okundu İşaretle
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- KLİNİKLER -->
+  <div class="tablo-konteyner" *ngIf="aktifSekme === 'klinikler'">
+
+    <div class="klinik-ust">
+      <button class="btn-tablo btn-aktif" (click)="klinikFormAcik = !klinikFormAcik">
+        {{ klinikFormAcik ? '✕ İptal' : '+ Yeni Klinik' }}
+      </button>
+    </div>
+
+    <div class="klinik-form" *ngIf="klinikFormAcik">
+      <div class="klinik-form-icerik">
+        <input [(ngModel)]="yeniKlinikAd" placeholder="Klinik Adı *" />
+        <input [(ngModel)]="yeniKlinikAdres" placeholder="Adres" />
+        <input [(ngModel)]="yeniKlinikTelefon" placeholder="Telefon" />
+        <input [(ngModel)]="yeniKlinikEmail" placeholder="Email" />
+        <select [(ngModel)]="yeniKlinikAbonelik">
+          <option value="ucretsiz">Ücretsiz</option>
+          <option value="temel">Temel</option>
+          <option value="premium">Premium</option>
+        </select>
+        <button class="btn-tablo btn-aktif" (click)="klinikOlustur()"
+                [disabled]="!yeniKlinikAd.trim()">
+          Oluştur
+        </button>
+      </div>
+    </div>
+
+    <table class="admin-tablo" *ngIf="klinikler.length > 0">
+      <thead>
+        <tr>
+          <th>Klinik Adı</th>
+          <th>Email</th>
+          <th>Telefon</th>
+          <th>Abonelik</th>
+          <th>Üye</th>
+          <th>Durum</th>
+          <th>Oluşturulma</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let k of klinikler">
+          <td><strong>{{ k.ad }}</strong><br><small style="color:#94a3b8">{{ k.adres }}</small></td>
+          <td>{{ k.email || '—' }}</td>
+          <td>{{ k.telefon || '—' }}</td>
+          <td>
+            <span class="badge" [ngClass]="abonelikRengi(k.abonelikTipi)">
+              {{ k.abonelikTipi | titlecase }}
+            </span>
+          </td>
+          <td>{{ k.uyeSayisi }}</td>
+          <td>
+            <span class="badge" [ngClass]="k.aktif ? 'badge-onay' : 'badge-iptal'">
+              {{ k.aktif ? 'Aktif' : 'Pasif' }}
+            </span>
+          </td>
+          <td>{{ k.olusturulmaTarihi | date:'dd MMM yyyy' }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="klinikler.length === 0 && !yukleniyor"
+         style="text-align:center;padding:40px;color:#94a3b8">
+      Henüz klinik oluşturulmamış.
+    </div>
+  </div>
 </div>

@@ -11,6 +11,7 @@ interface Profil {
   email: string;
   rol: string;
   uzmanlik?: string;
+  telefon?: string;
 }
 
 interface Randevu {
@@ -23,6 +24,24 @@ interface Randevu {
   notlar?: string;
 }
 
+interface TibbiDosya {
+  id: number;
+  dosyaAdi: string;
+  dosyaTipi: string;
+  dosyaBoyutu: number;
+  yuklemeTarihi: string;
+}
+
+interface DoktorNotu {
+  id: number;
+  randevuId: number;
+  doktorAdSoyad: string;
+  hastaAdSoyad: string;
+  not: string;
+  tani?: string;
+  olusturulmaTarihi: string;
+}
+
 @Component({
   standalone: true,
   selector: 'app-dashboard',
@@ -32,21 +51,28 @@ interface Randevu {
 })
 export class DashboardComponent implements OnInit {
 
-  aktifSekme: 'profil' | 'randevular' | 'sifre' = 'profil';
+  aktifSekme: 'profil' | 'randevular' | 'sifre' | 'dosyalar' = 'profil';
 
   profil: Profil | null = null;
   randevular: Randevu[] = [];
+  dosyalar: TibbiDosya[] = [];
+  doktorNotlari: DoktorNotu[] = [];
 
   // Profil düzenleme
   profilDuzenle = false;
   yeniAd = '';
   yeniSoyad = '';
   yeniUzmanlik = '';
+  yeniTelefon = '';
 
   // Şifre değiştirme
   mevcutSifre = '';
   yeniSifre = '';
   yeniSifreTekrar = '';
+
+  // Dosya yükleme
+  seciliDosya: File | null = null;
+  dosyaYukleniyor = false;
 
   yukleniyor = false;
   basari = '';
@@ -75,11 +101,15 @@ export class DashboardComponent implements OnInit {
     return new HttpHeaders({ Authorization: `Bearer ${token}` });
   }
 
-  sekmeDegistir(sekme: 'profil' | 'randevular' | 'sifre'): void {
+  sekmeDegistir(sekme: 'profil' | 'randevular' | 'sifre' | 'dosyalar'): void {
     this.aktifSekme = sekme;
     this.basari = '';
     this.hata = '';
     this.profilDuzenle = false;
+    if (sekme === 'dosyalar') {
+      this.dosyalariGetir();
+      if (this.profil?.rol === 'doktor') this.doktorNotlariniGetir();
+    }
   }
 
   profilGetir(): void {
@@ -90,6 +120,7 @@ export class DashboardComponent implements OnInit {
           this.yeniAd = data.ad;
           this.yeniSoyad = data.soyad;
           this.yeniUzmanlik = data.uzmanlik || '';
+          this.yeniTelefon = data.telefon || '';
         },
         error: () => this.router.navigate(['/'])
       });
@@ -103,6 +134,22 @@ export class DashboardComponent implements OnInit {
       });
   }
 
+  dosyalariGetir(): void {
+    this.http.get<TibbiDosya[]>(`${this.apiUrl}/tibbiDosya`, { headers: this.headers() })
+      .subscribe({
+        next: (data) => this.dosyalar = data,
+        error: () => this.dosyalar = []
+      });
+  }
+
+  doktorNotlariniGetir(): void {
+    this.http.get<DoktorNotu[]>(`${this.apiUrl}/doktor-notu/benim`, { headers: this.headers() })
+      .subscribe({
+        next: (data) => this.doktorNotlari = data,
+        error: () => this.doktorNotlari = []
+      });
+  }
+
   profilKaydet(): void {
     if (!this.yeniAd.trim() || !this.yeniSoyad.trim()) {
       this.hata = 'Ad ve soyad boş bırakılamaz.';
@@ -111,13 +158,17 @@ export class DashboardComponent implements OnInit {
     this.yukleniyor = true;
     this.hata = '';
 
-    const body: any = { ad: this.yeniAd, soyad: this.yeniSoyad };
+    const body: any = {
+      ad: this.yeniAd,
+      soyad: this.yeniSoyad,
+      telefon: this.yeniTelefon || null
+    };
     if (this.profil?.rol === 'doktor') body['uzmanlik'] = this.yeniUzmanlik;
 
     this.http.put<any>(`${this.apiUrl}/kullanici/profil`, body, { headers: this.headers() })
       .subscribe({
         next: (data) => {
-          this.profil = { ...this.profil!, ad: data.ad, soyad: data.soyad, uzmanlik: data.uzmanlik };
+          this.profil = { ...this.profil!, ad: data.ad, soyad: data.soyad, uzmanlik: data.uzmanlik, telefon: data.telefon };
           localStorage.setItem('kullaniciAd', data.ad);
           this.basari = 'Profil güncellendi.';
           this.profilDuzenle = false;
@@ -167,6 +218,69 @@ export class DashboardComponent implements OnInit {
       });
   }
 
+  dosyaSec(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.seciliDosya = input.files?.[0] || null;
+  }
+
+  dosyaYukle(): void {
+    if (!this.seciliDosya) return;
+    this.dosyaYukleniyor = true;
+    this.hata = '';
+
+    const formData = new FormData();
+    formData.append('dosya', this.seciliDosya);
+
+    this.http.post(`${this.apiUrl}/tibbiDosya`, formData, { headers: this.headers() })
+      .subscribe({
+        next: () => {
+          this.basari = 'Dosya yüklendi.';
+          this.seciliDosya = null;
+          this.dosyaYukleniyor = false;
+          this.dosyalariGetir();
+          setTimeout(() => this.basari = '', 4000);
+        },
+        error: (err) => {
+          this.hata = err.error?.mesaj || 'Dosya yüklenemedi.';
+          this.dosyaYukleniyor = false;
+        }
+      });
+  }
+
+  dosyaSil(id: number): void {
+    if (!confirm('Dosyayı silmek istediğinizden emin misiniz?')) return;
+    this.http.delete(`${this.apiUrl}/tibbiDosya/${id}`, { headers: this.headers() })
+      .subscribe({
+        next: () => {
+          this.dosyalar = this.dosyalar.filter(d => d.id !== id);
+          this.basari = 'Dosya silindi.';
+          setTimeout(() => this.basari = '', 3000);
+        }
+      });
+  }
+
+  dosyaIndir(id: number, dosyaAdi: string): void {
+    const token = localStorage.getItem('token') || '';
+    this.http.get(`${this.apiUrl}/tibbiDosya/${id}`,
+      { headers: new HttpHeaders({ Authorization: `Bearer ${token}` }), responseType: 'blob' })
+      .subscribe({
+        next: (blob) => {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = dosyaAdi;
+          a.click();
+          URL.revokeObjectURL(url);
+        }
+      });
+  }
+
+  boyutFormat(bayt: number): string {
+    if (bayt < 1024) return `${bayt} B`;
+    if (bayt < 1024 * 1024) return `${(bayt / 1024).toFixed(1)} KB`;
+    return `${(bayt / (1024 * 1024)).toFixed(1)} MB`;
+  }
+
   durumRengi(durum: string): string {
     switch (durum) {
       case 'onaylandi': return 'rozet-onay';
@@ -194,6 +308,7 @@ export class DashboardComponent implements OnInit {
     switch (rol) {
       case 'doktor': return 'Doktor';
       case 'admin': return 'Admin';
+      case 'klinik_sahibi': return 'Klinik Sahibi';
       default: return 'Hasta';
     }
   }

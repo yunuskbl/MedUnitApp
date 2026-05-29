@@ -59,6 +59,11 @@ export const routes: Routes = [
     path: 'kvkk',
     loadComponent: () =>
       import('./pages/kvkk/kvkk.component').then(m => m.KvkkComponent),
+  },
+  {
+    path: 'fiyatlandirma',
+    loadComponent: () =>
+      import('./pages/pricing/pricing.component').then(m => m.PricingComponent),
   }
 ];
 

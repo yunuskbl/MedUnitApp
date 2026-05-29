@@ -45,6 +45,7 @@ public class HatirlaticiService : BackgroundService
         using var scope = _scopeFactory.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<IAppDbContext>();
         var emailService = scope.ServiceProvider.GetRequiredService<IEmailService>();
+        var smsService = scope.ServiceProvider.GetRequiredService<SmsReminderService>();
 
         var simdi = DateTime.UtcNow;
         var hedefAralik = simdi.AddHours(23);
@@ -68,6 +69,10 @@ public class HatirlaticiService : BackgroundService
                     randevu.Hasta.Email,
                     "Yarınki Randevunuzu Hatırlatırız 📅",
                     icerik);
+
+                if (!string.IsNullOrEmpty(randevu.Hasta.Telefon))
+                    await smsService.HatirlaticiGonderAsync(
+                        randevu.Hasta.Telefon, randevu.Hasta.Ad, randevu.BaslangicTarihi);
 
                 randevu.HatirlaticiGonderildi = true;
                 _logger.LogInformation("Hatırlatıcı gönderildi: {Email}", randevu.Hasta.Email);

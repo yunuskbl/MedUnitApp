@@ -184,3 +184,50 @@
   background: white;
   cursor: pointer;
 }
+
+/* Klinikler */
+.klinik-ust {
+  margin-bottom: 16px;
+}
+
+.klinik-form {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.klinik-form-icerik {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.klinik-form-icerik input,
+.klinik-form-icerik select {
+  padding: 8px 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  min-width: 160px;
+}
+
+.klinik-form-icerik input:focus,
+.klinik-form-icerik select:focus {
+  outline: none;
+  border-color: #4f46e5;
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-onay { background: #dcfce7; color: #16a34a; }
+.badge-bekle { background: #fef9c3; color: #a16207; }
+.badge-iptal { background: #fee2e2; color: #dc2626; }

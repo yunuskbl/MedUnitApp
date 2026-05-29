@@ -56,7 +56,11 @@ public class AdminController : ControllerBase
                 k.Soyad,
                 k.Email,
                 k.Rol,
+                k.Uzmanlik,
+                k.Telefon,
                 k.Aktif,
+                k.KlinikId,
+                KlinikAd = k.Klinik != null ? k.Klinik.Ad : null,
                 k.OlusturulmaTarihi
             }).ToListAsync();
 
@@ -140,5 +144,43 @@ public class AdminController : ControllerBase
         await _context.SaveChangesAsync();
 
         return Ok(new { kullanici.Id, kullanici.Uzmanlik });
+    }
+
+    // Kullanıcıyı kliniğe ata
+    [HttpPut("kullanici/{id}/klinik")]
+    public async Task<IActionResult> KlinikAta(int id, [FromBody] KlinikKullaniciDto dto)
+    {
+        var kullanici = await _context.Kullanicilar.FindAsync(id);
+        if (kullanici == null) return NotFound();
+
+        if (dto.KlinikId == 0)
+        {
+            kullanici.KlinikId = null;
+        }
+        else
+        {
+            var klinik = await _context.Klinikler.FindAsync(dto.KlinikId);
+            if (klinik == null) return BadRequest(new { mesaj = "Klinik bulunamadı." });
+            kullanici.KlinikId = dto.KlinikId;
+        }
+
+        await _context.SaveChangesAsync();
+        return Ok();
+    }
+
+    // Kullanıcı rolünü güncelle (klinik_sahibi dahil)
+    [HttpPut("kullanici/{id}/rol-tam")]
+    public async Task<IActionResult> RolTamGuncelle(int id, [FromBody] string yeniRol)
+    {
+        var kullanici = await _context.Kullanicilar.FindAsync(id);
+        if (kullanici == null) return NotFound();
+
+        var gecerliRoller = new[] { "hasta", "doktor", "admin", "klinik_sahibi" };
+        if (!gecerliRoller.Contains(yeniRol.ToLower()))
+            return BadRequest(new { mesaj = "Geçersiz rol." });
+
+        kullanici.Rol = yeniRol.ToLower();
+        await _context.SaveChangesAsync();
+        return Ok(new { kullanici.Id, kullanici.Rol });
     }
 }

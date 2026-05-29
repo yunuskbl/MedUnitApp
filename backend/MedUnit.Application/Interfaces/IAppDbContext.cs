@@ -12,6 +12,9 @@ namespace MedUnit.Application.Interfaces;
     {
         DbSet<Kullanici> Kullanicilar { get; }
         DbSet<Randevu> Randevular { get; }
+        DbSet<Klinik> Klinikler { get; }
+        DbSet<DoktorNotu> DoktorNotlari { get; }
+        DbSet<TibbiDosya> TibbiDosyalar { get; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 

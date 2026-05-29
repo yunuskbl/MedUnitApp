@@ -15,5 +15,7 @@ namespace MedUnit.Application.Dtos;
         public string Email { get; set; } = string.Empty;
         public string Rol { get; set; } = string.Empty;
         public string? Uzmanlik { get; set; }
+        public string? Telefon { get; set; }
+        public int? KlinikId { get; set; }
     }
 

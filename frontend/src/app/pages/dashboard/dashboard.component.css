@@ -292,6 +292,170 @@
 .rozet-bekle { background: #fef9c3; color: #a16207; }
 .rozet-iptal { background: #fee2e2; color: #dc2626; }
 
+/* Dosyalar */
+.dosya-yukle-bolum {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1.5px solid #f1f5f9;
+}
+
+.dosya-yukle-bolum h3, .dosya-listesi-bolum h3, .notlar-baslik {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.dosya-aciklama {
+  font-size: 13px;
+  color: #94a3b8;
+  margin-bottom: 16px;
+}
+
+.dosya-secim-alani {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.dosya-sec-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: #f1f5f9;
+  border: 2px dashed #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s;
+  max-width: 280px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dosya-sec-btn:hover { border-color: #4f46e5; color: #4f46e5; }
+
+.btn-yukle {
+  background: #4f46e5;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn-yukle:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.dosya-listesi-bolum h3 { margin-top: 0; }
+
+.dosya-bos, .not-bos {
+  text-align: center;
+  padding: 32px 0;
+  color: #94a3b8;
+}
+
+.dosya-bos i, .not-bos i { font-size: 40px; margin-bottom: 8px; display: block; }
+
+.dosya-listesi { display: flex; flex-direction: column; gap: 8px; }
+
+.dosya-satir {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  transition: box-shadow 0.2s;
+}
+
+.dosya-satir:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+
+.dosya-ikon { font-size: 24px; color: #4f46e5; flex-shrink: 0; }
+.dosya-ikon .fa-file-pdf { color: #ef4444; }
+.dosya-ikon .fa-file-image { color: #10b981; }
+
+.dosya-bilgi {
+  flex: 1;
+  min-width: 0;
+}
+
+.dosya-ad {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dosya-meta {
+  display: block;
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+.dosya-butonlar { display: flex; gap: 6px; flex-shrink: 0; }
+
+.btn-indir {
+  background: #e0e7ff;
+  color: #4f46e5;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-sil-dosya {
+  background: #fee2e2;
+  color: #dc2626;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Doktor Notları */
+.not-listesi { display: flex; flex-direction: column; gap: 12px; }
+
+.not-kart {
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.not-ust {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.not-hasta { font-size: 14px; font-weight: 600; color: #1e293b; }
+.not-hasta i { color: #4f46e5; margin-right: 6px; }
+.not-tarih { font-size: 12px; color: #94a3b8; }
+
+.not-icerik p {
+  font-size: 14px;
+  color: #374151;
+  margin: 0 0 6px 0;
+}
+
 @media (max-width: 640px) {
   .dashboard-panel { padding: 16px 12px; }
   .dashboard-header { flex-direction: column; gap: 12px; align-items: flex-start; }

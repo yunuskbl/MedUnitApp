@@ -1,0 +1,39 @@
+<div class="pricing-sayfa">
+  <div class="pricing-baslik">
+    <h1>Fiyatlandırma</h1>
+    <p>Kliniğinize en uygun planı seçin. İstediğiniz zaman yükseltin veya düşürün.</p>
+  </div>
+
+  <div class="plan-grid">
+    <div
+      class="plan-kart"
+      *ngFor="let p of planlar"
+      [ngClass]="[p.renk, p.vurgulu ? 'vurgulu' : '']"
+    >
+      <div class="plan-rozet" *ngIf="p.vurgulu">En Popüler</div>
+      <div class="plan-ust">
+        <h2>{{ p.isim }}</h2>
+        <div class="plan-fiyat">
+          <span class="fiyat-rakam">{{ p.fiyat }}</span>
+          <span class="fiyat-periyot">{{ p.periyot }}</span>
+        </div>
+      </div>
+
+      <ul class="ozellik-listesi">
+        <li *ngFor="let o of p.ozellikler">
+          <i class="fas fa-check-circle"></i>
+          {{ o }}
+        </li>
+      </ul>
+
+      <a [routerLink]="p.ctaLink" class="plan-btn" [ngClass]="p.vurgulu ? 'btn-vurgulu' : ''">
+        {{ p.cta }}
+      </a>
+    </div>
+  </div>
+
+  <div class="pricing-alt">
+    <p>Tüm planlar 14 gün ücretsiz deneme içerir. Kredi kartı gerekmez.</p>
+    <p>Sorularınız için <a routerLink="/contact">bizimle iletişime geçin</a>.</p>
+  </div>
+</div>

@@ -80,6 +80,7 @@ public class KullaniciService : IKullaniciService
         if (!string.IsNullOrWhiteSpace(dto.Ad)) kullanici.Ad = dto.Ad;
         if (!string.IsNullOrWhiteSpace(dto.Soyad)) kullanici.Soyad = dto.Soyad;
         if (dto.Uzmanlik != null) kullanici.Uzmanlik = dto.Uzmanlik;
+        if (dto.Telefon != null) kullanici.Telefon = dto.Telefon;
 
         await _context.SaveChangesAsync();
 
@@ -91,7 +92,9 @@ public class KullaniciService : IKullaniciService
             Soyad = kullanici.Soyad,
             Email = kullanici.Email,
             Rol = kullanici.Rol,
-            Uzmanlik = kullanici.Uzmanlik
+            Uzmanlik = kullanici.Uzmanlik,
+            Telefon = kullanici.Telefon,
+            KlinikId = kullanici.KlinikId
         };
     }
 
