@@ -1,30 +1,53 @@
-<div class="header-main-con w-100 float-left">
+<div class="header-main-con w-100 float-left"
+     [ngClass]="{ 'header-profil': profilSayfasi }">
   <div class="container-fluid">
     <nav class="navbar navbar-expand-lg navbar-light p-0">
-
       <a class="navbar-brand" href="#">
         <img src="/assets/images/logo.png" />
       </a>
 
-      <button class="navbar-toggler" type="button" (click)="toggleNavbar()"
-              aria-label="Toggle navigation">
+      <button
+        class="navbar-toggler"
+        type="button"
+        (click)="toggleNavbar()"
+        aria-label="Toggle navigation"
+      >
         <span class="navbar-toggler-icon"></span>
         <span class="navbar-toggler-icon"></span>
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse"
-           [ngClass]="{ show: !isNavbarCollapsed }">
-
+      <div
+        class="collapse navbar-collapse"
+        [ngClass]="{ show: !isNavbarCollapsed }"
+      >
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link p-0" routerLink="/" fragment="about" (click)="sayfayaGit('about')">Hakkımızda</a>
+            <a
+              class="nav-link p-0"
+              routerLink="/"
+              fragment="about"
+              (click)="sayfayaGit('about')"
+              >Hakkımızda</a
+            >
           </li>
           <li class="nav-item">
-            <a class="nav-link p-0" routerLink="/" fragment="services" (click)="sayfayaGit('services')">Hizmetler</a>
+            <a
+              class="nav-link p-0"
+              routerLink="/"
+              fragment="services"
+              (click)="sayfayaGit('services')"
+              >Hizmetler</a
+            >
           </li>
           <li class="nav-item">
-            <a class="nav-link p-0" routerLink="/" fragment="appointment" (click)="sayfayaGit('appointment')">Randevu</a>
+            <a
+              class="nav-link p-0"
+              routerLink="/"
+              fragment="appointment"
+              (click)="sayfayaGit('appointment')"
+              >Randevu</a
+            >
           </li>
           <li class="nav-item">
             <a class="nav-link p-0" routerLink="/contact">İletişim</a>
@@ -32,7 +55,6 @@
         </ul>
 
         <div class="header-contact d-flex align-items-center">
-
           <!-- Telefon -->
           <div class="phone d-flex align-items-center">
             <figure class="mb-0">
@@ -45,11 +67,14 @@
           </div>
 
           <ng-container *ngIf="isBrowser">
-
             <!-- Giriş yapılmamışsa -->
             <div class="auth-butonlar" *ngIf="!girisYapildi">
-              <button class="btn-giris" (click)="modalAc('giris')">Giriş Yap</button>
-              <button class="btn-kayit" (click)="modalAc('kayit')">Kayıt Ol</button>
+              <button class="btn-giris" (click)="modalAc('giris')">
+                Giriş Yap
+              </button>
+              <button class="btn-kayit" (click)="modalAc('kayit')">
+                Kayıt Ol
+              </button>
             </div>
 
             <!-- Giriş yapılmışsa -->
@@ -62,15 +87,21 @@
               <a class="btn-admin" *ngIf="rol === 'admin'" routerLink="/admin">
                 <i class="fas fa-cog"></i> Admin
               </a>
+              <!-- YENİ: doktor ve admin için profil butonu -->
+              <a
+                class="btn-admin"
+                *ngIf="rol === 'doktor' || rol === 'admin'"
+                routerLink="/profil"
+              >
+                <i class="fas fa-user"></i> Profil
+              </a>
               <button class="btn-cikis" (click)="cikisYap()">
                 <i class="fas fa-sign-out-alt"></i> Çıkış
               </button>
             </div>
-
           </ng-container>
         </div>
       </div>
-
     </nav>
   </div>
 </div>
@@ -173,7 +204,7 @@
           name="kayitSifre"
         />
       </div>
-      
+
       <button
         class="auth-submit-btn"
         (click)="kayitOl()"

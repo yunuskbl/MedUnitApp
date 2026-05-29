@@ -7,9 +7,11 @@ using MedUnit.Application.Dtos;
 
 namespace MedUnit.Application.Interfaces;
 
-    public interface IKullaniciService
-    {
-        Task<AuthResponseDto> KayitOlAsync(KayitDto dto);
-        Task<AuthResponseDto> GirisYapAsync(GirisDto dto);
-    }
+public interface IKullaniciService
+{
+    Task<AuthResponseDto> KayitOlAsync(KayitDto dto);
+    Task<AuthResponseDto> GirisYapAsync(GirisDto dto);
+    Task<ProfilDto> GetProfilAsync(string kullaniciId);
+    Task UpdateProfilAsync(string kullaniciId, ProfilDto profil);
+}
 

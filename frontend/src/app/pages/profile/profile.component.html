@@ -1,0 +1,99 @@
+
+<main *ngIf="profil && !yukleniyor" class="profil-wrapper">
+  <div class="profil-header">
+    <h1>Profil Yönetimi</h1>
+    <p>Profesyonel kimliğinizi ve çalışma saatlerinizi buradan düzenleyin.</p>
+  </div>
+
+  <div class="profil-grid">
+
+    <!-- Sol Kolon -->
+    <div class="profil-sol">
+
+      <!-- Biyografi -->
+      <section class="profil-kart">
+        <div class="kart-baslik">
+          <h2>Profesyonel Biyografi</h2>
+          <button class="btn-duzenle" (click)="biyografiDuzenleme = !biyografiDuzenleme">
+            {{ biyografiDuzenleme ? 'İptal' : 'Düzenle' }}
+          </button>
+        </div>
+        <div *ngIf="!biyografiDuzenleme" class="biyografi-metin">
+          "{{ profil.biyografi }}"
+        </div>
+        <div *ngIf="biyografiDuzenleme">
+          <textarea [(ngModel)]="profil.biyografi" rows="5" class="profil-input"></textarea>
+          <button class="btn-kaydet" (click)="profilKaydet()">Kaydet</button>
+        </div>
+      </section>
+
+      <!-- Sertifikalar -->
+      <section class="profil-kart">
+        <h2>Sertifikalar ve Yetkinlikler</h2>
+        <div class="sertifika-liste">
+          <div *ngFor="let s of profil.sertifikalar" class="sertifika-satir">
+            <div class="sertifika-ikon">
+              <span class="material-symbols-outlined">{{ s.ikon }}</span>
+            </div>
+            <div>
+              <h4>{{ s.baslik }}</h4>
+              <p>{{ s.kurum }} • {{ s.yil }}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Sağ Kolon -->
+    <div class="profil-sag">
+
+      <!-- Ücret -->
+      <section class="ucret-kart">
+        <p class="ucret-etiket">Danışmanlık Ücreti</p>
+        <div *ngIf="!ucretDuzenleme" class="ucret-goster">
+          <span class="ucret-rakam">₺{{ profil.danismanlikUcreti | number }}</span>
+          <span class="ucret-sure">/ seans (50 dk)</span>
+        </div>
+        <div *ngIf="ucretDuzenleme">
+          <input type="number" [(ngModel)]="profil.danismanlikUcreti" class="profil-input"/>
+          <button class="btn-kaydet-beyaz" (click)="profilKaydet()">Kaydet</button>
+        </div>
+        <button *ngIf="!ucretDuzenleme" class="btn-ucret" (click)="ucretDuzenleme = true">
+          Ücret Yapısını Güncelle
+        </button>
+      </section>
+
+      <!-- Uzmanlık Alanları -->
+      <section class="profil-kart">
+        <h2>Uzmanlık Alanları</h2>
+        <div class="uzmanlik-wrapper">
+          <span *ngFor="let alan of profil.uzmanlikAlanlari" class="uzmanlik-badge">
+            {{ alan }}
+          </span>
+        </div>
+      </section>
+
+      <!-- Çalışma Takvimi -->
+      <section class="profil-kart">
+        <div class="kart-baslik">
+          <h2>Çalışma Takvimi</h2>
+          <span class="material-symbols-outlined">calendar_month</span>
+        </div>
+        <div class="takvim-liste">
+          <div *ngFor="let cs of profil.calismaSaatleri" class="takvim-satir">
+            <span class="takvim-gun">{{ cs.gun }}</span>
+            <span *ngIf="!cs.izinli" class="takvim-badge">
+              {{ cs.baslangicSaati }} - {{ cs.bitisSaati }}
+            </span>
+            <span *ngIf="cs.izinli" class="takvim-izin">İzinli</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<div *ngIf="yukleniyor" class="profil-yukleniyor">Yükleniyor...</div>
+<div *ngIf="hata" class="profil-hata">{{ hata }}</div>

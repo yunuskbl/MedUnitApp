@@ -12,17 +12,10 @@ import { isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SignalrService } from '../../services/signalr/signalr.service';
 import { Subscription } from 'rxjs';
-import { Console } from 'node:console';
-
 export interface Doktor {
   id: number;
   ad: string;
   soyad: string;
-}
-
-export interface MusaitSaat {
-  saat: string;
-  musait: boolean;
 }
 
 export interface Randevu {
@@ -201,50 +194,45 @@ export class AppointmentSectionComponent implements OnInit, OnDestroy {
   }
 
   randevuOlustur(): void {
-    if (!this.token) {
-      this.hata = 'Randevu almak için giriş yapmanız gerekiyor.';
-      return;
-    }
-
-    if (!this.secilenDoktorId || !this.secilenTarih || !this.secilenSaat) {
-      this.hata = 'Lütfen tüm alanları doldurun.';
-      return;
-    }
-
-    this.yukleniyor = true;
-    this.hata = '';
-    this.basari = '';
-
-    const baslangic = new Date(`${this.secilenTarih}T${this.secilenSaat}:00`);
-    const bitis = new Date(baslangic.getTime() + 45 * 60000);
-    const pad = (n: number) => n.toString().padStart(2, '0');
-    const formatLocal = (d: Date) =>
-      `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:00`;
-
-    const body = {
-      doktorId: this.secilenDoktorId,
-      baslangicTarihi: formatLocal(baslangic),
-      bitisTarihi: formatLocal(bitis),
-      notlar: this.notlar,
-    };
-
-    this.http
-      .post<Randevu>(`${this.apiUrl}/randevu`, body, {
-        headers: this.headers(),
-      })
-      .subscribe({
-        next: () => {
-          this.basari = 'Randevunuz başarıyla oluşturuldu!';
-          this.yukleniyor = false;
-          this.formuSifirla();
-          this.randevulariGetir();
-        },
-        error: (err) => {
-          this.hata = err.error?.message || 'Randevu oluşturulamadı.';
-          this.yukleniyor = false;
-        },
-      });
+  if (!this.token) {
+    this.hata = 'Randevu almak için giriş yapmanız gerekiyor.';
+    return;
   }
+
+  if (!this.secilenDoktorId || !this.secilenTarih || !this.secilenSaat) {
+    this.hata = 'Lütfen tüm alanları doldurun.';
+    return;
+  }
+
+  this.yukleniyor = true;
+  this.hata = '';
+  this.basari = '';
+
+  const baslangic = new Date(`${this.secilenTarih}T${this.secilenSaat}:00`);
+  const bitis = new Date(baslangic.getTime() + 45 * 60000);
+
+  const body = {
+    doktorId: this.secilenDoktorId,
+    baslangicTarihi: baslangic.toISOString(), // ✅ UTC ISO format
+    bitisTarihi: bitis.toISOString(),          // ✅ UTC ISO format
+    notlar: this.notlar,
+  };
+
+  this.http.post<Randevu>(`${this.apiUrl}/randevu`, body, {
+    headers: this.headers(),
+  }).subscribe({
+    next: () => {
+      this.basari = 'Randevunuz başarıyla oluşturuldu!';
+      this.yukleniyor = false;
+      this.formuSifirla();
+      this.randevulariGetir();
+    },
+    error: (err) => {
+      this.hata = err.error?.message || 'Randevu oluşturulamadı.';
+      this.yukleniyor = false;
+    },
+  });
+}
 
   randevuIptal(id: number): void {
     const token = localStorage.getItem('token');
@@ -342,16 +330,15 @@ export class AppointmentSectionComponent implements OnInit, OnDestroy {
   }
 
   private formuSifirla(): void {
-    this.secilenDoktorId = 0;
-    this.secilenTarih = '';
-    this.secilenSaat = '';
-    this.notlar = '';
-  }
-
-  saatSec(saat: string, musait: boolean): void {
-    if (!musait) return;
-    this.secilenSaat = saat;
-  }
+  this.secilenDoktorId = 0;
+  this.secilenTarih = '';
+  this.secilenSaat = '';
+  this.notlar = '';
+  this.musaitSaatler = [];  
+  this.musaitGunler = [];   
+  this.takvimGunler = [];   
+  this.takvimGoster = false;
+}
   takvimYukleniyor = false;
 
   doktorDegisti(): void {
@@ -439,10 +426,10 @@ export class AppointmentSectionComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (saatler) => {
           this.musaitSaatler = saatler;
-          this.saatYukleniyor = false; // ✅ ekle
+          this.saatYukleniyor = false;
         },
         error: () => {
-          this.saatYukleniyor = false; // ✅ ekle
+          this.saatYukleniyor = false; 
         },
       });
   }

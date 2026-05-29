@@ -76,6 +76,16 @@ namespace MedUnit.Infrastructure.Migrations
                     b.Property<bool>("Aktif")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Biyografi")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CalismaSaatleriJson")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("DanismanlikUcreti")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -88,11 +98,19 @@ namespace MedUnit.Infrastructure.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<string>("SertifikalarJson")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SifreHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Soyad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UzmanlikAlanlariJson")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

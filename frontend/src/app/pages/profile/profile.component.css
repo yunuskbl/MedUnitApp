@@ -1,0 +1,320 @@
+:root {
+    --primary-color:#FFF;
+    --secondary-color:#232323;
+    --accent:#ee8961;
+    --text-color: #7a7a7a;
+    --button-color: #156c5f;
+    --transparent: rgba(255, 255, 255, 0.8);
+}
+.profil-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 12rem 1.5rem 10rem;
+}
+:host {
+  display: block;
+  background: var(--primary-color);
+}
+.profil-header {
+  margin-bottom: 2.5rem;
+}
+.header-main-con {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  padding: 20px 0 0;
+  width: 100%;
+  background: var(--button-color);
+}
+.profil-header h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--secondary-color);
+  margin-bottom: 0.4rem;
+}
+
+.profil-header p {
+  color: var(--text-color);
+  font-size: 0.95rem;
+}
+
+.profil-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .profil-grid {
+    grid-template-columns: 7fr 5fr;
+  }
+}
+
+.profil-sol,
+.profil-sag {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.profil-kart {
+  background: var(--primary-color);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+
+.profil-kart h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--secondary-color);
+  margin-bottom: 1.2rem;
+}
+
+.kart-baslik {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+
+.kart-baslik h2 {
+  margin-bottom: 0;
+}
+
+.btn-duzenle {
+  background: none;
+  border: none;
+  color: var(--button-color);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.biyografi-metin {
+  background: var(--primary-color);
+  border-radius: 8px;
+  padding: 1.2rem;
+  font-style: italic;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.profil-input {
+  width: 100%;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 0.9rem;
+  resize: vertical;
+  outline: none;
+  margin-bottom: 0.8rem;
+}
+
+.profil-input:focus {
+  border-color: var(--button-color);
+}
+
+.btn-kaydet {
+  background: var(--button-color);
+  color: var(--primary-color);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.btn-kaydet:hover {
+  background: #0f4f45;
+  transition: all 0.2s;
+}
+
+.sertifika-liste {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sertifika-satir {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.sertifika-satir:hover {
+  background: var(--primary-color);
+}
+
+.sertifika-ikon {
+  width: 48px;
+  height: 48px;
+  background: var(--accent);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--button-color);
+  flex-shrink: 0;
+}
+
+.sertifika-satir h4 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--secondary-color);
+  margin: 0 0 2px;
+}
+
+.sertifika-satir p {
+  font-size: 0.75rem;
+  color: var(--text-color);
+  margin: 0;
+}
+
+/* Ücret Kartı */
+.ucret-kart {
+  background: var(--button-color);
+  border-radius: 12px;
+  padding: 2rem;
+  color: var(--primary-color);
+}
+
+.ucret-etiket {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  opacity: 0.8;
+  margin-bottom: 0.5rem;
+}
+
+.ucret-goster {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.ucret-rakam {
+  font-size: 2.5rem;
+  font-weight: 900;
+}
+
+.ucret-sure {
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+.btn-ucret {
+  background: var(--accent);
+  color: var(--primary-color);
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  width: 100%;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+}
+.btn-ucret:hover {
+  background: rgba(255,255,255,0.15);
+  color: white;
+  transition: all 0.3s;
+}
+
+
+.btn-duzenle:hover {
+  opacity: 0.6;
+  transition: all 0.2s;
+}
+
+
+
+
+.btn-kaydet-beyaz {
+  background: var(--primary-color);
+  color: var(--button-color);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+.btn-kaydet-beyaz:hover {
+  background: rgba(255,255,255,0.85);
+  transition: all 0.2s;
+}
+/* Uzmanlık */
+.uzmanlik-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.uzmanlik-badge {
+  background: var(--primary-color);
+  color: var(--button-color);
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Takvim */
+.takvim-liste {
+  display: flex;
+  flex-direction: column;
+}
+
+.takvim-satir {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.takvim-gun {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--secondary-color);
+}
+
+.takvim-badge {
+  background: var(--accent);
+  color: var(--button-color);
+  border-radius: 6px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.takvim-izin {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+/* Yükleniyor / Hata */
+.profil-yukleniyor {
+  text-align: center;
+  padding: 4rem;
+  color: #6b7280;
+}
+
+.profil-hata {
+  text-align: center;
+  padding: 2rem;
+  color: #ef4444;
+}

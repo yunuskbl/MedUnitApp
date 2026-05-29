@@ -42,8 +42,8 @@ public class RandevuService : IRandevuService
         {
             HastaId = hastaId,
             DoktorId = dto.DoktorId,
-            BaslangicTarihi = baslangic, // ✅
-            BitisTarihi = bitis,          // ✅
+            BaslangicTarihi = baslangic,
+            BitisTarihi = bitis,          
             Notlar = dto.Notlar
         };
 

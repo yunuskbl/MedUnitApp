@@ -1,8 +1,9 @@
-import { Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID, HostListener } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { filter } from 'rxjs/operators';
 @Component({
   standalone:true,
   selector: 'app-header',
@@ -37,12 +38,21 @@ activeDropdown: string | null = null;
   rol = '';
 
   isBrowser = false;
+  profilSayfasi = false;
+  
   private apiUrl = 'https://medunitapp.onrender.com/api';
 
   constructor(
     private http: HttpClient,
+    private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+  ) {
+    this.router.events.pipe(
+      filter(e => e instanceof NavigationEnd)
+    ).subscribe((e: any) => {
+      this.profilSayfasi = e.url === '/profil';
+    });
+  }
 
   ngOnInit(): void {
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -51,6 +61,9 @@ activeDropdown: string | null = null;
       this.kullaniciAd = localStorage.getItem('kullaniciAd') || '';
       this.rol = (localStorage.getItem('rol') || '').toLowerCase();
       this.girisYapildi = !!token;
+
+      // Sayfa direkt /profil'e açılırsa kontrol et
+      this.profilSayfasi = window.location.pathname === '/profil';
     }
   }
 
