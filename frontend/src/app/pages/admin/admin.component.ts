@@ -126,6 +126,7 @@ export class AdminComponent implements OnInit {
 
   kullanicilariGetir(): void {
     this.yukleniyor = true;
+    if (this.klinikler.length === 0) this.klinikleriGetir();
     this.http.get<Kullanici[]>(`${this.apiUrl}/admin/kullanicilar`,
       { headers: this.headers() })
       .subscribe({
