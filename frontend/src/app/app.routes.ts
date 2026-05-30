@@ -1,9 +1,6 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
-import { ProjectSectionComponent } from './shared/sections/project-section/project-section.component';
-import { AboutSectionComponent } from './shared/sections/about-section/about-section.component';
 import { AdminGuard } from './guards/admin/admin.guard';
-import { ProfileComponent } from './pages/profile/profile.component';
+import { AuthGuard } from './guards/auth/auth.guard';
 import { DoktorGuard } from './guards/doktor/doktor.guard';
 
 export const routes: Routes = [
@@ -18,7 +15,7 @@ export const routes: Routes = [
       import('./pages/profile/profile.component').then(
         (m) => m.ProfileComponent,
       ),
-    canActivate: [DoktorGuard], // AdminGuard yerine
+    canActivate: [DoktorGuard],
   },
   {
     path: 'contact',
@@ -60,5 +57,31 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/admin/admin.component').then((m) => m.AdminComponent),
     canActivate: [AdminGuard],
+  },
+  {
+    path: 'dashboard',
+    loadComponent: () =>
+      import('./pages/dashboard/dashboard.component').then(m => m.DashboardComponent),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'sifremi-unuttum',
+    loadComponent: () =>
+      import('./pages/forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent),
+  },
+  {
+    path: 'sifre-yenile',
+    loadComponent: () =>
+      import('./pages/reset-password/reset-password.component').then(m => m.ResetPasswordComponent),
+  },
+  {
+    path: 'kvkk',
+    loadComponent: () =>
+      import('./pages/kvkk/kvkk.component').then(m => m.KvkkComponent),
+  },
+  {
+    path: 'fiyatlandirma',
+    loadComponent: () =>
+      import('./pages/pricing/pricing.component').then(m => m.PricingComponent),
   },
 ];

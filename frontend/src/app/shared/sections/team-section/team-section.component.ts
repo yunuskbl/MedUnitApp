@@ -1,14 +1,13 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
-interface EkipUyesi {
+interface DoktorKart {
+  id: number;
   ad: string;
-  unvan: string;
+  soyad: string;
+  uzmanlik?: string;
   resim: string;
-  aciklama: string;
-  facebook: string;
-  twitter: string;
-  linkedin: string;
 }
 
 @Component({
@@ -18,48 +17,40 @@ interface EkipUyesi {
   templateUrl: './team-section.component.html',
   styleUrl: './team-section.component.css'
 })
-export class TeamSectionComponent {
+export class TeamSectionComponent implements OnInit {
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  doktorlar: DoktorKart[] = [];
+  private apiUrl = 'https://medunitapp.onrender.com/api';
 
-  ekip: EkipUyesi[] = [
-    {
-      ad: 'Alice Waters',
-      unvan: 'Kurucu Psikolog',
-      resim: '../../../../assets/images/team-section/img-1.jpg',
-      aciklama: 'Bireysel ve grup terapisi alanında 15 yıllık deneyime sahip uzman psikolog.',
-      facebook: 'https://www.facebook.com',
-      twitter: 'https://twitter.com',
-      linkedin: 'https://www.linkedin.com'
-    },
-    {
-      ad: 'Jane Doe',
-      unvan: 'Terapi Uzmanı',
-      resim: '../../../../assets/images/team-section/img-2.jpg',
-      aciklama: 'Aile ve çift terapisi konusunda uzmanlaşmış deneyimli terapist.',
-      facebook: 'https://www.facebook.com',
-      twitter: 'https://twitter.com',
-      linkedin: 'https://www.linkedin.com'
-    },
-    {
-      ad: 'John Doe',
-      unvan: 'Kurucu Psikolog',
-      resim: '../../../../assets/images/team-section/img-3.png',
-      aciklama: 'Çocuk ve ergen psikolojisi alanında uzman, sertifikalı psikoterapist.',
-      facebook: 'https://www.facebook.com',
-      twitter: 'https://twitter.com',
-      linkedin: 'https://www.linkedin.com'
-    },
-    {
-      ad: 'Clara Smith',
-      unvan: 'Terapi Uzmanı',
-      resim: '../../../../assets/images/team-section/img-4.jpg',
-      aciklama: 'Anksiyete ve depresyon tedavisinde uzmanlaşmış klinik psikolog.',
-      facebook: 'https://www.facebook.com',
-      twitter: 'https://twitter.com',
-      linkedin: 'https://www.linkedin.com'
-    }
+  private statikResimler = [
+    '../../../../assets/images/team-section/img-1.jpg',
+    '../../../../assets/images/team-section/img-2.jpg',
+    '../../../../assets/images/team-section/img-3.png',
+    '../../../../assets/images/team-section/img-4.jpg',
   ];
+
+  constructor(
+    private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
+
+  ngOnInit(): void {
+    this.http.get<any[]>(`${this.apiUrl}/kullanici/kullanicilar`).subscribe({
+      next: (data) => {
+        const doktorListesi = data.filter(u => u.rol?.toLowerCase() === 'doktor');
+        this.doktorlar = doktorListesi.map((u, i) => ({
+          id: u.id,
+          ad: u.ad,
+          soyad: u.soyad,
+          uzmanlik: u.uzmanlik,
+          resim: this.statikResimler[i % this.statikResimler.length]
+        }));
+      },
+      error: () => {
+        this.doktorlar = [];
+      }
+    });
+  }
 
   randevuyaGit(): void {
     if (!isPlatformBrowser(this.platformId)) return;

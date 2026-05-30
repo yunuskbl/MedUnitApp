@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace MedUnit.Domain.Entities;
 
@@ -15,12 +10,20 @@ public class Kullanici
     public string Soyad { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string SifreHash { get; set; } = string.Empty;
-    public string Rol { get; set; } = "hasta";   // hasta | doktor | admin
+    public string Rol { get; set; } = "hasta";
+    public string? Uzmanlik { get; set; }
     public bool Aktif { get; set; } = true;
     public DateTime OlusturulmaTarihi { get; set; } = DateTime.UtcNow;
+    public string? Telefon { get; set; }
+    public string? SifreSifirlamaToken { get; set; }
+    public DateTime? SifreSifirlamaTokenSon { get; set; }
+    public int? KlinikId { get; set; }
+    public Klinik? Klinik { get; set; }
     public string? Biyografi { get; set; }
     public decimal DanismanlikUcreti { get; set; } = 0;
-    public string SertifikalarJson{ get; set; } = "[]";
+    public string SertifikalarJson { get; set; } = "[]";
+    public string UzmanlikAlanlariJson { get; set; } = "[]";
+    public string CalismaSaatleriJson { get; set; } = "[]";
 
     [NotMapped]
     public List<Sertifika> Sertifikalar
@@ -29,11 +32,6 @@ public class Kullanici
         set => SertifikalarJson = JsonSerializer.Serialize(value);
     }
 
-    // Liste alanları JSON string olarak tutulur
-    public string UzmanlikAlanlariJson { get; set; } = "[]";
-    public string CalismaSaatleriJson { get; set; } = "[]";
-
-    // Entity'de JSON'ı parse eden yardımcı property'ler
     [NotMapped]
     public List<string> UzmanlikAlanlari
     {
@@ -48,18 +46,19 @@ public class Kullanici
         set => CalismaSaatleriJson = JsonSerializer.Serialize(value);
     }
 }
-public class CalismaSaati // Çalışma saatlerini temsil eden sınıf
+
+public class CalismaSaati
 {
     public string Gun { get; set; } = string.Empty;
     public string BaslangicSaati { get; set; } = string.Empty;
     public string BitisSaati { get; set; } = string.Empty;
     public bool Izinli { get; set; }
 }
-public class Sertifika // Sertifikaları temsil eden sınıf
+
+public class Sertifika
 {
     public string Baslik { get; set; } = string.Empty;
     public string Kurum { get; set; } = string.Empty;
     public int Yil { get; set; }
     public string Ikon { get; set; } = string.Empty;
 }
-

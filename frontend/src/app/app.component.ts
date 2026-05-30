@@ -5,12 +5,13 @@ import { FooterComponent } from "./components/footer/footer.component";
 import { SignalrService } from './shared/services/signalr/signalr.service';
 import { isPlatformBrowser, NgIf } from '@angular/common';
 import { BildirimComponent } from './shared/bildirim/bildirim.component';
+import { CookieBannerComponent } from './shared/cookie-banner/cookie-banner.component';
 import { filter } from 'rxjs';
 
 
 @Component({
   selector: 'app-root',
-  imports: [HeaderComponent, RouterOutlet, FooterComponent, HeaderComponent, BildirimComponent, NgIf],
+  imports: [HeaderComponent, RouterOutlet, FooterComponent, BildirimComponent, CookieBannerComponent, NgIf],
   standalone: true,
   template: `
     <ng-container *ngIf="!adminSayfasi">
@@ -20,6 +21,7 @@ import { filter } from 'rxjs';
     <router-outlet></router-outlet>
     <ng-container *ngIf="!adminSayfasi">
       <app-footer></app-footer>
+      <app-cookie-banner></app-cookie-banner>
     </ng-container>
   `,
   styleUrl: './app.component.css'

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MedUnit.Application.Interfaces;
+using MedUnit.Application.Dtos;
 
 namespace RandevuAPI.Controllers;
 
@@ -55,7 +56,11 @@ public class AdminController : ControllerBase
                 k.Soyad,
                 k.Email,
                 k.Rol,
+                k.Uzmanlik,
+                k.Telefon,
                 k.Aktif,
+                k.KlinikId,
+                KlinikAd = k.Klinik != null ? k.Klinik.Ad : null,
                 k.OlusturulmaTarihi
             }).ToListAsync();
 
@@ -126,5 +131,56 @@ public class AdminController : ControllerBase
         await _context.SaveChangesAsync();
 
         return NoContent();
+    }
+
+    // Doktor uzmanlık alanını güncelle
+    [HttpPut("kullanici/{id}/uzmanlik")]
+    public async Task<IActionResult> UzmanlikGuncelle(int id, [FromBody] UzmanlikGuncelleDto dto)
+    {
+        var kullanici = await _context.Kullanicilar.FindAsync(id);
+        if (kullanici == null) return NotFound();
+
+        kullanici.Uzmanlik = string.IsNullOrWhiteSpace(dto.Uzmanlik) ? null : dto.Uzmanlik.Trim();
+        await _context.SaveChangesAsync();
+
+        return Ok(new { kullanici.Id, kullanici.Uzmanlik });
+    }
+
+    // Kullanıcıyı kliniğe ata
+    [HttpPut("kullanici/{id}/klinik")]
+    public async Task<IActionResult> KlinikAta(int id, [FromBody] KlinikKullaniciDto dto)
+    {
+        var kullanici = await _context.Kullanicilar.FindAsync(id);
+        if (kullanici == null) return NotFound();
+
+        if (dto.KlinikId == 0)
+        {
+            kullanici.KlinikId = null;
+        }
+        else
+        {
+            var klinik = await _context.Klinikler.FindAsync(dto.KlinikId);
+            if (klinik == null) return BadRequest(new { mesaj = "Klinik bulunamadı." });
+            kullanici.KlinikId = dto.KlinikId;
+        }
+
+        await _context.SaveChangesAsync();
+        return Ok();
+    }
+
+    // Kullanıcı rolünü güncelle (klinik_sahibi dahil)
+    [HttpPut("kullanici/{id}/rol-tam")]
+    public async Task<IActionResult> RolTamGuncelle(int id, [FromBody] string yeniRol)
+    {
+        var kullanici = await _context.Kullanicilar.FindAsync(id);
+        if (kullanici == null) return NotFound();
+
+        var gecerliRoller = new[] { "hasta", "doktor", "admin", "klinik_sahibi" };
+        if (!gecerliRoller.Contains(yeniRol.ToLower()))
+            return BadRequest(new { mesaj = "Geçersiz rol." });
+
+        kullanici.Rol = yeniRol.ToLower();
+        await _context.SaveChangesAsync();
+        return Ok(new { kullanici.Id, kullanici.Rol });
     }
 }

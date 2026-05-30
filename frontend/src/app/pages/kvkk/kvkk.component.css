@@ -1,0 +1,89 @@
+.kvkk-sayfa {
+  background: #f8fafc;
+  min-height: 100vh;
+  padding: 40px 24px;
+}
+
+.kvkk-icerik {
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.kvkk-baslik {
+  margin-bottom: 36px;
+}
+
+.geri-btn {
+  display: inline-block;
+  color: #4f46e5;
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  margin-bottom: 16px;
+}
+
+.geri-btn:hover { text-decoration: underline; }
+
+.kvkk-baslik h1 {
+  font-size: 28px;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin-bottom: 8px;
+}
+
+.tarih {
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.kvkk-bolum {
+  background: white;
+  border-radius: 12px;
+  padding: 24px 28px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+}
+
+.kvkk-bolum h2 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #4f46e5;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e0e7ff;
+}
+
+.kvkk-bolum p {
+  color: #374151;
+  font-size: 14px;
+  line-height: 1.8;
+  margin-bottom: 10px;
+}
+
+.kvkk-bolum ul {
+  color: #374151;
+  font-size: 14px;
+  line-height: 1.8;
+  padding-left: 20px;
+}
+
+.kvkk-bolum li { margin-bottom: 6px; }
+
+.iletisim-kutusu {
+  background: #f0f4ff;
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 12px 0;
+}
+
+.iletisim-kutusu p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #374151;
+}
+
+.not {
+  color: #64748b !important;
+  font-size: 13px !important;
+  font-style: italic;
+}

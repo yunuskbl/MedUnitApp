@@ -121,10 +121,7 @@
   margin-right: 10px;
 }
 
-/* header style */
-
 /* Auth butonlar */
-
 .auth-butonlar {
   display: flex;
   gap: 8px;
@@ -365,8 +362,8 @@
   cursor: pointer;
   text-decoration: underline;
 }
-/* Navbar taşmasını engelle */
 
+/* Navbar taşmasını engelle */
 .header-main-con .navbar {
   flex-wrap: nowrap;
   align-items: center;
@@ -382,11 +379,11 @@
 }
 
 .navbar-nav {
-  margin: 0 auto; /* menüleri ortala */
+  margin: 0 auto;
   gap: 2% !important;
 }
 .navbar-nav .nav-link {
-  padding: 0 18px !important; /* her item için yatay padding */
+  padding: 0 18px !important;
   font-size: 15px;
 }
 
@@ -437,6 +434,7 @@
   font-size: 12px;
   white-space: nowrap;
 }
+
 .btn-admin {
   background: #3d7a6f;
   color: white;
@@ -455,6 +453,70 @@
   background: #2d5c54;
   color: white;
 }
+
+.btn-profil {
+  background: #4f46e5;
+  color: white;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: background 0.2s;
+}
+
+.btn-profil:hover { background: #4338ca; color: white; }
+
+.sifremi-unut {
+  text-align: right;
+  margin-bottom: 4px;
+}
+
+.sifremi-unut a {
+  color: #94a3b8;
+  font-size: 12px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.sifremi-unut a:hover { color: #4f46e5; }
+
+.kvkk-onay {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.kvkk-onay input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  cursor: pointer;
+  flex-shrink: 0;
+  accent-color: #4f46e5;
+}
+
+.kvkk-onay label {
+  font-size: 12px;
+  color: #475569;
+  cursor: pointer;
+  line-height: 1.5;
+}
+
+.kvkk-onay label a {
+  color: #4f46e5;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
 @media (max-width: 992px) {
   .container-fluid {
     padding: 0 20px !important;

@@ -84,10 +84,13 @@
                 <span>{{ kullaniciAd }}</span>
                 <span class="rol-badge">{{ rol }}</span>
               </div>
+              <a class="btn-profil" routerLink="/dashboard">
+                <i class="fas fa-user"></i> Profilim
+              </a>
               <a class="btn-admin" *ngIf="rol === 'admin'" routerLink="/admin">
                 <i class="fas fa-cog"></i> Admin
               </a>
-              <!-- YENİ: doktor ve admin için profil butonu -->
+              <!-- doktor ve admin için profil butonu -->
               <a
                 class="btn-admin"
                 *ngIf="rol === 'doktor' || rol === 'admin'"
@@ -105,8 +108,6 @@
     </nav>
   </div>
 </div>
-
-<!-- MODAL aynı kalır -->
 
 <!-- LOGIN / REGISTER MODAL -->
 <div class="auth-overlay" *ngIf="modalAcik" (click)="modalKapat()">
@@ -158,6 +159,9 @@
       >
         {{ yukleniyor ? "Giriş yapılıyor..." : "Giriş Yap" }}
       </button>
+      <p class="auth-alt-txt sifremi-unut">
+        <a routerLink="/sifremi-unuttum" (click)="modalKapat()">Şifremi unuttum</a>
+      </p>
       <p class="auth-alt-txt">
         Hesabınız yok mu?
         <a (click)="sekmeDegistir('kayit')">Kayıt olun</a>
@@ -203,6 +207,13 @@
           [(ngModel)]="kayitSifre"
           name="kayitSifre"
         />
+      </div>
+
+      <div class="kvkk-onay">
+        <input type="checkbox" id="kvkkCheckbox" [(ngModel)]="kvkkKabul" name="kvkkKabul" />
+        <label for="kvkkCheckbox">
+          <a routerLink="/kvkk" target="_blank">KVKK Metnini</a> okudum ve kabul ediyorum.
+        </label>
       </div>
 
       <button

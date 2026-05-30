@@ -1,52 +1,47 @@
 <section class="team-main-section w-100 float-left padding-top padding-bottom light-bg">
     <div class="container">
         <div class="generic-title text-center">
-            <span class="small-text" >
-                Ekip Üyelerimiz
-            </span>
-            <h2 class="mb-0" >
-                Profesyonel Ekibimiz
-            </h2>
+            <span class="small-text">Ekip Üyelerimiz</span>
+            <h2 class="mb-0">Profesyonel Ekibimiz</h2>
         </div>
-        <div class="team-inner-section">
 
-            <div class="member-con text-center" *ngFor="let uye of ekip">
+        <!-- Doktor yoksa bilgi mesajı -->
+        <div *ngIf="doktorlar.length === 0" class="text-center py-4" style="color:#94a3b8">
+            Doktor bilgileri yükleniyor...
+        </div>
+
+        <div class="team-inner-section">
+            <div class="member-con text-center" *ngFor="let d of doktorlar">
                 <div class="member-img-details position-relative">
-                    <figure >
-                        <img [src]="uye.resim" [alt]="uye.ad">
+                    <figure>
+                        <img [src]="d.resim" [alt]="d.ad + ' ' + d.soyad">
                     </figure>
                     <div class="member-detail-box">
                         <ul class="list-unstyled">
                             <li class="d-inline-block">
-                                <a [href]="uye.facebook" target="_blank">
+                                <a href="https://www.facebook.com" target="_blank">
                                     <i class="fab fa-facebook-f"></i>
                                 </a>
                             </li>
                             <li class="d-inline-block">
-                                <a [href]="uye.twitter" target="_blank">
+                                <a href="https://twitter.com" target="_blank">
                                     <i class="fab fa-twitter"></i>
                                 </a>
                             </li>
                             <li class="d-inline-block">
-                                <a [href]="uye.linkedin" target="_blank">
+                                <a href="https://www.linkedin.com" target="_blank">
                                     <i class="fab fa-linkedin-in"></i>
                                 </a>
                             </li>
                         </ul>
-                        <p>{{ uye.aciklama }}</p>
                         <div class="generic-btn">
-                            <a (click)="randevuyaGit()" style="cursor:pointer">
-                                Randevu Al
-                            </a>
+                            <a (click)="randevuyaGit()" style="cursor:pointer">Randevu Al</a>
                         </div>
                     </div>
                 </div>
-                <h4 >{{ uye.ad }}</h4>
-                <span class="d-block" >
-                    {{ uye.unvan }}
-                </span>
+                <h4>Dr. {{ d.ad }} {{ d.soyad }}</h4>
+                <span class="d-block">{{ d.uzmanlik || 'Uzman Doktor' }}</span>
             </div>
-
         </div>
     </div>
 </section>

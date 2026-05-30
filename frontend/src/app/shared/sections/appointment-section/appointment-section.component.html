@@ -14,6 +14,13 @@
         <div class="alert-hata" *ngIf="hata">✕ {{ hata }}</div>
         <div class="form-box">
           <ul class="list-unstyled">
+            <!-- Uzmanlık filtresi -->
+            <li *ngIf="uzmanliklar.length > 0">
+              <select [(ngModel)]="secilenUzmanlik" name="uzmanlik" (change)="uzmanlikDegisti()">
+                <option value="">Tüm Uzmanlıklar</option>
+                <option *ngFor="let u of uzmanliklar" [value]="u">{{ u }}</option>
+              </select>
+            </li>
             <!-- Doktor seç — değişince takvim yükle -->
             <li>
               <select
@@ -22,8 +29,8 @@
                 (change)="doktorDegisti()"
               >
                 <option [value]="0">Doktor Seçin</option>
-                <option *ngFor="let d of doktorlar" [ngValue]="d.id">
-                  Dr. {{ d.ad }} {{ d.soyad }}
+                <option *ngFor="let d of filtreliDoktorlar" [ngValue]="d.id">
+                  Dr. {{ d.ad }} {{ d.soyad }}<ng-container *ngIf="d.uzmanlik"> — {{ d.uzmanlik }}</ng-container>
                 </option>
               </select>
             </li>

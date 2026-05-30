@@ -1,0 +1,221 @@
+<div class="dashboard-panel">
+
+  <!-- Başlık -->
+  <div class="dashboard-header">
+    <div class="dashboard-header-sol">
+      <i class="fas fa-user-circle dashboard-avatar"></i>
+      <div>
+        <h1>{{ profil ? profil.ad + ' ' + profil.soyad : 'Yükleniyor...' }}</h1>
+        <span class="rol-rozet" *ngIf="profil">{{ rolMetni(profil.rol) }}</span>
+        <span class="uzmanlik-txt" *ngIf="profil?.uzmanlik"> — {{ profil?.uzmanlik }}</span>
+      </div>
+    </div>
+    <a routerLink="/" class="btn-geri">← Siteye Dön</a>
+  </div>
+
+  <!-- Bildirimler -->
+  <div class="dashboard-basari" *ngIf="basari">✓ {{ basari }}</div>
+  <div class="dashboard-hata" *ngIf="hata">✕ {{ hata }}</div>
+
+  <!-- Sekmeler -->
+  <div class="dashboard-sekmeler">
+    <button [ngClass]="{ aktif: aktifSekme === 'profil' }" (click)="sekmeDegistir('profil')">
+      <i class="fas fa-user"></i> Profilim
+    </button>
+    <button [ngClass]="{ aktif: aktifSekme === 'randevular' }" (click)="sekmeDegistir('randevular')">
+      <i class="fas fa-calendar-alt"></i> Randevularım
+    </button>
+    <button [ngClass]="{ aktif: aktifSekme === 'dosyalar' }" (click)="sekmeDegistir('dosyalar')">
+      <i class="fas fa-folder-open"></i>
+      {{ profil?.rol === 'doktor' ? 'Notlarım' : 'Dosyalarım' }}
+    </button>
+    <button [ngClass]="{ aktif: aktifSekme === 'sifre' }" (click)="sekmeDegistir('sifre')">
+      <i class="fas fa-lock"></i> Şifre Değiştir
+    </button>
+  </div>
+
+  <!-- PROFİL SEKMESİ -->
+  <div class="sekme-icerik" *ngIf="aktifSekme === 'profil' && profil">
+
+    <div class="profil-kart" *ngIf="!profilDuzenle">
+      <div class="profil-satir">
+        <span class="etiket">Ad</span>
+        <span>{{ profil.ad }}</span>
+      </div>
+      <div class="profil-satir">
+        <span class="etiket">Soyad</span>
+        <span>{{ profil.soyad }}</span>
+      </div>
+      <div class="profil-satir">
+        <span class="etiket">Email</span>
+        <span>{{ profil.email }}</span>
+      </div>
+      <div class="profil-satir">
+        <span class="etiket">Rol</span>
+        <span>{{ rolMetni(profil.rol) }}</span>
+      </div>
+      <div class="profil-satir" *ngIf="profil.rol === 'doktor'">
+        <span class="etiket">Uzmanlık</span>
+        <span>{{ profil.uzmanlik || 'Belirtilmemiş' }}</span>
+      </div>
+      <div class="profil-satir">
+        <span class="etiket">Telefon</span>
+        <span>{{ profil.telefon || 'Belirtilmemiş' }}</span>
+      </div>
+      <button class="btn-duzenle" (click)="profilDuzenle = true">
+        <i class="fas fa-edit"></i> Düzenle
+      </button>
+    </div>
+
+    <div class="profil-form" *ngIf="profilDuzenle">
+      <div class="form-grup">
+        <label>Ad</label>
+        <input type="text" [(ngModel)]="yeniAd" placeholder="Adınız" />
+      </div>
+      <div class="form-grup">
+        <label>Soyad</label>
+        <input type="text" [(ngModel)]="yeniSoyad" placeholder="Soyadınız" />
+      </div>
+      <div class="form-grup">
+        <label>Telefon <span style="color:#94a3b8;font-size:12px">(SMS hatırlatıcı için)</span></label>
+        <input type="tel" [(ngModel)]="yeniTelefon" placeholder="+905xxxxxxxxx" />
+      </div>
+      <div class="form-grup" *ngIf="profil.rol === 'doktor'">
+        <label>Uzmanlık Alanı</label>
+        <input type="text" [(ngModel)]="yeniUzmanlik" placeholder="Örn: Kardiyoloji" />
+      </div>
+      <div class="form-butonlar">
+        <button class="btn-kaydet" (click)="profilKaydet()" [disabled]="yukleniyor">
+          {{ yukleniyor ? 'Kaydediliyor...' : 'Kaydet' }}
+        </button>
+        <button class="btn-iptal" (click)="profilDuzenle = false">İptal</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RANDEVULAR SEKMESİ -->
+  <div class="sekme-icerik" *ngIf="aktifSekme === 'randevular'">
+    <div class="randevu-bos" *ngIf="randevular.length === 0">
+      <i class="fas fa-calendar-times"></i>
+      <p>Henüz randevunuz bulunmamaktadır.</p>
+    </div>
+    <div class="randevu-listesi">
+      <div class="randevu-karti" *ngFor="let r of randevular">
+        <div class="randevu-ust">
+          <div>
+            <div class="randevu-doktor">
+              <i class="fas fa-user-md"></i>
+              <strong>{{ r.doktorAd }}</strong>
+            </div>
+            <div class="randevu-hasta" *ngIf="profil?.rol === 'doktor'">
+              <i class="fas fa-user"></i> {{ r.hastaAd }}
+            </div>
+          </div>
+          <span class="randevu-rozet" [ngClass]="durumRengi(r.durum)">{{ durumMetni(r.durum) }}</span>
+        </div>
+        <div class="randevu-tarih">
+          <i class="fas fa-clock"></i>
+          {{ tarihFormat(r.baslangicTarihi) }} — {{ tarihFormat(r.bitisTarihi) }}
+        </div>
+        <div class="randevu-not" *ngIf="r.notlar">
+          <i class="fas fa-sticky-note"></i> {{ r.notlar }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOSYALAR / NOTLAR SEKMESİ -->
+  <div class="sekme-icerik" *ngIf="aktifSekme === 'dosyalar'">
+
+    <!-- HASTA: Tıbbi Dosya Yönetimi -->
+    <ng-container *ngIf="profil?.rol !== 'doktor'">
+      <div class="dosya-yukle-bolum">
+        <h3>Dosya Yükle</h3>
+        <p class="dosya-aciklama">PDF, JPG veya PNG formatında, maksimum 10 MB boyutunda dosya yükleyebilirsiniz.</p>
+        <div class="dosya-secim-alani">
+          <input type="file" id="dosyaInput" accept=".pdf,.jpg,.jpeg,.png"
+                 (change)="dosyaSec($event)" style="display:none" />
+          <label for="dosyaInput" class="dosya-sec-btn">
+            <i class="fas fa-cloud-upload-alt"></i>
+            {{ seciliDosya ? seciliDosya.name : 'Dosya Seç' }}
+          </label>
+          <button class="btn-yukle" (click)="dosyaYukle()" [disabled]="!seciliDosya || dosyaYukleniyor">
+            {{ dosyaYukleniyor ? 'Yükleniyor...' : 'Yükle' }}
+          </button>
+        </div>
+      </div>
+
+      <div class="dosya-listesi-bolum">
+        <h3>Yüklenen Dosyalarım</h3>
+        <div class="dosya-bos" *ngIf="dosyalar.length === 0">
+          <i class="fas fa-file-medical"></i>
+          <p>Henüz dosya yüklenmemiş.</p>
+        </div>
+        <div class="dosya-listesi">
+          <div class="dosya-satir" *ngFor="let d of dosyalar">
+            <div class="dosya-ikon">
+              <i class="fas" [ngClass]="d.dosyaTipi.includes('pdf') ? 'fa-file-pdf' : 'fa-file-image'"></i>
+            </div>
+            <div class="dosya-bilgi">
+              <span class="dosya-ad">{{ d.dosyaAdi }}</span>
+              <span class="dosya-meta">{{ boyutFormat(d.dosyaBoyutu) }} · {{ tarihFormat(d.yuklemeTarihi) }}</span>
+            </div>
+            <div class="dosya-butonlar">
+              <button class="btn-indir" (click)="dosyaIndir(d.id, d.dosyaAdi)">
+                <i class="fas fa-download"></i>
+              </button>
+              <button class="btn-sil-dosya" (click)="dosyaSil(d.id)">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- DOKTOR: Yazdığı Notlar -->
+    <ng-container *ngIf="profil?.rol === 'doktor'">
+      <h3 class="notlar-baslik">Yazdığım Notlar</h3>
+      <div class="not-bos" *ngIf="doktorNotlari.length === 0">
+        <i class="fas fa-notes-medical"></i>
+        <p>Henüz not eklenmemiş.</p>
+      </div>
+      <div class="not-listesi">
+        <div class="not-kart" *ngFor="let n of doktorNotlari">
+          <div class="not-ust">
+            <span class="not-hasta"><i class="fas fa-user"></i> {{ n.hastaAdSoyad }}</span>
+            <span class="not-tarih">{{ tarihFormat(n.olusturulmaTarihi) }}</span>
+          </div>
+          <div class="not-icerik">
+            <p><strong>Not:</strong> {{ n.not }}</p>
+            <p *ngIf="n.tani"><strong>Tanı:</strong> {{ n.tani }}</p>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+  </div>
+
+  <!-- ŞİFRE SEKMESİ -->
+  <div class="sekme-icerik" *ngIf="aktifSekme === 'sifre'">
+    <div class="sifre-form">
+      <div class="form-grup">
+        <label>Mevcut Şifre</label>
+        <input type="password" [(ngModel)]="mevcutSifre" placeholder="Mevcut şifreniz" />
+      </div>
+      <div class="form-grup">
+        <label>Yeni Şifre</label>
+        <input type="password" [(ngModel)]="yeniSifre" placeholder="Yeni şifreniz (min. 6 karakter)" />
+      </div>
+      <div class="form-grup">
+        <label>Yeni Şifre (Tekrar)</label>
+        <input type="password" [(ngModel)]="yeniSifreTekrar" placeholder="Yeni şifrenizi tekrarlayın" />
+      </div>
+      <button class="btn-kaydet" (click)="sifreDegistir()" [disabled]="yukleniyor">
+        {{ yukleniyor ? 'Güncelleniyor...' : 'Şifremi Güncelle' }}
+      </button>
+    </div>
+  </div>
+
+</div>
