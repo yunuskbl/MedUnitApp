@@ -29,7 +29,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog();
 
 
-// Veritabaný
+// Veritabanï¿½
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
@@ -71,7 +71,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false
         };
 
-        // SignalR için token query
+        // SignalR iï¿½in token query
         options.Events = new JwtBearerEvents
         {
             OnMessageReceived = context =>
@@ -96,7 +96,9 @@ builder.Services.AddCors(options =>
         policy.WithOrigins(
             "https://med-unit-app.vercel.app",
             "https://medunitapp.onrender.com",
-                "http://localhost:4200"
+            "http://localhost:4200",
+            "http://localhost:4000",
+            "http://localhost:8080"
         )
         .SetIsOriginAllowedToAllowWildcardSubdomains()
         .AllowAnyHeader()

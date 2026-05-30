@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -15,15 +16,15 @@ namespace MedUnit.Infrastructure.Migrations
                 name: "ContactMessages",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsRead = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    LastName = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    Phone = table.Column<string>(type: "text", nullable: false),
+                    Message = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    IsRead = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -34,20 +35,20 @@ namespace MedUnit.Infrastructure.Migrations
                 name: "Kullanicilar",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Ad = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Soyad = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    SifreHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Rol = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Aktif = table.Column<bool>(type: "bit", nullable: false),
-                    OlusturulmaTarihi = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Biyografi = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DanismanlikUcreti = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    SertifikalarJson = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UzmanlikAlanlariJson = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CalismaSaatleriJson = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Ad = table.Column<string>(type: "text", nullable: false),
+                    Soyad = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false),
+                    SifreHash = table.Column<string>(type: "text", nullable: false),
+                    Rol = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    Aktif = table.Column<bool>(type: "boolean", nullable: false),
+                    OlusturulmaTarihi = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Biyografi = table.Column<string>(type: "text", nullable: true),
+                    DanismanlikUcreti = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    SertifikalarJson = table.Column<string>(type: "text", nullable: false, defaultValue: "[]"),
+                    UzmanlikAlanlariJson = table.Column<string>(type: "text", nullable: false, defaultValue: "[]"),
+                    CalismaSaatleriJson = table.Column<string>(type: "text", nullable: false, defaultValue: "[]")
                 },
                 constraints: table =>
                 {
@@ -58,19 +59,19 @@ namespace MedUnit.Infrastructure.Migrations
                 name: "Randevular",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    HastaId = table.Column<int>(type: "int", nullable: false),
-                    DoktorId = table.Column<int>(type: "int", nullable: false),
-                    BaslangicTarihi = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    BitisTarihi = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Durum = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Notlar = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    HatirlaticiGonderildi = table.Column<bool>(type: "bit", nullable: false),
-                    ZoomMeetingId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ZoomJoinUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ZoomHostUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OlusturulmaTarihi = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    HastaId = table.Column<int>(type: "integer", nullable: false),
+                    DoktorId = table.Column<int>(type: "integer", nullable: false),
+                    BaslangicTarihi = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    BitisTarihi = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Durum = table.Column<string>(type: "text", nullable: false),
+                    Notlar = table.Column<string>(type: "text", nullable: true),
+                    HatirlaticiGonderildi = table.Column<bool>(type: "boolean", nullable: false),
+                    ZoomMeetingId = table.Column<string>(type: "text", nullable: true),
+                    ZoomJoinUrl = table.Column<string>(type: "text", nullable: true),
+                    ZoomHostUrl = table.Column<string>(type: "text", nullable: true),
+                    OlusturulmaTarihi = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -107,14 +108,9 @@ namespace MedUnit.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "ContactMessages");
-
-            migrationBuilder.DropTable(
-                name: "Randevular");
-
-            migrationBuilder.DropTable(
-                name: "Kullanicilar");
+            migrationBuilder.DropTable(name: "ContactMessages");
+            migrationBuilder.DropTable(name: "Randevular");
+            migrationBuilder.DropTable(name: "Kullanicilar");
         }
     }
 }

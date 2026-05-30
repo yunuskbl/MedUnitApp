@@ -1,0 +1,72 @@
+services:
+
+  # ─── PostgreSQL ───────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: medunit-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: medunitdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ─── Backend (.NET 8 API) ─────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: medunit-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: >
+        Host=postgres;Port=5432;Database=medunitdb;
+        Username=postgres;Password=${POSTGRES_PASSWORD:-postgres}
+      Jwt__Secret: ${JWT_SECRET:-local_dev_secret_key_minimum_32_chars!!}
+      FrontendUrl: http://localhost:4000
+      Email__Host: ${EMAIL_HOST:-smtp.gmail.com}
+      Email__Port: ${EMAIL_PORT:-587}
+      Email__GonderenAd: ${EMAIL_SENDER_NAME:-MedUnit}
+      Email__KullaniciAdi: ${EMAIL_USERNAME:-}
+      Email__Sifre: ${EMAIL_PASSWORD:-}
+      Email__ToAddress: ${EMAIL_TO:-}
+      Zoom__AccountId: ${ZOOM_ACCOUNT_ID:-}
+      Zoom__ClientId: ${ZOOM_CLIENT_ID:-}
+      Zoom__ClientSecret: ${ZOOM_CLIENT_SECRET:-}
+      Twilio__AccountSid: ${TWILIO_ACCOUNT_SID:-}
+      Twilio__AuthToken: ${TWILIO_AUTH_TOKEN:-}
+      Twilio__FromNumber: ${TWILIO_FROM_NUMBER:-}
+
+  # ─── Frontend (Angular SSR) ───────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        API_URL: http://localhost:8080
+    container_name: medunit-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "4000:4000"
+    environment:
+      PORT: 4000
+
+volumes:
+  postgres_data:

@@ -1,4 +1,7 @@
 using System;
+using MedUnit.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -6,6 +9,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MedUnit.Infrastructure.Migrations
 {
     /// <inheritdoc />
+    [DbContext(typeof(AppDbContext))]
+    [Migration("20260529000000_Faz1Guncelleme")]
     public partial class Faz1Guncelleme : Migration
     {
         /// <inheritdoc />

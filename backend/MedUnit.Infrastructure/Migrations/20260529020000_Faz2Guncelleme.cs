@@ -1,4 +1,7 @@
 using System;
+using MedUnit.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -6,51 +9,21 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace MedUnit.Infrastructure.Migrations
 {
+    [DbContext(typeof(AppDbContext))]
+    [Migration("20260529020000_Faz2Guncelleme")]
     public partial class Faz2Guncelleme : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             // Kullanicilar — yeni alanlar
+            // NOT: Biyografi, DanismanlikUcreti, SertifikalarJson, UzmanlikAlanlariJson, CalismaSaatleriJson
+            //      zaten init migration'ında mevcut — burada tekrar eklenmez.
             migrationBuilder.AddColumn<string>(
                 name: "Telefon",
                 table: "Kullanicilar",
                 type: "character varying(20)",
                 maxLength: 20,
                 nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "Biyografi",
-                table: "Kullanicilar",
-                type: "text",
-                nullable: true);
-
-            migrationBuilder.AddColumn<decimal>(
-                name: "DanismanlikUcreti",
-                table: "Kullanicilar",
-                type: "numeric(18,2)",
-                nullable: false,
-                defaultValue: 0m);
-
-            migrationBuilder.AddColumn<string>(
-                name: "SertifikalarJson",
-                table: "Kullanicilar",
-                type: "text",
-                nullable: false,
-                defaultValue: "[]");
-
-            migrationBuilder.AddColumn<string>(
-                name: "UzmanlikAlanlariJson",
-                table: "Kullanicilar",
-                type: "text",
-                nullable: false,
-                defaultValue: "[]");
-
-            migrationBuilder.AddColumn<string>(
-                name: "CalismaSaatleriJson",
-                table: "Kullanicilar",
-                type: "text",
-                nullable: false,
-                defaultValue: "[]");
 
             // Klinikler tablosu
             migrationBuilder.CreateTable(
@@ -184,11 +157,8 @@ namespace MedUnit.Infrastructure.Migrations
             migrationBuilder.DropColumn(name: "KlinikId", table: "Kullanicilar");
             migrationBuilder.DropTable(name: "Klinikler");
             migrationBuilder.DropColumn(name: "Telefon", table: "Kullanicilar");
-            migrationBuilder.DropColumn(name: "Biyografi", table: "Kullanicilar");
-            migrationBuilder.DropColumn(name: "DanismanlikUcreti", table: "Kullanicilar");
-            migrationBuilder.DropColumn(name: "SertifikalarJson", table: "Kullanicilar");
-            migrationBuilder.DropColumn(name: "UzmanlikAlanlariJson", table: "Kullanicilar");
-            migrationBuilder.DropColumn(name: "CalismaSaatleriJson", table: "Kullanicilar");
+            // NOT: Biyografi, DanismanlikUcreti, SertifikalarJson, UzmanlikAlanlariJson, CalismaSaatleriJson
+            //      init migration'ına ait — burada drop edilmez.
         }
     }
 }
